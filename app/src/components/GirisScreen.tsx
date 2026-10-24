@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { BookOpen } from 'lucide-react';
 import { Seviye, Rol, Hedef, LEVELS, ROLES, GOALS } from '../content';
 
 interface GirisScreenProps {
@@ -43,7 +44,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
           </span>
         </div>
         <div className="flex items-center gap-1.5 text-[#CAC6BD] text-[11px] font-semibold">
-          <span className="material-symbols-outlined text-[16px] text-[#74DEA6]">
+          <span className="material-symbols-outlined text-[16px] text-[#74DEA6]" aria-hidden="true">
             wifi_tethering
           </span>
           <span>08:00 NÖBET</span>
@@ -53,7 +54,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
       {/* Decorative Illustrated Handbook Masthead */}
       <div className="relative overflow-hidden rounded-xl bg-[#131F37] p-5 flex flex-col gap-2 shadow-md border border-[#29344E]/50">
         <div className="absolute -right-6 -bottom-8 opacity-10 pointer-events-none select-none text-[#FFBC7C] overflow-hidden">
-          <span className="material-symbols-outlined text-[140px]">menu_book</span>
+          <BookOpen size={140} className="w-[140px] h-[140px]" aria-hidden="true" />
         </div>
 
         {/* Editorial Seal Emblem */}
@@ -62,6 +63,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
             <span
               className="material-symbols-outlined text-[24px]"
               style={{ fontVariationSettings: "'FILL' 1" }}
+              aria-hidden="true"
             >
               terminal
             </span>
@@ -147,6 +149,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
                         active ? 'text-[#4B2800]' : 'text-[#A18D7D]'
                       }`}
                       style={{ fontVariationSettings: active ? "'FILL' 1" : "'FILL' 0" }}
+                      aria-hidden="true"
                     >
                       {LEVELS[key].icon}
                     </span>
@@ -157,6 +160,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
                       active ? 'text-[#4B2800]' : 'text-[#534436] opacity-0'
                     }`}
                     style={{ fontVariationSettings: "'FILL' 1" }}
+                    aria-hidden="true"
                   >
                     check_circle
                   </span>
@@ -208,6 +212,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
                         active ? 'text-[#4B2800]' : 'text-[#A18D7D]'
                       }`}
                       style={{ fontVariationSettings: active ? "'FILL' 1" : "'FILL' 0" }}
+                      aria-hidden="true"
                     >
                       {ROLES[key].icon}
                     </span>
@@ -218,6 +223,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
                       active ? 'text-[#4B2800]' : 'text-[#534436] opacity-0'
                     }`}
                     style={{ fontVariationSettings: "'FILL' 1" }}
+                    aria-hidden="true"
                   >
                     check_circle
                   </span>
@@ -269,6 +275,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
                         active ? 'text-[#4B2800]' : 'text-[#A18D7D]'
                       }`}
                       style={{ fontVariationSettings: active ? "'FILL' 1" : "'FILL' 0" }}
+                      aria-hidden="true"
                     >
                       {GOALS[key].icon}
                     </span>
@@ -279,6 +286,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
                       active ? 'text-[#4B2800]' : 'text-[#534436] opacity-0'
                     }`}
                     style={{ fontVariationSettings: "'FILL' 1" }}
+                    aria-hidden="true"
                   >
                     check_circle
                   </span>
@@ -296,6 +304,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
             <span
               className="material-symbols-outlined text-[18px] text-[#494740]"
               style={{ fontVariationSettings: "'FILL' 1" }}
+              aria-hidden="true"
             >
               auto_stories
             </span>
@@ -326,6 +335,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
           <span
             className="material-symbols-outlined text-[22px]"
             style={{ fontVariationSettings: "'FILL' 1" }}
+            aria-hidden="true"
           >
             menu_book
           </span>
@@ -333,7 +343,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
         </button>
 
         <div className="flex items-center justify-center gap-1.5 text-center">
-          <span className="material-symbols-outlined text-[15px] text-[#FFBC7C]">
+          <span className="material-symbols-outlined text-[15px] text-[#FFBC7C]" aria-hidden="true">
             notifications_active
           </span>
           <p className="text-[11px] text-[#CAC6BD]">
@@ -350,7 +360,7 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
           onClick={onOpenEval}
           className="text-[12px] text-[#A18D7D] hover:text-[#FFBC7C] transition-colors underline cursor-pointer flex items-center gap-1"
         >
-          <span className="material-symbols-outlined text-[14px]">science</span>
+          <span className="material-symbols-outlined text-[14px]" aria-hidden="true">science</span>
           <span>Tutor değerlendirmesi</span>
         </button>
       </div>

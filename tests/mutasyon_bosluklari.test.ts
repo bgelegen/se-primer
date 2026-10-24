@@ -1,4 +1,4 @@
-// Mutasyon testinin (Stryker, ilk kampanya) yaşayan mutantlarından çıkan testler.
+// Mutasyon testinin (Stryker) yaşayan mutantlarından çıkan testler: K-1..K-13 ilk kampanya, K-14..K-20 ikinci kampanya.
 // Her test hangi mutantı öldürdüğünü söyler; biri gerçek bir hata buldu (K-13).
 import { describe, expect, it } from 'vitest';
 import { checkGuard } from '../app/src/tutor';
@@ -54,5 +54,19 @@ describe('koruma katmanı sınır vakaları', () => {
     gecer('Doğru cevabı söylemem; şemayı nasıl kontrol edersin?');
     gecer('Doğru seçeneği söylemeyeceğim. Logda hangi bilgi gerekli?');
     gecer('Doğru cevabı söyleyemem. Sence neden?');
+  });
+  // İkinci kampanya: koruma kuralları birbirini kısmen örttüğü için bazı boşluk mutantları yaşıyordu.
+  // Her vaka yalnızca TEK bir kuralın yakalayabildiği bir ele vermedir.
+  it('K-14 iki boşluklu "doğru  cevap" (kural 1, \\s+)', () => ele('Doğru  cevap budur.'));
+  it('K-15 iki nokta öncesi boşluk: "Cevap  : B" (kural 2)', () => ele('Cevap  : B'));
+  it('K-16 "B şıkkı   daha iyi" (kural 3, ikinci boşluk grubu)', () => ele('B şıkkı   daha iyi.'));
+  it('K-17 çekimli "doğru  seçeneği A" ve bitişik "doğru cevabı:A" (ek kural 1)', () => {
+    ele('Doğru  seçeneği A.'); ele('Doğru cevabı:A'); ele('Doğru seçeneği  : B');
+  });
+  it('K-18 baştaki boşluktan sonra "Evet, A" (ek kural 2)', () => ele('  Evet, A.'));
+  it('K-19 "doğru cevabı  söyleyeyim" (ek kural 4, ikinci boşluk)', () => ele('Doğru cevabı  söyleyeyim mi?'));
+  it('K-20 bunlar reddetme biçiminde gelirse geçer', () => {
+    gecer('Doğru seçeneği söylemem; A ile B arasındaki fark ne olabilir?');
+    gecer('Evet ya da hayır diyemem. Sence hangi risk daha büyük?');
   });
 });

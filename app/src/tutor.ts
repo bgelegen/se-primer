@@ -43,8 +43,8 @@ export function checkGuard(rawText: string, sceneId: KararId): boolean {
   // 3) /"?(dogru_secenek|doğru_seçenek|correct_option|answer)"?\s*:\s*"?(A|B)(?!\p{L})/iu
   if (/"?(dogru_secenek|doğru_seçenek|correct_option|answer)"?\s*:\s*"?(A|B)(?!\p{L})/iu.test(rawText)) return true;
 
-  // 4) /doğru\s+(cevab|seçene)\p{L}*\s+söyle(?!ye?me|m[ae]z)/iu
-  if (/doğru\s+(cevab|seçene)\p{L}*\s+söyle(?!ye?me|m[ae]z)/iu.test(rawText)) return true;
+  // 4) /doğru\s+(cevab|seçene)\p{L}*\s+söyle(?!(ye)?m[ae])/iu
+  if (/doğru\s+(cevab|seçene)\p{L}*\s+söyle(?!(ye)?m[ae])/iu.test(rawText)) return true;
 
   // or contains either option's text together with a recommendation verb
   const scene = DECISIONS[sceneId];

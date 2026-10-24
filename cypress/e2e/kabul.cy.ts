@@ -63,4 +63,18 @@ describe('Kabul örnekleri (spec §9)', () => {
     });
     cy.get('[data-testid=tutor-yanit]').last().should('contain', '🛡');
   });
+  it('KÖ-6 · Son ekranında oyuncu kendi yolunu haritada görür', () => {
+    cy.profil('orta');
+    cy.sec('A');
+    cy.sec('A');
+    cy.sec('B');
+    cy.get('[data-testid=yol-haritasi]').should('be.visible');
+    cy.get('[data-testid=yol-K1-A]').should('have.attr', 'data-secili', 'true');
+    cy.get('[data-testid=yol-K2-A]').should('have.attr', 'data-secili', 'true');
+    cy.get('[data-testid=yol-K3-B]').should('have.attr', 'data-secili', 'true');
+    ['K1-B', 'K2-B', 'K3-A'].forEach((d) => cy.get(`[data-testid=yol-${d}]`).should('have.attr', 'data-secili', 'false'));
+    cy.get('[data-testid=yol-kotu]').should('have.attr', 'data-secili', 'true');
+    cy.get('[data-testid=yol-iyi]').should('have.attr', 'data-secili', 'false');
+    cy.get('[data-testid=yol-ozet]').should('contain', "8 olası yoldan 3'ü iyi sona çıkar").and('contain', 'A → A → B');
+  });
 });

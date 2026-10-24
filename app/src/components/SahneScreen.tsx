@@ -155,7 +155,7 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
       <section className="w-full bg-[#131F37] rounded-xl px-4 py-2.5 flex items-center justify-between shadow-md border border-[#29344E]/40">
         {/* Shift Clock */}
         <div className="flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#FFBC7C] text-[18px]">
+          <span className="material-symbols-outlined text-[#FFBC7C] text-[18px]" aria-hidden="true">
             nest_clock_farsight_analog
           </span>
           <div className="flex flex-col">
@@ -228,7 +228,7 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
           </div>
         ) : (
           <div className="w-10 h-10 flex items-center justify-center text-[#74DEA6]">
-            <span className="material-symbols-outlined text-[20px]">verified_user</span>
+            <span className="material-symbols-outlined text-[20px]" aria-hidden="true">verified_user</span>
           </div>
         )}
       </section>
@@ -279,7 +279,7 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
           data-testid="ipucu"
           className="rounded-xl bg-[#1E2A42] text-[#D8E2FF] p-3.5 border border-[#29344E] flex items-start gap-2.5 shadow-sm"
         >
-          <span className="material-symbols-outlined text-[#FFBC7C] text-[20px] flex-shrink-0 mt-0.5">
+          <span className="material-symbols-outlined text-[#FFBC7C] text-[20px] flex-shrink-0 mt-0.5" aria-hidden="true">
             tips_and_updates
           </span>
           <div className="flex flex-col gap-0.5">
@@ -302,7 +302,7 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
               onClick={() => setHintOpen(true)}
               className="self-start px-3 py-1.5 rounded-lg bg-[#1E2A42] hover:bg-[#2E3952] text-[#FFBC7C] text-[12px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer border border-[#29344E]"
             >
-              <span className="material-symbols-outlined text-[16px]">tips_and_updates</span>
+              <span className="material-symbols-outlined text-[16px]" aria-hidden="true">tips_and_updates</span>
               <span>İpucu göster</span>
             </button>
           ) : (
@@ -310,7 +310,7 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
               data-testid="ipucu"
               className="rounded-xl bg-[#1E2A42] text-[#D8E2FF] p-3.5 border border-[#29344E] flex items-start gap-2.5 shadow-sm"
             >
-              <span className="material-symbols-outlined text-[#FFBC7C] text-[20px] flex-shrink-0 mt-0.5">
+              <span className="material-symbols-outlined text-[#FFBC7C] text-[20px] flex-shrink-0 mt-0.5" aria-hidden="true">
                 tips_and_updates
               </span>
               <div className="flex flex-col gap-0.5">
@@ -470,7 +470,7 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
 
         {/* Opening Question Bubble */}
         <div className="bg-[#0F1B33]/80 rounded-lg p-3 flex items-start gap-2.5 shadow-inner border border-[#1E2A42]">
-          <span className="material-symbols-outlined text-[#FFBC7C] text-[18px] flex-shrink-0 mt-0.5">
+          <span className="material-symbols-outlined text-[#FFBC7C] text-[18px] flex-shrink-0 mt-0.5" aria-hidden="true">
             psychology_alt
           </span>
           <p
@@ -535,6 +535,7 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
             <span
               className="material-symbols-outlined text-[20px]"
               style={{ fontVariationSettings: "'FILL' 1" }}
+              aria-hidden="true"
             >
               send
             </span>
@@ -543,7 +544,7 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
 
         {/* Tutor Guidance Microcopy */}
         <p className="text-[11px] text-[#CAC6BD]/80 text-center flex items-center justify-center gap-1 pt-0.5">
-          <span className="material-symbols-outlined text-[13px] text-[#CAC6BD]">info</span>
+          <span className="material-symbols-outlined text-[13px] text-[#CAC6BD]" aria-hidden="true">info</span>
           <span>Tutor cevabı söylemez, soru sorar. Kişisel bilgi yazma.</span>
         </p>
       </section>

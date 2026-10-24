@@ -271,8 +271,18 @@ Then tutor'un yanıtı bir soru işaretiyle biter
 And yanıt "doğru cevap", "A seçeneği", "B seçeneği" ya da bir seçeneğin metnini öneri olarak içermez
 ```
 
-Ek: tüm 8 yol × 2 son (`yollar.cy.ts`), "Tekrar oyna"/"Profili değiştir" geçişleri ve giriş ekranının
-eksik seçimde düğmeyi pasif tutması da E2E ile test edilir.
+**KÖ-6 · Son ekranında oyuncu kendi yolunu haritada görür** *(ilk sürümden sonra eklendi)*
+```gherkin
+Given K1'de A, K2'de A, K3'te B seçtim
+When son ekranı açılır
+Then yol haritasında K1-A, K2-A, K3-B düğümleri seçili, diğer üç karar düğümü seçili değildir
+And "KÖTÜ" son düğümü seçili, "İYİ" seçili değildir
+And harita altında "8 olası yoldan 3'ü iyi sona çıkar. Senin yolun: A → A → B" yazar
+```
+
+Ek: tüm 8 yol × 2 son ve her yolun haritası (`yollar.cy.ts`), "Tekrar oyna"/"Profili değiştir" geçişleri,
+giriş ekranının eksik seçimde düğmeyi pasif tutması ve 5 ekranın axe-core WCAG 2.1 AA taraması
+(`erisilebilirlik.cy.ts`) da E2E ile test edilir.
 
 ## 10. Ekranlar
 
@@ -282,7 +292,8 @@ eksik seçimde düğmeyi pasif tutması da E2E ile test edilir.
 |-------|--------|
 | **Giriş** | Başlık "SE Primer", alt başlık, 3 soru grubu (seçim çipleri), "Nöbete başla" |
 | **Sahne** | Üst çubuk: saat, karar ilerlemesi (1/3), varsa geri sayım · anlatı kartı · rol satırı · hedef rozeti · ipucu · A/B seçenek kartları · tutor alanı · seçimden sonra sonuç paneli (Ne oldu / Neden oldu / Derinleş / Devam) |
-| **Son** | Son etiketi (SON A · İYİ / SON B · KÖTÜ), saat + başlık, açıklama, karar özeti, Bugünün dersi, Tekrar oyna, Profili değiştir |
+| **Son** | Son etiketi (SON A · İYİ / SON B · KÖTÜ), saat + başlık, açıklama, karar özeti, **yol haritası** (3 karar × A/B + iki son; oyuncunun yolu vurgulu), Bugünün dersi, Tekrar oyna, Profili değiştir |
+| **Tutor değerlendirmesi** | Girişin altındaki bağlantıdan açılır. 20 standart mesaj, 30 kırmızı takım mesajı ya da yapıştırılan özel bir JSON seti canlı tutor'a gönderilir; ham yanıt, gösterilen yanıt, koruma ve yedek sütunları tabloda, "Kopyala" ile JSON olarak alınır |
 
 ### Test kancaları (`data-testid`)
 
@@ -291,7 +302,8 @@ eksik seçimde düğmeyi pasif tutması da E2E ile test edilir.
 `geri-sayim`, `rol-satiri`, `hedef-rozeti`, `ipucu`, `ipucu-goster`, `secenek-A`, `secenek-B`,
 `sonuc`, `ne-oldu`, `neden-oldu`, `derinles`, `sure-doldu`, `devam`, `tutor`, `tutor-soru`,
 `tutor-girdi`, `tutor-gonder`, `tutor-yanit`, `son`, `son-etiket`, `son-baslik`, `son-ders`,
-`tekrar-oyna`, `profili-degistir`.
+`tekrar-oyna`, `profili-degistir`, `yol-haritasi`, `yol-K1-A` … `yol-K3-B` (`data-secili="true|false"`),
+`yol-iyi`, `yol-kotu`, `yol-ozet`, `eval-ozel`, `eval-ozel-calistir`, `eval-kirmizi-calistir`.
 
 ## 11. Kalite gereksinimleri
 
@@ -299,7 +311,7 @@ eksik seçimde düğmeyi pasif tutması da E2E ile test edilir.
 |------------|-------|
 | Mobil | 360 px genişlikte yatay kaydırma yok; dokunma hedefleri ≥ 44 px |
 | Hız | İlk açılış 3 saniyenin altında (4G); tutor yanıtı 8 saniyede gelmezse yedek |
-| Erişilebilirlik | Renk tek başına anlam taşımaz (iyi/kötü son metinle de yazar); kontrast WCAG AA |
+| Erişilebilirlik | Renk tek başına anlam taşımaz (iyi/kötü son metinle de yazar); kontrast WCAG AA; yakınlaştırma kapatılmaz; 5 ekranda axe-core ihlali 0 |
 | Gizlilik | Hesap yok, çerez yok, kayıt yok; tutor kutusunun altında "Kişisel bilgi yazma" uyarısı |
 | Belirlenebilirlik | Aynı seçimler her zaman aynı sonu ve saati verir (tutor hariç) |
 

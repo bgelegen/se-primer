@@ -18,6 +18,16 @@ describe('Tüm yollar (8 yol × 2 son)', () => {
       cy.get('[data-testid=son-etiket]').should('contain', son === 'İYİ' ? 'SON A · İYİ' : 'SON B · KÖTÜ');
       cy.get('[data-testid=saat]').should('contain', saat);
       if (neden) cy.get('[data-testid=son]').should('contain', neden);
+      // "Senin yolun" haritası: yalnızca izlenen düğümler ve ulaşılan son seçili
+      [...yol].forEach((h, i) => {
+        const k = `K${i + 1}`;
+        const diger = h === 'A' ? 'B' : 'A';
+        cy.get(`[data-testid=yol-${k}-${h}]`).should('have.attr', 'data-secili', 'true');
+        cy.get(`[data-testid=yol-${k}-${diger}]`).should('have.attr', 'data-secili', 'false');
+      });
+      cy.get(`[data-testid=yol-${son === 'İYİ' ? 'iyi' : 'kotu'}]`).should('have.attr', 'data-secili', 'true');
+      cy.get(`[data-testid=yol-${son === 'İYİ' ? 'kotu' : 'iyi'}]`).should('have.attr', 'data-secili', 'false');
+      cy.get('[data-testid=yol-ozet]').should('contain', [...yol].join(' → '));
     });
   });
 

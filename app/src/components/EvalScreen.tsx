@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { KararId } from '../content';
 import { askTutor } from '../tutor';
+import { KIRMIZI_TAKIM_MESSAGES } from '../eval/kirmiziTakim';
 
 export interface EvalItem {
   id: string;
@@ -52,20 +53,76 @@ export const EvalScreen: React.FC<EvalScreenProps> = ({ onClose }) => {
     STUDENT_EVAL_MESSAGES.map((m) => ({ ...m }))
   );
   const [isRunning, setIsRunning] = useState(false);
+  const [activeSetType, setActiveSetType] = useState<'standart' | 'kirmizi' | 'ozel'>('standart');
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
 
-  const handleRunAll = async () => {
-    setIsRunning(true);
-    const updated = [...results];
+  const [customInput, setCustomInput] = useState('');
+  const [customError, setCustomError] = useState<string | null>(null);
+  const [isCustomRunning, setIsCustomRunning] = useState(false);
 
-    for (let i = 0; i < STUDENT_EVAL_MESSAGES.length; i++) {
+  const handleRunCustom = async () => {
+    setCustomError(null);
+    const trimmed = customInput.trim();
+    if (!trimmed) {
+      setCustomError('Lütfen bir JSON dizisi girin.');
+      return;
+    }
+
+    let parsed: any;
+    try {
+      parsed = JSON.parse(trimmed);
+    } catch (_err) {
+      setCustomError('Geçersiz JSON formatı. Lütfen [{"id","karar","tur","metin"}] dizisi girin.');
+      return;
+    }
+
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      setCustomError('JSON boş olmayan bir dizi olmalıdır: [{"id","karar","tur","metin"}].');
+      return;
+    }
+
+    // Validate each item
+    for (let idx = 0; idx < parsed.length; idx++) {
+      const item = parsed[idx];
+      if (
+        !item ||
+        typeof item !== 'object' ||
+        typeof item.id !== 'string' ||
+        !['K1', 'K2', 'K3'].includes(item.karar) ||
+        typeof item.tur !== 'string' ||
+        typeof item.metin !== 'string'
+      ) {
+        setCustomError(
+          `Dizi elemanı #${idx + 1} geçersiz. Her eleman id, karar (K1/K2/K3), tur ve metin alanlarına sahip olmalıdır.`
+        );
+        return;
+      }
+    }
+
+    // Start execution
+    setActiveSetType('ozel');
+    setIsRunning(true);
+    setIsCustomRunning(true);
+    const initialList: EvalItem[] = parsed.map((item: any) => ({
+      id: item.id,
+      karar: item.karar as KararId,
+      tur: item.tur,
+      metin: item.metin,
+    }));
+    setResults([...initialList]);
+
+    const updated = [...initialList];
+    for (let i = 0; i < parsed.length; i++) {
       setCurrentIndex(i);
-      const item = STUDENT_EVAL_MESSAGES[i];
+      const item = parsed[i];
       try {
         const response = await askTutor(item.karar, item.metin);
         updated[i] = {
-          ...item,
+          id: item.id,
+          karar: item.karar,
+          tur: item.tur,
+          metin: item.metin,
           ham: response.raw,
           gosterilen: response.shown,
           guard: response.guarded,
@@ -75,7 +132,10 @@ export const EvalScreen: React.FC<EvalScreenProps> = ({ onClose }) => {
         };
       } catch (_err) {
         updated[i] = {
-          ...item,
+          id: item.id,
+          karar: item.karar,
+          tur: item.tur,
+          metin: item.metin,
           ham: '',
           gosterilen: '',
           guard: false,
@@ -89,6 +149,113 @@ export const EvalScreen: React.FC<EvalScreenProps> = ({ onClose }) => {
 
     setCurrentIndex(null);
     setIsRunning(false);
+    setIsCustomRunning(false);
+  };
+
+  const handleRunAll = async () => {
+    setActiveSetType('standart');
+    setIsRunning(true);
+    const initialList: EvalItem[] = STUDENT_EVAL_MESSAGES.map((m) => ({ ...m }));
+    setResults([...initialList]);
+
+    const updated = [...initialList];
+    for (let i = 0; i < STUDENT_EVAL_MESSAGES.length; i++) {
+      setCurrentIndex(i);
+      const item = STUDENT_EVAL_MESSAGES[i];
+      try {
+        const response = await askTutor(item.karar, item.metin);
+        updated[i] = {
+          id: item.id,
+          karar: item.karar,
+          tur: item.tur,
+          metin: item.metin,
+          ham: response.raw,
+          gosterilen: response.shown,
+          guard: response.guarded,
+          yedek: response.fallback,
+          ms: response.ms,
+          model: 'gemini-3.8-flash',
+        };
+      } catch (_err) {
+        updated[i] = {
+          id: item.id,
+          karar: item.karar,
+          tur: item.tur,
+          metin: item.metin,
+          ham: '',
+          gosterilen: '',
+          guard: false,
+          yedek: true,
+          ms: 0,
+          model: 'gemini-3.8-flash',
+        };
+      }
+      setResults([...updated]);
+    }
+
+    setCurrentIndex(null);
+    setIsRunning(false);
+  };
+
+  const handleRunKirmizi = async () => {
+    setActiveSetType('kirmizi');
+    setIsRunning(true);
+    const initialList: EvalItem[] = KIRMIZI_TAKIM_MESSAGES.map((m) => ({ ...m }));
+    setResults([...initialList]);
+
+    const updated = [...initialList];
+    for (let i = 0; i < KIRMIZI_TAKIM_MESSAGES.length; i++) {
+      setCurrentIndex(i);
+      const item = KIRMIZI_TAKIM_MESSAGES[i];
+      try {
+        const response = await askTutor(item.karar, item.metin);
+        updated[i] = {
+          id: item.id,
+          karar: item.karar,
+          tur: item.tur,
+          metin: item.metin,
+          ham: response.raw,
+          gosterilen: response.shown,
+          guard: response.guarded,
+          yedek: response.fallback,
+          ms: response.ms,
+          model: 'gemini-3.8-flash',
+        };
+      } catch (_err) {
+        updated[i] = {
+          id: item.id,
+          karar: item.karar,
+          tur: item.tur,
+          metin: item.metin,
+          ham: '',
+          gosterilen: '',
+          guard: false,
+          yedek: true,
+          ms: 0,
+          model: 'gemini-3.8-flash',
+        };
+      }
+      setResults([...updated]);
+    }
+
+    setCurrentIndex(null);
+    setIsRunning(false);
+  };
+
+  const getSubtitle = () => {
+    if (activeSetType === 'kirmizi') {
+      return isRunning
+        ? `30 kırmızı takım mesajı çalışıyor (${(currentIndex ?? 0) + 1}/30)...`
+        : '30 kırmızı takım mesajı · Sokratik kural testi';
+    }
+    if (activeSetType === 'ozel') {
+      return isRunning
+        ? `Özel test seti çalışıyor (${(currentIndex ?? 0) + 1}/${results.length})...`
+        : `${results.length} özel mesaj · Sokratik kural testi`;
+    }
+    return isRunning
+      ? `20 standart mesaj çalışıyor (${(currentIndex ?? 0) + 1}/20)...`
+      : '20 standart öğrenci mesajı · Sokratik kural testi';
   };
 
   const jsonOutput = JSON.stringify(results, null, 2);
@@ -107,7 +274,7 @@ export const EvalScreen: React.FC<EvalScreenProps> = ({ onClose }) => {
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[#29344E] pb-3">
         <div className="flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#FFBC7C] text-[22px]">
+          <span className="material-symbols-outlined text-[#FFBC7C] text-[22px]" aria-hidden="true">
             science
           </span>
           <div>
@@ -115,7 +282,7 @@ export const EvalScreen: React.FC<EvalScreenProps> = ({ onClose }) => {
               Tutor Değerlendirmesi (Eval)
             </h1>
             <p className="text-[12px] text-[#CAC6BD]">
-              20 standart öğrenci mesajı · Sokratik kural testi
+              {getSubtitle()}
             </p>
           </div>
         </div>
@@ -130,24 +297,37 @@ export const EvalScreen: React.FC<EvalScreenProps> = ({ onClose }) => {
       </div>
 
       {/* Control bar */}
-      <div className="flex items-center justify-between gap-3 bg-[#131F37] p-3 rounded-xl border border-[#29344E]">
-        <button
-          type="button"
-          data-testid="eval-calistir"
-          disabled={isRunning}
-          onClick={handleRunAll}
-          className="px-4 py-2.5 rounded-lg bg-[#F29A3B] hover:bg-[#FFBC7C] text-[#4B2800] text-[14px] font-bold shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-        >
-          <span className="material-symbols-outlined text-[18px]">play_arrow</span>
-          <span>{isRunning ? `Çalışıyor (${(currentIndex ?? 0) + 1}/20)...` : '20 cevabı çalıştır'}</span>
-        </button>
+      <div className="flex items-center justify-between gap-3 bg-[#131F37] p-3 rounded-xl border border-[#29344E] flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
+          <button
+            type="button"
+            data-testid="eval-calistir"
+            disabled={isRunning}
+            onClick={handleRunAll}
+            className="px-4 py-2.5 rounded-lg bg-[#F29A3B] hover:bg-[#FFBC7C] text-[#4B2800] text-[14px] font-bold shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-[18px]" aria-hidden="true">play_arrow</span>
+            <span>{isRunning && activeSetType === 'standart' ? `Çalışıyor (${(currentIndex ?? 0) + 1}/20)...` : '20 cevabı çalıştır'}</span>
+          </button>
+
+          <button
+            type="button"
+            data-testid="eval-kirmizi-calistir"
+            disabled={isRunning}
+            onClick={handleRunKirmizi}
+            className="px-4 py-2.5 rounded-lg bg-[#D9483B] hover:bg-[#FFB4AB] text-[#FFFFFF] hover:text-[#4B2800] text-[14px] font-bold shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors"
+          >
+            <span className="material-symbols-outlined text-[18px]" aria-hidden="true">security</span>
+            <span>{isRunning && activeSetType === 'kirmizi' ? `Çalışıyor (${(currentIndex ?? 0) + 1}/30)...` : '30 kırmızı takım'}</span>
+          </button>
+        </div>
 
         <button
           type="button"
           onClick={handleCopy}
           className="px-3 py-2 rounded-lg bg-[#1E2A42] hover:bg-[#2E3952] text-[#FFBC7C] text-[13px] font-semibold cursor-pointer border border-[#29344E] flex items-center gap-1.5"
         >
-          <span className="material-symbols-outlined text-[16px]">content_copy</span>
+          <span className="material-symbols-outlined text-[16px]" aria-hidden="true">content_copy</span>
           <span>{copied ? 'Kopyalandı!' : 'Kopyala'}</span>
         </button>
       </div>
@@ -196,6 +376,57 @@ export const EvalScreen: React.FC<EvalScreenProps> = ({ onClose }) => {
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* Custom Set Section */}
+      <div className="flex flex-col gap-3 bg-[#131F37] p-4 rounded-xl border border-[#29344E]">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-[#FFBC7C] text-[20px]" aria-hidden="true">
+              playlist_play
+            </span>
+            <h2 className="text-[14px] font-bold text-[#D8E2FF]">
+              Kendi setini çalıştır
+            </h2>
+          </div>
+          <span className="text-[11px] text-[#A18D7D]">
+            JSON dizi formatı: [{'{'}"id","karar","tur","metin"{'}'}]
+          </span>
+        </div>
+
+        <textarea
+          data-testid="eval-ozel"
+          value={customInput}
+          onChange={(e) => {
+            setCustomInput(e.target.value);
+            if (customError) setCustomError(null);
+          }}
+          disabled={isRunning}
+          rows={4}
+          placeholder='[&#10;  { "id": "O01", "karar": "K1", "tur": "özel", "metin": "Sorum buraya..." }&#10;]'
+          className="w-full bg-[#020D25] text-[#D8E2FF] font-mono text-[12px] p-3 rounded-lg border border-[#29344E] focus:outline-none focus:ring-1 focus:ring-[#F29A3B]"
+        />
+
+        {customError && (
+          <div className="text-[12px] text-[#FFB4AB] bg-[#D9483B]/20 border border-[#D9483B] px-3 py-1.5 rounded-lg">
+            {customError}
+          </div>
+        )}
+
+        <div className="flex justify-end">
+          <button
+            type="button"
+            data-testid="eval-ozel-calistir"
+            disabled={isRunning || !customInput.trim()}
+            onClick={handleRunCustom}
+            className="px-4 py-2 rounded-lg bg-[#F29A3B] hover:bg-[#FFBC7C] text-[#4B2800] text-[13px] font-bold shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+          >
+            <span className="material-symbols-outlined text-[16px]" aria-hidden="true">play_circle</span>
+            <span>
+              {isCustomRunning ? `Çalışıyor (${(currentIndex ?? 0) + 1})...` : 'Bu seti çalıştır'}
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* JSON Output */}

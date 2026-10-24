@@ -1,20 +1,31 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import { defineConfig, loadEnv } from 'vite';
+import path from 'path';
+import {defineConfig, loadEnv} from 'vite';
 
-// AI Studio şablonu: GEMINI_API_KEY derleme anında process.env'e gömülür.
-// Anahtar yoksa tutor yedek soruyla çalışır (spec §8.2).
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, '.', '');
-  const key = process.env.GEMINI_API_KEY || env.GEMINI_API_KEY || '';
+export default defineConfig(({mode}) => {
+  // [SE Primer eki] AI Studio'da anahtarı çalışma ortamı sağlar. Yerelde ve CI'da aynı kodun
+  // tutoru çağırabilmesi için process.env.GEMINI_API_KEY derleme anında gömülür (CI'da sahte anahtar,
+  // istekler Cypress'te taklit edilir). Vite istemci derlemesinde process.env'i {} yaptığı için üç biçim de tanımlı.
+  const key = process.env.GEMINI_API_KEY || loadEnv(mode, '.', '').GEMINI_API_KEY || '';
   return {
     plugins: [react(), tailwindcss()],
-    // AI Studio çalışma ortamı process.env'i sağlar; yerelde/CI'da aynı kod çalışsın diye
-    // 'process' tanımlayıcısı derleme anında { env: { GEMINI_API_KEY } } nesnesiyle değiştirilir.
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(key),
-      'process.env': JSON.stringify({ GEMINI_API_KEY: key }),
-      process: JSON.stringify({ env: { GEMINI_API_KEY: key } }),
+      'process.env': JSON.stringify({GEMINI_API_KEY: key}),
+      process: JSON.stringify({env: {GEMINI_API_KEY: key}}),
+    },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, '.'),
+      },
+    },
+    server: {
+      // HMR is disabled in AI Studio via DISABLE_HMR env var.
+      // Do not modify—file watching is disabled to prevent flickering during agent edits.
+      hmr: process.env.DISABLE_HMR !== 'true',
+      // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
+      watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },
   };
 });

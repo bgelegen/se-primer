@@ -23,7 +23,7 @@ export const S0Screen: React.FC<S0ScreenProps> = ({ rol, timeStr, onEnterCrisis 
       {/* Top Bar HUD */}
       <section className="w-full bg-[#131F37] rounded-xl p-3 flex items-center justify-between shadow-md border border-[#29344E]/40">
         <div className="flex items-center gap-2 pl-1">
-          <span className="material-symbols-outlined text-[#FFBC7C] text-[18px]">
+          <span className="material-symbols-outlined text-[#FFBC7C] text-[18px]" aria-hidden="true">
             nest_clock_farsight_analog
           </span>
           <div className="flex flex-col">
@@ -77,7 +77,7 @@ export const S0Screen: React.FC<S0ScreenProps> = ({ rol, timeStr, onEnterCrisis 
         {/* Role perspective callout */}
         <div className="bg-[#F3EDE0] rounded-xl p-3 border-l-4 border-[#F29A3B] flex flex-col gap-1">
           <span className="text-[11px] font-bold uppercase tracking-wider text-[#633700] flex items-center gap-1">
-            <span className="material-symbols-outlined text-[15px]">{roleInfo.icon}</span>
+            <span className="material-symbols-outlined text-[15px]" aria-hidden="true">{roleInfo.icon}</span>
             {roleInfo.label} Perspektifi
           </span>
           <p className="font-serif text-[14px] italic text-[#3E495D]">
@@ -97,6 +97,7 @@ export const S0Screen: React.FC<S0ScreenProps> = ({ rol, timeStr, onEnterCrisis 
           <span
             className="material-symbols-outlined text-[22px]"
             style={{ fontVariationSettings: "'FILL' 1" }}
+            aria-hidden="true"
           >
             crisis_alert
           </span>
