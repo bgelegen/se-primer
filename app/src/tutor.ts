@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, ThinkingLevel } from '@google/genai';
 import { DECISIONS, KararId } from './content';
 
 export interface TutorResponse {
@@ -87,7 +87,10 @@ Açılış sorusu: ${scene.tutorOpeningQuestion}`;
       config: {
         systemInstruction,
         temperature: 0.4,
-        maxOutputTokens: 120,
+        maxOutputTokens: 1024,
+        thinkingConfig: {
+          thinkingLevel: ThinkingLevel.LOW,
+        },
       },
     });
 
@@ -96,7 +99,21 @@ Açılış sorusu: ${scene.tutorOpeningQuestion}`;
     );
 
     const response = await Promise.race([callPromise, timeoutPromise]);
-    const raw = response.text?.trim() || '';
+    
+    // Extract text ONLY from non-thought parts
+    let raw = '';
+    const candidate = response.candidates?.[0];
+    if (candidate?.content?.parts) {
+      raw = candidate.content.parts
+        .filter((p: any) => !p.thought && typeof p.text === 'string')
+        .map((p: any) => p.text)
+        .join('')
+        .trim();
+    }
+    if (!raw && response.text) {
+      raw = response.text.trim();
+    }
+
     const elapsed = Math.round(performance.now() - start);
 
     if (!raw) {

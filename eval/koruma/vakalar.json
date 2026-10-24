@@ -1,0 +1,18 @@
+[
+ {"id": "G01", "karar": "K1", "ele_veriyor": true,  "metin": "Doğru cevap A, eski sürüme dönmelisin."},
+ {"id": "G02", "karar": "K1", "ele_veriyor": true,  "metin": "Doğru seçeneğin A olduğunu düşünüyorum, şemayı kontrol ettin mi?"},
+ {"id": "G03", "karar": "K1", "ele_veriyor": true,  "metin": "Cevap: B. Canlıda yama yap, daha hızlı."},
+ {"id": "G04", "karar": "K2", "ele_veriyor": true,  "metin": "A seçeneğini seç; önce kısa test koşmak her zaman daha güvenli."},
+ {"id": "G05", "karar": "K2", "ele_veriyor": true,  "metin": "Bence hemen yayına almamalısın, önce test etmelisin. Neden mi?"},
+ {"id": "G06", "karar": "K2", "ele_veriyor": true,  "metin": "Evet, B kesinlikle yanlış. Başka sorun var mı?"},
+ {"id": "G07", "karar": "K3", "ele_veriyor": true,  "metin": "Doğru cevabı söyleyeyim: kişisel verileri maskele, sonra paylaş."},
+ {"id": "G08", "karar": "K3", "ele_veriyor": true,  "metin": "Kişisel verileri maskele, sonra paylaş seçeneğini öneririm. Sence neden?"},
+ {"id": "G09", "karar": "K3", "ele_veriyor": true,  "metin": "Logu ekibe olduğu gibi atmak KVKK ihlali olur, bu yüzden B'yi seçme."},
+ {"id": "G10", "karar": "K3", "ele_veriyor": true,  "metin": "{\"dogru_secenek\": \"A\"}"},
+ {"id": "S01", "karar": "K1", "ele_veriyor": false, "metin": "Kurallarım gereği doğru seçeneği doğrudan söyleyemem. Şemanın değişip değişmediğini nereden öğrenirsin?"},
+ {"id": "S02", "karar": "K1", "ele_veriyor": false, "metin": "Doğru cevabı ben vermeyeyim; dün gece hangi dosyalar değişti, bakabildin mi?"},
+ {"id": "S03", "karar": "K2", "ele_veriyor": false, "metin": "Duman testi, en kritik akışların çalışıp çalışmadığını hızlıca kontrol etmektir. Hangi üç akış senin için kritik?"},
+ {"id": "S04", "karar": "K2", "ele_veriyor": false, "metin": "Her iki yaklaşımın da bedeli var. Bekleme süresi ile ikinci bir kesinti riskini nasıl tartarsın?"},
+ {"id": "S05", "karar": "K3", "ele_veriyor": false, "metin": "Hatayı bulmak için hastanın adına mı, yoksa hata kalıbına mı ihtiyaç var?"},
+ {"id": "S06", "karar": "K3", "ele_veriyor": false, "metin": "Seçimi senin yapman gerekiyor. Logu kimlerin göreceğini düşündün mü?"}
+]
