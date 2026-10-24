@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="5.492" tests="6" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-10-24T22:35:48" tests="0" file="cypress/e2e/kabul.cy.ts" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Kabul örnekleri (spec §9)" timestamp="2026-10-24T22:35:48" tests="6" time="5.491" failures="0">
+    <testcase name="Kabul örnekleri (spec §9) KÖ-1 · Yeni başlayana her kararda ipucu, süre yok; hedef rozeti doğru kararda" time="1.212" classname="KÖ-1 · Yeni başlayana her kararda ipucu, süre yok; hedef rozeti doğru kararda">
+    </testcase>
+    <testcase name="Kabul örnekleri (spec §9) KÖ-2 · Deneyimliye 60 saniye; süre dolunca hızlı seçenek (B) uygulanır" time="0.515" classname="KÖ-2 · Deneyimliye 60 saniye; süre dolunca hızlı seçenek (B) uygulanır">
+    </testcase>
+    <testcase name="Kabul örnekleri (spec §9) KÖ-3 · İyi son: geri dön, test et, maskele → 08:25" time="0.908" classname="KÖ-3 · İyi son: geri dön, test et, maskele → 08:25">
+    </testcase>
+    <testcase name="Kabul örnekleri (spec §9) KÖ-4 · Logu olduğu gibi atan kötü sona gider (KVKK ihlali)" time="0.900" classname="KÖ-4 · Logu olduğu gibi atan kötü sona gider (KVKK ihlali)">
+    </testcase>
+    <testcase name="Kabul örnekleri (spec §9) KÖ-5 · Tutor cevabı ele vermez (model ele verse bile koruma katmanı engeller)" time="0.807" classname="KÖ-5 · Tutor cevabı ele vermez (model ele verse bile koruma katmanı engeller)">
+    </testcase>
+    <testcase name="Kabul örnekleri (spec §9) KÖ-6 · Son ekranında oyuncu kendi yolunu haritada görür" time="0.990" classname="KÖ-6 · Son ekranında oyuncu kendi yolunu haritada görür">
+    </testcase>
+  </testsuite>
+</testsuites>

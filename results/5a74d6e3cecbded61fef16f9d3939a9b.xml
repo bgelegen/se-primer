@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="49.015" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-10-24T22:36:12" tests="0" file="cypress/e2e/zz_demo.cy.ts" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Demo · bir oyuncunun sabahı" timestamp="2026-10-24T22:36:12" tests="1" time="49.011" failures="0">
+    <testcase name="Demo · bir oyuncunun sabahı yeni başlayan geliştirici: tutor, kötü son, tekrar, iyi son" time="48.970" classname="yeni başlayan geliştirici: tutor, kötü son, tekrar, iyi son">
+    </testcase>
+  </testsuite>
+</testsuites>

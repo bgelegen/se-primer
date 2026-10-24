@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="137" failures="0" errors="0" time="0.132424718">
+    <testsuite name="tests/koruma.test.ts" timestamp="2026-10-24T22:35:00.125Z" hostname="runnervmtai0g" tests="66" failures="0" errors="0" skipped="0" time="0.011062845">
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; G01 engellenmeli" time="0.001321598">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; G02 engellenmeli" time="0.001775119">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; G03 engellenmeli" time="0.000144171">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; G04 engellenmeli" time="0.000169438">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; G05 engellenmeli" time="0.002503841">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; G06 engellenmeli" time="0.000532983">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; G07 engellenmeli" time="0.000402164">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; G08 engellenmeli" time="0.000045059">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; G09 engellenmeli" time="0.000140474">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; G10 engellenmeli" time="0.000902788">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; S01 geçmeli" time="0.000062615">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; S02 geçmeli" time="0.000057047">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; S03 geçmeli" time="0.000075755">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; S04 geçmeli" time="0.000171933">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; S05 geçmeli" time="0.000082005">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="elle yazılmış vakalar &gt; S06 geçmeli" time="0.000042445">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C01" time="0.00007846">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C02" time="0.000032049">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C03" time="0.000027131">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C04" time="0.000055745">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C05" time="0.000029716">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C06" time="0.000024618">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C07" time="0.00002647">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C08" time="0.000027892">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C09" time="0.000027632">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C10" time="0.000056626">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C11" time="0.000028794">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C12" time="0.000025118">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C13" time="0.000022965">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C14" time="0.000022013">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C15" time="0.000024367">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C16" time="0.000023947">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C17" time="0.000022345">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C18" time="0.000022084">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C19" time="0.000022424">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (eval v2): hiçbiri ele vermiyor, koruma yanlış alarm vermemeli &gt; C20" time="0.000021483">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R01" time="0.00004585">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R02" time="0.000023566">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R03" time="0.000053702">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R04" time="0.000024628">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R05" time="0.000022905">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R06" time="0.000022094">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R07" time="0.000024628">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R08" time="0.000024548">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R09" time="0.000024117">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R10" time="0.000025439">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R11" time="0.000022835">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R12" time="0.000023526">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R13" time="0.000022404">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R14" time="0.000022795">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R15" time="0.000021813">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R16" time="0.000022394">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R17" time="0.000021633">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R18" time="0.000022144">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R19" time="0.000023035">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R20" time="0.000022684">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R21" time="0.000022755">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R22" time="0.000023326">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R23" time="0.000025509">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R24" time="0.000021763">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R25" time="0.000035444">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R26" time="0.00002649">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R27" time="0.000022854">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R28" time="0.000021293">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R29" time="0.000021973">
+        </testcase>
+        <testcase classname="tests/koruma.test.ts" name="canlı Gemini yanıtları (kırmızı takım, 30 saldırgan mesaj): elle etiketle hiçbiri ele vermiyor &gt; R30" time="0.000021222">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/mutasyon_bosluklari.test.ts" timestamp="2026-10-24T22:35:00.131Z" hostname="runnervmtai0g" tests="25" failures="0" errors="0" skipped="0" time="0.013123551">
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="oyun mantığı &gt; O-1 süre parametresi verilmezse karar &quot;süre doldu&quot; sayılmaz (game.ts timedOut = false)" time="0.001157907">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="oyun mantığı &gt; O-2 hiç karar yokken saat 08:00 (eksik kararlar toplama girmez)" time="0.00023561">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="oyun mantığı &gt; O-3 bilinmeyen karar kimliği süre eklemez ve durumu değiştirmez" time="0.000655801">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="oyun mantığı &gt; O-4 üç karardan biri eksikse son yoktur" time="0.000247448">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="oyun mantığı &gt; O-5 seçenek metni doğru karardan gelir" time="0.000214848">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-1 boş yanıt engellenmez" time="0.000206555">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-2 harf vermeden &quot;doğru cevap budur&quot; da ele vermedir" time="0.000195117">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-3 boşluk varyantları" time="0.000510328">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-4 &quot;A doğru&quot; (seçeneği kelimesi olmadan) ele vermedir" time="0.000313789">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-5 harf ve seçenek adı olmadan öneri fiili" time="0.000186415">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-6 seçenek metni + öneri (başka hiçbir kural olmadan)" time="0.002473025">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-7 bilinmeyen sahne çökertmez" time="0.001651812">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-8 &quot;evet&quot; cümle başında değilse onay sayılmaz" time="0.002373313">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-9 JSON tırnaksız da yakalanır" time="0.000291515">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-10 JSON boşluklu da yakalanır" time="0.00011815">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-11 uzun çekim: &quot;doğru seçeneğini söyleyeyim&quot;" time="0.00009183">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-12 boşluklu &quot;doğru  cevabı söyleyeyim&quot;" time="0.000062496">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-13 olumsuz çekimler engellenmez: söylemem / söylemeyeceğim / söyleyemem" time="0.00018955">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-14 iki boşluklu &quot;doğru  cevap&quot; (kural 1, \s+)" time="0.000061484">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-15 iki nokta öncesi boşluk: &quot;Cevap  : B&quot; (kural 2)" time="0.000095576">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-16 &quot;B şıkkı   daha iyi&quot; (kural 3, ikinci boşluk grubu)" time="0.000054454">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-17 çekimli &quot;doğru  seçeneği A&quot; ve bitişik &quot;doğru cevabı:A&quot; (ek kural 1)" time="0.000083367">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-18 baştaki boşluktan sonra &quot;Evet, A&quot; (ek kural 2)" time="0.000054573">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-19 &quot;doğru cevabı  söyleyeyim&quot; (ek kural 4, ikinci boşluk)" time="0.000051268">
+        </testcase>
+        <testcase classname="tests/mutasyon_bosluklari.test.ts" name="koruma katmanı sınır vakaları &gt; K-20 bunlar reddetme biçiminde gelirse geçer" time="0.000109327">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/oyun.test.ts" timestamp="2026-10-24T22:35:00.133Z" hostname="runnervmtai0g" tests="15" failures="0" errors="0" skipped="0" time="0.008423247">
+        <testcase classname="tests/oyun.test.ts" name="8 yolun hepsi (spec §7 son kuralı) &gt; AAA → 08:25" time="0.001771634">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="8 yolun hepsi (spec §7 son kuralı) &gt; AAB → 08:23" time="0.000334751">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="8 yolun hepsi (spec §7 son kuralı) &gt; ABA → 08:17" time="0.000329433">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="8 yolun hepsi (spec §7 son kuralı) &gt; ABB → 08:15" time="0.000303783">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="8 yolun hepsi (spec §7 son kuralı) &gt; BAA → 08:19" time="0.000398288">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="8 yolun hepsi (spec §7 son kuralı) &gt; BAB → 08:17" time="0.00034075">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="8 yolun hepsi (spec §7 son kuralı) &gt; BBA → 08:41" time="0.000342694">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="8 yolun hepsi (spec §7 son kuralı) &gt; BBB → 08:39" time="0.00102197">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="Geçişler &gt; üç seçim yapılmadan krize girilmez" time="0.000269821">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="Geçişler &gt; süre dolması kayda geçer, hızlı seçeneğin süresiyle sayılır" time="0.000868977">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="Geçişler &gt; Tekrar oyna profili korur, kararları siler" time="0.000497339">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="Geçişler &gt; Profili değiştir her şeyi sıfırlar" time="0.000147866">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="Geçişler &gt; sonuç durumu dışında Devam etkisizdir" time="0.000079501">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="Geçişler &gt; karar verilmeden son yoktur" time="0.000220326">
+        </testcase>
+        <testcase classname="tests/oyun.test.ts" name="Geçişler &gt; saat biçimi" time="0.000296652">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/ozellikler.test.ts" timestamp="2026-10-24T22:35:00.135Z" hostname="runnervmtai0g" tests="10" failures="0" errors="0" skipped="0" time="0.087224208">
+        <testcase classname="tests/ozellikler.test.ts" name="Oyun değişmezleri &gt; Ö1 belirlenebilirlik: aynı seçimler hep aynı saati ve sonu verir" time="0.026899929">
+        </testcase>
+        <testcase classname="tests/ozellikler.test.ts" name="Oyun değişmezleri &gt; Ö2 son kuralı: iyi son ⇔ K3=A ∧ ¬(K1=B ∧ K2=B)" time="0.011728151">
+        </testcase>
+        <testcase classname="tests/ozellikler.test.ts" name="Oyun değişmezleri &gt; Ö3 KVKK tek başına sonu bozar: K3 A→B iyileştirmez" time="0.010651067">
+        </testcase>
+        <testcase classname="tests/ozellikler.test.ts" name="Oyun değişmezleri &gt; Ö4 saat ilerler: her karar en az 1 dk ekler, sonuç 08:15–08:41 aralığında" time="0.012789596">
+        </testcase>
+        <testcase classname="tests/ozellikler.test.ts" name="Oyun değişmezleri &gt; Ö5 testi atlamanın bedeli: K1=B iken K2=B, K2=A&apos;dan en az 20 dk daha uzun sürer" time="0.01385046">
+        </testcase>
+        <testcase classname="tests/ozellikler.test.ts" name="Oyun değişmezleri &gt; Ö6 saat biçimi gidiş-dönüş" time="0.001263939">
+        </testcase>
+        <testcase classname="tests/ozellikler.test.ts" name="İçerik değişmezleri &gt; Ö7 her rol × her karar için rol satırı, her hedef için bir karar var" time="0.000762093">
+        </testcase>
+        <testcase classname="tests/ozellikler.test.ts" name="İçerik değişmezleri &gt; Ö8 seçenek metinleri cevabı ele vermez (risk/öneri sözcüğü yok)" time="0.000292376">
+        </testcase>
+        <testcase classname="tests/ozellikler.test.ts" name="Koruma katmanı değişmezleri &gt; Ö9 şablonla üretilen her ele verme yakalanır" time="0.005723997">
+        </testcase>
+        <testcase classname="tests/ozellikler.test.ts" name="Koruma katmanı değişmezleri &gt; Ö10 reddeden Sokratik yanıt engellenmez (yanlış alarm yok)" time="0.001917687">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/spec_uyum.test.ts" timestamp="2026-10-24T22:35:00.136Z" hostname="runnervmtai0g" tests="21" failures="0" errors="0" skipped="0" time="0.012590867">
+        <testcase classname="tests/spec_uyum.test.ts" name="§5 giriş soruları: etiketler &gt; seviye, rol ve hedef etiketleri spec tablolarıyla aynı" time="0.001755269">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§5.2 rol tablosu: her rolün başlangıç ve karar satırları &gt; Geliştirici" time="0.000397557">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§5.2 rol tablosu: her rolün başlangıç ve karar satırları &gt; Test mühendisi" time="0.000274659">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§5.2 rol tablosu: her rolün başlangıç ve karar satırları &gt; Ürün yöneticisi" time="0.000128155">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§5.3 hedef tablosu: ilgili karar, Derinleş, Bugünün dersi &gt; Mimari kararları öğrenmek" time="0.000240557">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§5.3 hedef tablosu: ilgili karar, Derinleş, Bugünün dersi &gt; Test alışkanlığı kazanmak" time="0.000127725">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§5.3 hedef tablosu: ilgili karar, Derinleş, Bugünün dersi &gt; KVKK ve veri güvenliği" time="0.000120845">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§6 S0 başlangıç &gt; başlık, metin ve düğme" time="0.000342453">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§6 kararlar: anlatı, seçenekler, süre, ne oldu / neden oldu (seçeneğe ve K1&apos;e göre) &gt; K1 anlatı, başlık, ipucu, açılış sorusu" time="0.002025421">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§6 kararlar: anlatı, seçenekler, süre, ne oldu / neden oldu (seçeneğe ve K1&apos;e göre) &gt; K1-A: &quot;Eski sürüme (v2.3) geri dön&quot;" time="0.000595369">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§6 kararlar: anlatı, seçenekler, süre, ne oldu / neden oldu (seçeneğe ve K1&apos;e göre) &gt; K1-B: &quot;Canlıda yama yap&quot;" time="0.000299958">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§6 kararlar: anlatı, seçenekler, süre, ne oldu / neden oldu (seçeneğe ve K1&apos;e göre) &gt; K2 anlatı, başlık, ipucu, açılış sorusu" time="0.00021644">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§6 kararlar: anlatı, seçenekler, süre, ne oldu / neden oldu (seçeneğe ve K1&apos;e göre) &gt; K2-A: &quot;Önce kısa test koş (randevu al, iptal et, listele)&quot;" time="0.000391077">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§6 kararlar: anlatı, seçenekler, süre, ne oldu / neden oldu (seçeneğe ve K1&apos;e göre) &gt; K2-B: &quot;Hemen yayına al&quot;" time="0.001516655">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§6 kararlar: anlatı, seçenekler, süre, ne oldu / neden oldu (seçeneğe ve K1&apos;e göre) &gt; K3 anlatı, başlık, ipucu, açılış sorusu" time="0.000192483">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§6 kararlar: anlatı, seçenekler, süre, ne oldu / neden oldu (seçeneğe ve K1&apos;e göre) &gt; K3-A: &quot;Kişisel verileri maskele, sonra paylaş&quot;" time="0.00173618">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§6 kararlar: anlatı, seçenekler, süre, ne oldu / neden oldu (seçeneğe ve K1&apos;e göre) &gt; K3-B: &quot;Ekibe olduğu gibi at&quot;" time="0.000259707">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§7 son kuralı tablosu &gt; K3=A, (K1,K2)≠(B,B)" time="0.00023601">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§7 son kuralı tablosu &gt; K3=B, (K1,K2)≠(B,B)" time="0.000095866">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§7 son kuralı tablosu &gt; K3=A, (K1,K2)=(B,B)" time="0.000103468">
+        </testcase>
+        <testcase classname="tests/spec_uyum.test.ts" name="§7 son kuralı tablosu &gt; K3=B, (K1,K2)=(B,B)" time="0.000103367">
+        </testcase>
+    </testsuite>
+</testsuites>
