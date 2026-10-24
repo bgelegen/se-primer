@@ -1,0 +1,15 @@
+{
+  "name": "se-primer-e2e",
+  "private": true,
+  "description": "Cypress E2E testleri (uygulama app/ klasöründe)",
+  "scripts": {
+    "build": "npm --prefix app ci && npm --prefix app run build",
+    "preview": "npm --prefix app run preview -- --strictPort",
+    "cy:run": "cypress run",
+    "cy:open": "cypress open"
+  },
+  "devDependencies": {
+    "cypress": "13.17.0",
+    "typescript": "~5.8.0"
+  }
+}

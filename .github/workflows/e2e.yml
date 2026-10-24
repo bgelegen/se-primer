@@ -1,0 +1,60 @@
+name: e2e
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            app/package-lock.json
+      - run: npm ci --prefix app
+      # Testlerde Gemini çağrıları cy.intercept ile taklit edilir; gerçek anahtar kullanılmaz.
+      - run: npm --prefix app run build
+        env:
+          GEMINI_API_KEY: test-yer-tutucu
+      - name: Cypress (tüm yollar + kabul örnekleri + demo)
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm run preview
+          wait-on: http://localhost:4173
+          browser: chrome
+      - name: Özet
+        if: always()
+        run: |
+          {
+            echo "## Cypress"
+            ls cypress/videos 2>/dev/null | sed 's/^/- /'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-videolar
+          path: |
+            cypress/videos
+            cypress/screenshots
+          if-no-files-found: ignore
+      - name: Videoları ci-videolar dalına yaz
+        if: always() && github.event_name != 'pull_request'
+        run: |
+          set -e
+          [ -d cypress/videos ] || exit 0
+          mkdir -p /tmp/v && cp -r cypress/videos /tmp/v/ && [ -d cypress/screenshots ] && cp -r cypress/screenshots /tmp/v/ || true
+          cd /tmp/v
+          git init -q -b ci-videolar
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com add .
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -q -m "Cypress videoları: ${GITHUB_SHA::7}"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" ci-videolar

@@ -1,0 +1,6 @@
+{
+  "name": "SE Primer",
+  "description": "Yazılım mühendisliği karar simülasyonu ve Sokratik AI tutor destekli nöbet el kitabı.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
