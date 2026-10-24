@@ -212,11 +212,15 @@ hedefe özel "Bugünün dersi", **"Tekrar oyna"** ve **"Profili değiştir"** d�
 ### 8.2 Uygulama
 
 - Model: Gemini'nin güncel hızlı Flash modeli (AI Studio'nun önerdiği), `@google/genai`, sistem talimatı §8.1'in metni + sahnenin bağlamı
-  (sahne metni, iki seçenek, açılış sorusu). Sıcaklık 0.4, en fazla 120 çıktı token'ı.
+  (sahne metni, iki seçenek, açılış sorusu). Sıcaklık 0.4, düşünme düzeyi düşük, en fazla 1024 çıktı
+  token'ı; yalnızca düşünce olmayan parçalar gösterilir. *(İlk sürümde 120 token'dı: düşünen model sınırın
+  tamamını düşünmeye harcadı ve 20 yanıtın 20'si yarım geldi → [`eval/RAPOR.md`](eval/RAPOR.md).)*
 - **Koruma katmanı (guard):** model yanıtı ekrana gelmeden önce denetlenir. Yanıt şunlardan birini
   içeriyorsa gösterilmez, yerine sahnenin açılış sorusu gelir:
   `doğru (cevap|seçenek|şık)`, `cevap (A|B)`, `(A|B) seçeneği(ni)? (seç|doğru|daha iyi|öneri)`,
-  `(seçmelisin|öneririm|tercih et)`, seçeneklerden birinin metni + öneri fiili. Koruma tetiklenirse
+  `(seçmelisin|öneririm|tercih et)`, seçeneklerden birinin metni + öneri fiili; ayrıca Türkçe çekimli
+  biçimler ("doğru seçeneğin A", "doğru cevabı söyleyeyim"), "evet/hayır + A/B" ve JSON biçimli cevap
+  (eval'de kaçtıkları görülünce eklendi; kurallar `\p{L}` ile yazılır çünkü JS'te `\w` Türkçe harfi kapsamaz). Koruma tetiklenirse
   yanıtın altında küçük "🛡" işareti görünür (değerlendirme için).
 - **Yedek:** API anahtarı yoksa, çağrı 8 saniyede dönmezse ya da hata verirse tutor sahnenin açılış
   sorusunu gösterir. Oyun tutor olmadan da baştan sona oynanır.

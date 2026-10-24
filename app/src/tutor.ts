@@ -33,6 +33,19 @@ export function checkGuard(rawText: string, sceneId: KararId): boolean {
   // (seçmelisin|öneririm|tercih et)
   if (/(seçmelisin|öneririm|tercih et)/i.test(rawText)) return true;
 
+  // Ek koruma regex'leri:
+  // 1) /doğru\s+(seçene\p{L}*|cevab\p{L}*|şık\p{L}*)\s*(:|=|şu|olan)?\s*["']?(A|B)(?!\p{L})/iu
+  if (/doğru\s+(seçene\p{L}*|cevab\p{L}*|şık\p{L}*)\s*(:|=|şu|olan)?\s*["']?(A|B)(?!\p{L})/iu.test(rawText)) return true;
+
+  // 2) /^\s*(evet|hayır)(?!\p{L})[^.?!]*(?<!\p{L})(A|B)(?!\p{L})/iu
+  if (/^\s*(evet|hayır)(?!\p{L})[^.?!]*(?<!\p{L})(A|B)(?!\p{L})/iu.test(rawText)) return true;
+
+  // 3) /"?(dogru_secenek|doğru_seçenek|correct_option|answer)"?\s*:\s*"?(A|B)(?!\p{L})/iu
+  if (/"?(dogru_secenek|doğru_seçenek|correct_option|answer)"?\s*:\s*"?(A|B)(?!\p{L})/iu.test(rawText)) return true;
+
+  // 4) /doğru\s+(cevab|seçene)\p{L}*\s+söyle(?!ye?me|m[ae]z)/iu
+  if (/doğru\s+(cevab|seçene)\p{L}*\s+söyle(?!ye?me|m[ae]z)/iu.test(rawText)) return true;
+
   // or contains either option's text together with a recommendation verb
   const scene = DECISIONS[sceneId];
   if (scene) {

@@ -11,8 +11,8 @@ Seviyene, rolüne ve hedefine göre anlatı değişir.
 
 | | Link |
 |---|---|
-| ▶ **Uygulama (AI Studio, telefonda açılır)** | {{AISTUDIO}} |
-| 🎬 **60 sn demo (Cypress koşusu)** | {{VIDEO}} |
+| ▶ **Uygulama (AI Studio, telefonda açılır)** | **https://ai.studio/apps/732ee0aa-32f6-480b-b0b6-ea28055195c2?fullscreenApplet=true** |
+| 🎬 **60 sn demo (Cypress koşusu)** | [`docs/demo.mp4`](docs/demo.mp4) (49 sn, 1080p; ham Cypress kaydı: [`docs/demo-cypress-ham.mp4`](docs/demo-cypress-ham.mp4)) |
 | 💻 **Repo** | https://github.com/bgelegen/se-primer |
 
 [![e2e](https://github.com/bgelegen/se-primer/actions/workflows/e2e.yml/badge.svg)](https://github.com/bgelegen/se-primer/actions/workflows/e2e.yml)
@@ -23,9 +23,9 @@ Seviyene, rolüne ve hedefine göre anlatı değişir.
 |---------------|-------|
 | **spec.md** (20) | [`spec.md`](spec.md): problem (§1), kapsam dışı (§3), **5 kabul örneği** (§9, Gherkin), akış şeması (§7, durum makinesi → [`docs/akis/akis.svg`](docs/akis/akis.svg)) |
 | **Tasarım** (15) | Google Stitch'te 3 mobil ekran: [`design/1-giris`](design/1-giris/screen.png), [`design/2-sahne`](design/2-sahne/screen.png), [`design/3-son`](design/3-son/screen.png) (PNG + Stitch HTML) · Stitch'in ürettiği [`DESIGN.md`](DESIGN.md) |
-| **Çalışan uygulama** (20) | Google AI Studio'da ekranlar + spec verilerek üretildi ([`docs/aistudio-prompt.md`](docs/aistudio-prompt.md)); kod: [`app/`](app/) · link yukarıda |
-| **Tutor eval** (25) | [`eval/RAPOR.md`](eval/RAPOR.md): 20 öğrenci cevabı, elle etiket, hata türleri, oran + örnek sayısı + güven aralığı |
-| **Cypress demo** (10) | [`cypress/e2e/`](cypress/e2e/): 8 yolun hepsi + 5 kabul örneği + dönüşler; GitHub Actions'ta koşar; demo videosu koşunun kaydı |
+| **Çalışan uygulama** (20) | Google AI Studio'da (Gemini 3.8 Flash) Stitch ekranları + spec verilerek üretildi, ölçümlerden çıkan 3 düzeltmeyle; süreç: [`docs/aistudio-prompt.md`](docs/aistudio-prompt.md) · kod: [`app/`](app/) · link yukarıda |
+| **Tutor eval** (25) | [`eval/RAPOR.md`](eval/RAPOR.md): 20 öğrenci cevabı (18 tür), elle etiket, hata türleri, oran + örnek sayısı + %95 güven aralığı; **iki koşu** (v1'de 20/20 yanıt yarımdı → düzeltildi → v2: 0/20 ele verme, 20/20 soruyla bitti) + koruma katmanının ayrıca ölçümü (6/10 → 10/10, yanlış alarm 0/6) |
+| **Cypress demo** (10) | [`cypress/e2e/`](cypress/e2e/): 8 yolun hepsi + 5 kabul örneği + dönüşler, **22/22 geçiyor** (GitHub Actions); demo videosu bu koşunun kaydı |
 | **Ürün kararı** (10) | Aşağıda: yapmadığım 3 özellik |
 
 ## Ürün kararı: yapmadığım 3 özellik
@@ -46,10 +46,12 @@ gerekçe).
 
 ```mermaid
 flowchart LR
-  G[Giriş: seviye · rol · hedef] --> S0[08:00 kriz] --> K1[K1 Mimari] --> K2[K2 Test] --> K3[K3 KVKK]
-  K3 -->|K3=A ∧ ¬(K1=B ∧ K2=B)| I[SON A · İYİ]
-  K3 -->|aksi| K[SON B · KÖTÜ]
-  T((AI tutor<br/>Gemini + koruma)) -.soru sorar.- K1 & K2 & K3
+  G["Giriş: seviye · rol · hedef"] --> S0["08:00 kriz"] --> K1["K1 Mimari"] --> K2["K2 Test"] --> K3["K3 KVKK"]
+  K3 -->|"K3=A ve (K1,K2)≠(B,B)"| I["SON A · İYİ"]
+  K3 -->|"diğer 5 yol"| K["SON B · KÖTÜ"]
+  T(("AI tutor: Gemini + koruma")) -.-> K1
+  T -.-> K2
+  T -.-> K3
 ```
 
 | Kişiselleştirme | Etki |
@@ -65,11 +67,10 @@ API yoksa ya da yanıt 8 sn'de gelmezse yedek soru gelir; oyun tutorsuz da başt
 ## Yerelde çalıştırma ve testler
 
 ```bash
-cd app
-npm install
-npm run dev                 # http://localhost:3000 (GEMINI_API_KEY .env.local'da; yoksa tutor yedek soruyla çalışır)
-npm run build && npx vite preview --port 4173
-npx cypress run             # tüm E2E testleri + demo videosu → cypress/videos/
+npm --prefix app install
+npm --prefix app run dev    # http://localhost:3000 (GEMINI_API_KEY .env.local'da; yoksa tutor yedek soruyla çalışır)
+npm --prefix app run build && npm run preview   # http://127.0.0.1:4173
+npm install && npx cypress run                  # tüm E2E testleri + demo videosu → cypress/videos/
 ```
 
 Cypress testleri Gemini'yi `cy.intercept` ile taklit eder; gerçek anahtar gerekmez ve testler

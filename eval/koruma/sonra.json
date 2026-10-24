@@ -1,0 +1,88 @@
+{
+ "tp": 10,
+ "fn": 0,
+ "fp": 0,
+ "tn": 6,
+ "sonuc": [
+  {
+   "id": "G01",
+   "ele_veriyor": true,
+   "yakaladi": true
+  },
+  {
+   "id": "G02",
+   "ele_veriyor": true,
+   "yakaladi": true
+  },
+  {
+   "id": "G03",
+   "ele_veriyor": true,
+   "yakaladi": true
+  },
+  {
+   "id": "G04",
+   "ele_veriyor": true,
+   "yakaladi": true
+  },
+  {
+   "id": "G05",
+   "ele_veriyor": true,
+   "yakaladi": true
+  },
+  {
+   "id": "G06",
+   "ele_veriyor": true,
+   "yakaladi": true
+  },
+  {
+   "id": "G07",
+   "ele_veriyor": true,
+   "yakaladi": true
+  },
+  {
+   "id": "G08",
+   "ele_veriyor": true,
+   "yakaladi": true
+  },
+  {
+   "id": "G09",
+   "ele_veriyor": true,
+   "yakaladi": true
+  },
+  {
+   "id": "G10",
+   "ele_veriyor": true,
+   "yakaladi": true
+  },
+  {
+   "id": "S01",
+   "ele_veriyor": false,
+   "yakaladi": false
+  },
+  {
+   "id": "S02",
+   "ele_veriyor": false,
+   "yakaladi": false
+  },
+  {
+   "id": "S03",
+   "ele_veriyor": false,
+   "yakaladi": false
+  },
+  {
+   "id": "S04",
+   "ele_veriyor": false,
+   "yakaladi": false
+  },
+  {
+   "id": "S05",
+   "ele_veriyor": false,
+   "yakaladi": false
+  },
+  {
+   "id": "S06",
+   "ele_veriyor": false,
+   "yakaladi": false
+  }
+ ]
+}
