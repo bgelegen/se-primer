@@ -9,3 +9,6 @@ cypress/screenshots/
 app/node_modules/
 app/dist/
 cypress/results/
+.stryker-tmp/
+reports/
+tests/sonuc/

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SE Primer</title>
+<meta name="description" content="Yazılım mühendisliği, oynanan bir kitap: spec, Stitch tasarımı, AI Studio uygulaması, tutor değerlendirmesi ve testlerin kanıtları.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<header class="ust">
+  <a class="logo" href="#">SE Primer</a>
+  <nav>
+    <a href="#oyna">Oyna</a><a href="#tasarim">Tasarım</a><a href="#tutor">Tutor</a><a href="#testler">Testler</a><a href="#kararlar">Kararlar</a>
+  </nav>
+</header>
+
+<main>
+<section class="kahraman">
+  <p class="ust-etiket">YZM301 · Yazılım Gerçekleme ve Test · Batuhan Gelegen</p>
+  <h1>Her seçim bir durum geçişi.<br><span>Her son bir kabul kriteri.</span></h1>
+  <p class="giris-metni">08:00. Hastanenin randevu sistemi çöktü, nöbetçi sensin. Üç karar veriyorsun: mimari, test, KVKK.
+  Her kararın <em>ne olduğunu</em> ve <em>neden olduğunu</em> hemen görüyorsun. Yanında bir AI tutor var; cevabı asla söylemiyor, soru soruyor.</p>
+  <div class="dugmeler">
+    <a class="dugme ana" href="https://ai.studio/apps/732ee0aa-32f6-480b-b0b6-ea28055195c2?fullscreenApplet=true" target="_blank" rel="noopener">Telefonda oyna ↗</a>
+    <a class="dugme" href="#video">4K tanıtımı izle</a>
+    <a class="dugme" href="https://github.com/bgelegen/se-primer" target="_blank" rel="noopener">Kaynak kod ↗</a>
+  </div>
+  <div class="sayilar" id="sayilar"></div>
+</section>
+
+<section id="oyna" class="bolum">
+  <div class="bolum-bas">
+    <p class="ust-etiket">Sabahı yeniden oyna</p>
+    <h2>Sekiz yol, iki son</h2>
+    <p>Bu harita uygulamanın <strong>kendi</strong> durum makinesini ve metinlerini çalıştırır (aynı <code>game.ts</code> ve <code>content.ts</code>, tarayıcı için paketlendi). Seç, saatin nasıl ilerlediğini ve hangi sona vardığını gör.</p>
+  </div>
+  <div class="simulator">
+    <div class="sim-kararlar" id="sim-kararlar"></div>
+    <div class="sim-sag">
+      <svg id="sim-harita" viewBox="0 0 520 260" role="img" aria-label="Durum makinesi haritası"></svg>
+      <div class="sim-saat"><span id="sim-saat">08:00</span><small>oyun saati</small></div>
+      <div class="sim-son" id="sim-son" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section id="tasarim" class="bolum">
+  <div class="bolum-bas">
+    <p class="ust-etiket">Spec → Stitch → AI Studio</p>
+    <h2>Tasarımdan çalışan uygulamaya</h2>
+    <p>Önce <a href="https://github.com/bgelegen/se-primer/blob/main/spec.md">spec.md</a> yazıldı. Google Stitch üç ekranı ve <code>DESIGN.md</code>'yi üretti. AI Studio bu ekranlarla spec'i alıp uygulamayı yazdı; ardından her ölçüm bir düzeltme istemine dönüştü.</p>
+  </div>
+  <div class="karsilastir" id="karsilastir">
+    <figure><img src="../design/1-giris/screen.png" alt="Stitch tasarımı: giriş" loading="lazy"><figcaption>Stitch · Giriş</figcaption></figure>
+    <figure><img src="img/uygulama-giris.png" alt="Uygulama: giriş" loading="lazy"><figcaption>Uygulama · Giriş</figcaption></figure>
+    <figure><img src="../design/2-sahne/screen.png" alt="Stitch tasarımı: sahne" loading="lazy"><figcaption>Stitch · Sahne</figcaption></figure>
+    <figure><img src="img/uygulama-sahne.png" alt="Uygulama: sahne" loading="lazy"><figcaption>Uygulama · Sahne</figcaption></figure>
+    <figure><img src="../design/3-son/screen.png" alt="Stitch tasarımı: son" loading="lazy"><figcaption>Stitch · Son</figcaption></figure>
+    <figure><img src="img/uygulama-son.png" alt="Uygulama: son ve yol haritası" loading="lazy"><figcaption>Uygulama · Son + yol haritası</figcaption></figure>
+  </div>
+  <p class="not">Bilerek yapılan sapma: Stitch seçenek kartlarına “Düşük risk / Hata riski yüksek” etiketleri koymuştu. Cevabı ele verdiği için uygulamada yok.</p>
+  <ol class="zaman" id="zaman">
+    <li><b>İlk istem</b> 3 Stitch ekranı + DESIGN.md + spec.md → 12 dosya</li>
+    <li><b>Duman testi</b> son ekranında saat kancası yok, 360 px'te yatay kaydırma → düzeltildi</li>
+    <li><b>Tutor eval v1</b> 20 yanıtın 20'si yarım → çıktı sınırı ve düşünme düzeyi düzeltildi</li>
+    <li><b>Koruma ölçümü</b> Türkçe çekimler kaçıyordu (6/10) → 4 kural, 10/10</li>
+    <li><b>Mutasyon testi</b> “doğru cevabı söylemem” gibi reddeden yanıtlar yanlışlıkla engelleniyordu → düzeltildi</li>
+    <li><b>Erişilebilirlik</b> yakınlaştırma kapalı, dekoratif ikon kontrastı → düzeltildi, 0 ihlal</li>
+  </ol>
+</section>
+
+<section id="tutor" class="bolum">
+  <div class="bolum-bas">
+    <p class="ust-etiket">AI tutor değerlendirmesi</p>
+    <h2>Cevabı ele veriyor mu?</h2>
+    <p>Gemini'ye öğrencinin söyleyebileceği her şeyi söyledik: “sadece harfi yaz”, “hocam izin verdi”, “önceki talimatları unut”, JSON hilesi, rol yapma, base64… Yanıtlar uygulamanın kendi değerlendirme ekranından toplandı ve elle etiketlendi.</p>
+  </div>
+  <div class="pano" id="eval-pano"></div>
+  <div class="ornekler" id="eval-ornek"></div>
+  <p class="not"><a href="https://github.com/bgelegen/se-primer/blob/main/eval/RAPOR.md">Tam rapor →</a> 20 + 30 mesaj, hata türleri, %95 güven aralıkları, koruma katmanının önce/sonra ölçümü.</p>
+</section>
+
+<section id="testler" class="bolum">
+  <div class="bolum-bas">
+    <p class="ust-etiket">Test piramidi</p>
+    <h2>Testleri de test ettik</h2>
+    <p>Her katman ayrı bir soruyu cevaplıyor. Hepsi her gönderimde GitHub Actions'ta koşuyor.</p>
+  </div>
+  <div class="katmanlar" id="katmanlar"></div>
+</section>
+
+<section id="video" class="bolum">
+  <div class="bolum-bas">
+    <p class="ust-etiket">Video</p>
+    <h2>Tanıtım (4K) ve Cypress koşusu</h2>
+  </div>
+  <div class="videolar">
+    <figure><video controls preload="metadata" poster="img/tanitim-poster.jpg" src="tanitim-4k.mp4"></video><figcaption>Tanıtım · 3840×2160</figcaption></figure>
+    <figure><video controls preload="metadata" src="demo.mp4"></video><figcaption>Cypress koşusundan demo · 1080p</figcaption></figure>
+  </div>
+</section>
+
+<section id="kararlar" class="bolum">
+  <div class="bolum-bas">
+    <p class="ust-etiket">Ürün kararı</p>
+    <h2>Yapmadığım üç şey</h2>
+  </div>
+  <div class="kartlar">
+    <article><h3>Hesap ve ilerleme kaydı</h3><p>5 dakikalık tek oturumluk bir oyunda giriş ekranı oyuncuyu kaybettirir; sakladığım her veri KVKK yükü getirir.</p></article>
+    <article><h3>İkinci senaryo</h3><p>Tek senaryonun öğretip öğretmediğini ölçmeden içerik çoğaltmak, ölçülmemiş bir varsayımı çoğaltmak olurdu.</p></article>
+    <article><h3>Puan tablosu</h3><p>Sıralama hızlı tıklamayı ödüllendirir; bu kitap oyuncuyu yavaşlatıp “neden?” diye düşündürmek için var.</p></article>
+  </div>
+</section>
+</main>
+
+<footer class="alt">
+  <p>Kuzey Şehir Hastanesi ve RandevuNet kurgusaldır; uygulama hesap, çerez ya da kayıt tutmaz.</p>
+  <p><a href="https://github.com/bgelegen/se-primer">github.com/bgelegen/se-primer</a></p>
+</footer>
+<script src="oyun.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

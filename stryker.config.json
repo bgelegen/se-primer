@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "testRunner": "vitest",
+  "vitest": { "configFile": "vitest.config.ts" },
+  "mutate": ["app/src/game.ts", "app/src/content.ts", "app/src/tutor.ts:20-62"],
+  "reporters": ["clear-text", "progress", "json", "html"],
+  "jsonReporter": { "fileName": "tests/sonuc/mutasyon.json" },
+  "htmlReporter": { "fileName": "tests/sonuc/mutasyon.html" },
+  "coverageAnalysis": "perTest",
+  "concurrency": 4,
+  "tempDirName": ".stryker-tmp",
+  "ignorePatterns": ["cypress", "docs", "design", "eval/v1", "node_modules", "app/node_modules", "app/dist"]
+}

@@ -27,6 +27,10 @@ jobs:
         env:
           GEMINI_API_KEY: test-yer-tutucu
       - run: npm ci
+      - name: Birim, özellik ve spec uyum testleri (Vitest)
+        run: npx vitest run
+      - name: Mutasyon testi (Stryker)
+        run: npx stryker run 2>&1 | tail -15 | grep -E "All files|\.ts" | while read -r l; do echo "::notice title=mutasyon::$l"; done
       - name: Cypress doğrula
         run: npx cypress verify 2>&1 | tail -3 | while read -r l; do echo "::notice title=cypress verify::$l"; done
       - name: Cypress (tüm yollar + kabul örnekleri + demo)
@@ -78,6 +82,7 @@ jobs:
           set -e
           mkdir -p /tmp/v
           for d in videos screenshots results; do [ -d cypress/$d ] && cp -r cypress/$d /tmp/v/ || true; done
+          [ -d tests/sonuc ] && cp -r tests/sonuc /tmp/v/birim || true
           [ -n "$(ls -A /tmp/v)" ] || exit 0
           cd /tmp/v
           git init -q -b ci-videolar

@@ -9,7 +9,12 @@
     "cy:open": "cypress open"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^10.1.1",
+    "@stryker-mutator/vitest-runner": "^10.1.1",
+    "axe-core": "^4.14.0",
     "cypress": "16.2.0",
-    "typescript": "~5.8.0"
+    "fast-check": "^4.10.2",
+    "typescript": "~5.8.0",
+    "vitest": "^3.2.7"
   }
 }
