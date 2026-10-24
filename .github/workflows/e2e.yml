@@ -26,13 +26,19 @@ jobs:
       - run: npm --prefix app run build
         env:
           GEMINI_API_KEY: test-yer-tutucu
+      - run: npm ci
+      - name: Cypress doğrula
+        run: npx cypress verify 2>&1 | tail -3 | while read -r l; do echo "::notice title=cypress verify::$l"; done
       - name: Cypress (tüm yollar + kabul örnekleri + demo)
-        uses: cypress-io/github-action@v6
-        with:
-          start: npm run preview
-          wait-on: http://127.0.0.1:4173
-          wait-on-timeout: 120
-          browser: electron
+        run: |
+          npm run preview > preview.log 2>&1 &
+          for i in $(seq 40); do curl -sf http://127.0.0.1:4173 >/dev/null && break; sleep 1; done
+          curl -sf http://127.0.0.1:4173 >/dev/null || { echo "::error title=preview::$(tail -8 preview.log | tr '\n' ' ')"; exit 1; }
+          set +e
+          npx cypress run --browser electron 2>&1 | tee cy.log
+          code=${PIPESTATUS[0]}
+          grep -E "Error|✖|failing|Socket" cy.log | head -15 | while read -r l; do echo "::warning title=cypress::$l"; done
+          exit $code
       - name: Özet
         if: always()
         run: |
