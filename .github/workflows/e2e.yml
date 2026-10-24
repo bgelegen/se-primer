@@ -32,7 +32,7 @@ jobs:
           start: npm run preview
           wait-on: http://127.0.0.1:4173
           wait-on-timeout: 120
-          browser: chrome
+          browser: electron
       - name: Özet
         if: always()
         run: |
