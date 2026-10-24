@@ -1,0 +1,23 @@
+stateDiagram-v2
+    direction TB
+    [*] --> GIRIS
+    GIRIS --> S0: Nöbete başla [seviye ∧ rol ∧ hedef seçili]
+    S0 --> K1: Krize gir
+    K1 --> K1_SONUC: A geri dön (+12)
+    K1 --> K1_SONUC: B canlıda yama (+6) / süre doldu
+    K1_SONUC --> K2: Devam
+    K2 --> K2_SONUC: A kısa test (+10)
+    K2 --> K2_SONUC: B hemen yayın (+2, K1=B ise +30 ve ikinci çöküş)
+    K2_SONUC --> K3: Devam
+    K3 --> K3_SONUC: A maskele (+3)
+    K3 --> K3_SONUC: B olduğu gibi at (+1)
+    K3_SONUC --> SON_IYI: [K3=A ∧ ¬(K1=B ∧ K2=B)]
+    K3_SONUC --> SON_KOTU: [K3=B ∨ (K1=B ∧ K2=B)]
+    SON_IYI --> S0: Tekrar oyna
+    SON_KOTU --> S0: Tekrar oyna
+    SON_IYI --> GIRIS: Profili değiştir
+    SON_KOTU --> GIRIS: Profili değiştir
+    classDef iyi fill:#e3f6ec,stroke:#1f8a5b,color:#0b3d27
+    classDef kotu fill:#fde8e6,stroke:#c2412f,color:#5a160d
+    class SON_IYI iyi
+    class SON_KOTU kotu
