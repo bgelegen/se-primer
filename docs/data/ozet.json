@@ -3,8 +3,37 @@
   "toplam": 137,
   "gecen": 137
  },
- "e2e": null,
- "axe": [],
+ "e2e": {
+  "toplam": 24,
+  "gecen": 24
+ },
+ "axe": [
+  {
+   "ekran": "1-giris",
+   "kural": 17,
+   "ihlal": []
+  },
+  {
+   "ekran": "2-baslangic",
+   "kural": 9,
+   "ihlal": []
+  },
+  {
+   "ekran": "3-sahne",
+   "kural": 16,
+   "ihlal": []
+  },
+  {
+   "ekran": "4-sonuc",
+   "kural": 16,
+   "ihlal": []
+  },
+  {
+   "ekran": "5-son",
+   "kural": 10,
+   "ihlal": []
+  }
+ ],
  "mutasyon": {
   "content.ts": {
    "oldu": 212,

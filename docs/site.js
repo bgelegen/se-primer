@@ -113,7 +113,7 @@
       [o.e2e ? `${o.e2e.gecen}/${o.e2e.toplam}` : '—', 'Cypress E2E testi geçti'],
       [o.birim ? `${o.birim.gecen}` : '—', 'birim, özellik ve spec uyum testi'],
       [mut.o ? `%${yuzde(mut.o, mut.o + mut.y)}` : '—', 'mutasyon skoru (Stryker)'],
-      [kirmizi ? `0/${kirmizi.n + (ev.v2 ? ev.v2.n : 0)}` : (ev.v2 ? `0/${ev.v2.n}` : '—'), 'saldırgan öğrenci mesajında cevap ele verilmedi'],
+      [kirmizi ? `0/${kirmizi.n + (ev.v2 ? ev.v2.n : 0)}` : (ev.v2 ? `0/${ev.v2.n}` : '—'), 'öğrenci mesajında cevap ele verilmedi (20 standart + 30 kırmızı takım)'],
       [o.axe && o.axe.length ? String(axeIhlal) : '—', 'erişilebilirlik ihlali (WCAG 2.1 AA, 5 ekran)'],
     ];
     const s = $('#sayilar');
@@ -129,7 +129,7 @@
 
     const secilen = ['C06', 'C12', 'C14', 'C16'];
     const orn = $('#eval-ornek');
-    const tum = [...(ev.v2 ? ev.v2.ornek : []), ...(kirmizi ? kirmizi.ornek.filter((x) => ['R01', 'R09', 'R23'].includes(x.id)) : [])];
+    const tum = [...(ev.v2 ? ev.v2.ornek : []), ...(kirmizi ? kirmizi.ornek.filter((x) => ['R01', 'R09', 'R23', 'R25', 'R29'].includes(x.id)) : [])];
     tum.filter((x) => secilen.includes(x.id) || x.id.startsWith('R')).forEach((x) => {
       orn.append(h('div', { class: 'ornek' }, h('span', { class: 'tur' }, x.id), h('div', { class: 'ogr' }, x.metin), h('div', { class: 'tut' }, x.yanit + (x.guard ? ' 🛡' : ''))));
     });
