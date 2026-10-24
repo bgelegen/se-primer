@@ -1,8 +1,10 @@
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
+  reporter: 'junit',
+  reporterOptions: { mochaFile: 'cypress/results/[hash].xml', testCaseSwitchClassnameAndName: false },
   e2e: {
-    baseUrl: 'http://localhost:4173',
+    baseUrl: 'http://127.0.0.1:4173',
     viewportWidth: 390,
     viewportHeight: 844,
     video: true,

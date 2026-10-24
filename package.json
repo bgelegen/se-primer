@@ -4,7 +4,7 @@
   "description": "Cypress E2E testleri (uygulama app/ klasöründe)",
   "scripts": {
     "build": "npm --prefix app ci && npm --prefix app run build",
-    "preview": "npm --prefix app run preview -- --strictPort",
+    "preview": "npm --prefix app run preview -- --strictPort --host 127.0.0.1",
     "cy:run": "cypress run",
     "cy:open": "cypress open"
   },

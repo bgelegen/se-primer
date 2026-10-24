@@ -30,7 +30,8 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm run preview
-          wait-on: http://localhost:4173
+          wait-on: http://127.0.0.1:4173
+          wait-on-timeout: 120
           browser: chrome
       - name: Özet
         if: always()
@@ -39,6 +40,23 @@ jobs:
             echo "## Cypress"
             ls cypress/videos 2>/dev/null | sed 's/^/- /'
           } >> "$GITHUB_STEP_SUMMARY"
+          # Başarısız testleri annotation olarak yaz (loglar her yerden okunamıyor).
+          python3 - <<'PY' || true
+          import glob, xml.etree.ElementTree as ET
+          n = f = 0
+          for x in glob.glob('cypress/results/*.xml'):
+              for tc in ET.parse(x).getroot().iter('testcase'):
+                  n += 1
+                  fl = tc.find('failure')
+                  if fl is not None:
+                      f += 1
+                      msg = (fl.get('message') or fl.text or '')[:300].replace('\n', ' ')
+                      print(f"::error title={tc.get('name')[:80]}::{msg}")
+          print(f"::notice title=cypress::{n - f}/{n} test geçti")
+          PY
+          {
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -46,13 +64,15 @@ jobs:
           path: |
             cypress/videos
             cypress/screenshots
+            cypress/results
           if-no-files-found: ignore
       - name: Videoları ci-videolar dalına yaz
         if: always() && github.event_name != 'pull_request'
         run: |
           set -e
-          [ -d cypress/videos ] || exit 0
-          mkdir -p /tmp/v && cp -r cypress/videos /tmp/v/ && [ -d cypress/screenshots ] && cp -r cypress/screenshots /tmp/v/ || true
+          mkdir -p /tmp/v
+          for d in videos screenshots results; do [ -d cypress/$d ] && cp -r cypress/$d /tmp/v/ || true; done
+          [ -n "$(ls -A /tmp/v)" ] || exit 0
           cd /tmp/v
           git init -q -b ci-videolar
           git -c user.name=ci -c user.email=ci@users.noreply.github.com add .
