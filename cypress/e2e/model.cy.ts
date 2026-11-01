@@ -1,8 +1,7 @@
 // spec §13.5 — Nöbet Arkadaşı: KÖ-7, KÖ-8, KÖ-9 (diferansiyel/parite testi) ve model yokken regresyon.
 // Oyuncunun temposu cy.clock ile belirlenir (Date ve sayaç sahte, model indirmesi gerçek).
 // Model, uygulamanın kullandığı yerden indirilir: Hugging Face'te commit'e sabit URL (app/src/model.ts).
-import referanslar from '../../tests/parite_referanslar.json';
-import parite from '../../tests/parite.json';
+// Oracle çıktısı (tests/parite.json) çalışma anında okunur: model yayınlanmadan dosya yoktur.
 
 const MODEL_BEKLE = { timeout: 30_000 };
 const pDegeri = () => cy.get('[data-cy=p]', MODEL_BEKLE).should(($p) => expect($p.text()).to.match(/^\d\.\d+$/)).invoke('text').then(Number);
@@ -27,6 +26,11 @@ function k2yeGel(giris: number, kriz: number, k1Sure: number, k1: 'A' | 'B') {
 }
 
 describe('Nöbet Arkadaşı (spec §13.5)', () => {
+  before(function () {
+    // Model yayınlanmadan (gerçek veri gelmeden) bu testler anlamsızdır: atlanır, CI bunu not eder.
+    if (!Cypress.expose('modelYayinda')) this.skip();
+  });
+
   it('KÖ-7 · Aceleci oyuncuya K2\'de Nöbet Arkadaşı: kart görünür, soruyla biter, geri sayım kalkar', () => {
     k2yeGel(3, 2, 4, 'B');
     pDegeri().should('be.gte', 0.5);
@@ -42,14 +46,23 @@ describe('Nöbet Arkadaşı (spec §13.5)', () => {
   });
 
   it('KÖ-9a · Diferansiyel test: uygulama (onnxruntime-web) = Python Oracle, |fark| < 1e-4', () => {
-    expect(parite.referanslar.map((r) => r.id)).to.deep.equal(referanslar.map((r) => r.id));
-    cy.visit('/?parite=1', { onBeforeLoad: (win) => ((win as any).__PARITE__ = parite.referanslar) });
-    cy.get('[data-testid=parite][data-durum=hazir]', MODEL_BEKLE);
-    cy.get('[data-cy=p]').should('have.length', parite.referanslar.length).each(($p, i) => {
-      const r = parite.referanslar[i];
-      const fark = Math.abs(Number($p.text()) - r.p_python);
-      cy.log(`${r.id}: uygulama ${$p.text()} · python ${r.p_python} · fark ${fark.toExponential(2)}`);
-      expect(fark, r.id).to.be.lessThan(parite.tolerans);
+    cy.readFile('tests/parite_referanslar.json').then((referanslar: { id: string }[]) => {
+      cy.readFile('tests/parite.json').then((parite) => {
+        expect(parite.referanslar.map((r) => r.id), 'Oracle aynı referans girdileri kullanıyor').to.deep.equal(referanslar.map((r) => r.id));
+        cy.visit('/?parite=1', { onBeforeLoad: (win) => ((win as any).__PARITE__ = parite.referanslar) });
+        cy.get('[data-testid=parite][data-durum=hazir]', MODEL_BEKLE);
+        cy.get('[data-cy=p]').should('have.length', parite.referanslar.length).each(($p, i) => {
+          const r = parite.referanslar[i];
+          const fark = Math.abs(Number($p.text()) - r.p_python);
+          cy.log(`${r.id}: uygulama ${$p.text()} · python ${r.p_python} · fark ${fark.toExponential(2)}`);
+          expect(fark, r.id).to.be.lessThan(parite.tolerans);
+        });
+        // Kanıt: iki tüketicinin değerleri yan yana
+        cy.get('[data-cy=p]').then(($ps) => {
+          const satirlar = parite.referanslar.map((r, i) => ({ id: r.id, p_python: r.p_python, p_uygulama: Number($ps[i].innerText), fark: Math.abs(Number($ps[i].innerText) - r.p_python) }));
+          cy.writeFile('cypress/results/parite-uygulama.json', { tolerans: parite.tolerans, satirlar });
+        });
+      });
     });
   });
 

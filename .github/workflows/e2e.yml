@@ -15,24 +15,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Model var mı?
+        id: var
+        run: |
+          if [ -f model/config.json ]; then echo "var=1" >> "$GITHUB_OUTPUT"; else echo "::notice title=model::model/ henüz yok (gerçek veri bekleniyor); model işi atlandı"; fi
+      - if: steps.var.outputs.var == '1'
+        uses: actions/setup-python@v5
         with:
           python-version: '3.13'
           cache: pip
-      - run: pip install -r requirements.txt
-      - name: Veri ve eğitim yeniden üretilir (aynı tohum, aynı sürümler)
+      - if: steps.var.outputs.var == '1'
+        run: pip install -r requirements.txt
+      - if: steps.var.outputs.var == '1'
+        name: Veri ve eğitim yeniden üretilir (aynı tohum, aynı sürümler)
         run: |
           python tools/sentetik_uret.py
           python tools/veri_hazirla.py
           python train.py
-      - name: Tekrarlanabilirlik — repodaki artefaktla bayt bayt aynı mı?
+      - if: steps.var.outputs.var == '1'
+        name: Tekrarlanabilirlik — repodaki artefaktla bayt bayt aynı mı?
         run: |
           git diff --stat --exit-code -- data/sentetik.csv data/oturumlar.csv model/ \
             || { echo "::error title=tekrarlanabilirlik::train.py başka bir artefakt üretti"; exit 1; }
           echo "::notice title=tekrarlanabilirlik::model/ ve veri bayt bayt aynı"
-      - name: Python Oracle — parite.json şimdiki modelle tutarlı
+      - if: steps.var.outputs.var == '1'
+        name: Python Oracle — parite.json şimdiki modelle tutarlı
         run: python tests/parite.py --kontrol
-      - name: Hugging Face'teki commit'e sabit dosya = repodaki model.onnx
+      - if: steps.var.outputs.var == '1'
+        name: Hugging Face'teki commit'e sabit dosya = repodaki model.onnx
         run: |
           TABAN=$(grep -oE "https://huggingface.co/[^']+/resolve/[0-9a-f]{40}/" app/src/model.ts)
           echo "::notice title=model::$TABAN"
