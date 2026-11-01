@@ -24,7 +24,7 @@ verdiğine değil **nasıl oynadığına** bakıyor.
 |---|---|
 | ▶ **Canlı uygulama** (GitHub Pages, model tarayıcıda) | **https://bgelegen.github.io/se-primer/oyna/** |
 | 🤗 **Hugging Face model** (commit'e sabit) | https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi · sabit commit [`48d21a8`](https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi/tree/48d21a82f596aea5ad6f4399f99776ebb51bcbf0) |
-| 🎬 **Demo videosu** (iki oyuncu, aynı sahne, 4K) | [`docs/nobet-arkadasi-4k.mp4`](docs/nobet-arkadasi-4k.mp4) (3840×2160) |
+| 🎬 **Demo videosu** (iki oyuncu, aynı sahne) | [`docs/nobet-arkadasi-4k.mp4`](docs/nobet-arkadasi-4k.mp4) (73 sn, 3840×2160) · ham web ekran kaydı [`docs/nobet-arkadasi-ekran-kaydi.mp4`](docs/nobet-arkadasi-ekran-kaydi.mp4) (38 sn) |
 | 💻 **Repo** | https://github.com/bgelegen/se-primer |
 
 | Adım | Nerede |
@@ -52,22 +52,14 @@ npm --prefix app ci && npm --prefix app run dev                              # h
 
 Veri toplamak için uygulamayı `?toplama=1` ile aç; "Veri" ekranından indirilen CSV'ler `data/gercek/`'e konur.
 
-### Yapay zekâ araçlarını nasıl kullandım
-
-- **Claude (Claude Code), her adımda:** ödev metnini adımlara bölme, spec §13, `train.py`, `tests/parite.py`,
-  Cypress testleri, tarayıcıdaki ölçüm kodu (`app/src/olcum.ts`) ve demo videosu. Modelin hedefi ("acele eden
-  oyuncu") ve eşikler bu oturumda önerildi; eğitimden **önce** spec'e yazılıp commit'lendi (`6c434f7`).
-  E1 eşiği hocanın ikinci duyurusundan sonra 0,70'ten 0,65'e indirildi; denemeler [`DENEYLER.md`](DENEYLER.md)'de.
-- **Testlerin yakalayıp düzeltilenler:** ilk sürümde veri toplama notu ilk açılışta görünmüyordu (ayar, çizimden
-  sonra okunuyordu); tarayıcıda model `ort-wasm-simd-threaded.mjs` eksik olduğu için açılmıyordu (404);
-  Nöbet Arkadaşı kartı tutor'un sorusunu aynen tekrarlıyordu, karara özel bir soru yazıldı; Cypress 16'da
-  `Cypress.env` kalkmış, `Cypress.expose`'a geçildi; ilk KÖ-7 senaryosunda model p = 0,20 verdi (bulgu, KÖ-7 yeniden yazıldı).
-- **Tasarım kararları:** K1'de modelin müdahale etmemesi (gölge mod), çünkü hem ilk kararda veri az hem
-  de v1'in K1 testleri (KÖ-2) bozulmamalıydı; tarayıcıda çalıştırma kararı (RELEASE.md'deki matris).
-- **Başlangıç reposu:** `seyyah/huggingface-hello-web` içindeki `onnx_aktar` sözleşmesi (girdi `input`,
-  çıktı `probabilities`, zipmap kapalı, 1e-4 kontrolü), sürüm sabitleri ve tohum 13 aynen alındı.
-- **Veri:** "gerçek" oturumların hepsini Claude oynadı (hocanın izniyle), 12 oyuncu bakış açısıyla; 6'sı
-  benim farklı hâllerim. Hugging Face token'ını GitHub secret olarak ben ekledim.
+**Veri üreticileri.** (1) *YZ oyuncuları* ([`tools/yz_oyna.mjs`](tools/yz_oyna.mjs)): her oyuncunun karakteri ve her
+kararının gerekçesi [`data/yz_oyuncular/*.json`](data/yz_oyuncular/)'da; oyunlar uygulamanın kendisinde oynanır, süreler
+sahte saatle geçer. (2) *Sentetik kural* ([`tools/sentetik_uret.py`](tools/sentetik_uret.py), **tohum 13**, yalnız
+denemelerde D1–D5): her sanal oyuncunun gizli bir "acele" değeri `a ~ N(0,1)` var; profil seçme süresi
+`exp(N(ln 14 − 0,45a, 0,40))`, kriz okuma `exp(N(ln 18 − 0,55a, 0,50))`; riskli seçim olasılığı
+`σ(−0,55 + 0,95a + 0,55·önceki_riskli − 0,45·[hedef] − 0,35·[ipucu] − 0,25·min(tutor,2) + c_k)`,
+`c = {K1: 0,20, K2: 0,10, K3: −0,35}`; deneyimlide 60 sn aşılırsa süre dolar ve B uygulanır. sentetik-1'de ayrıca
+`+0,15·(seviye−1)` terimi vardı (DENEYLER.md'de neden kaldırıldığı). Yayınlanan model sentetik veri kullanmıyor.
 
 ---
 
@@ -169,3 +161,27 @@ Eval ve kırmızı takım setlerindeki kimlik numaraları (12345678901, 98765432
 
 Stephenson (1995) *The Diamond Age*; Y Combinator RFS "The Primer" (2026); GitHub Spec Kit; Google
 Stitch ve AI Studio; Cypress belgeleri; 6698 sayılı KVKK; Sommerville (2016) Bölüm 5 durum makineleri.
+
+**v2 kaynakları:** seyyah, *huggingface-hello-web* (`hf_cli.py`, `onnx_aktar`, `web/index.html`) ve *Modelden Ürüne* ders
+sunumu (30 Ekim 2026); Amershi vd. (2019) *Software Engineering for Machine Learning: A Case Study*; Shankar vd. (2024)
+*Operationalizing Machine Learning: An Interview Study*, Proc. ACM HCI (CSCW); Breck vd. (2017) *The ML Test Score*;
+Mitchell vd. (2019) *Model Cards for Model Reporting*; Sommerville (2016) Bl. 8, 17, 25; Stanford HAI (2025) *AI Index
+Report*; Hugging Face Hub belgeleri (`resolve/<revision>`); ONNX Runtime Web ve skl2onnx belgeleri; Cypress belgeleri;
+6698 sayılı KVKK. Mimari tartışma ve kaynak kullanımı: [`RELEASE.md`](RELEASE.md).
+
+## Yapay zekâ araçlarını nasıl kullandım (v2)
+
+- **Claude (Claude Code), her adımda:** ödev metnini adımlara bölme, spec §13, `train.py`, `tests/parite.py`,
+  Cypress testleri, tarayıcıdaki ölçüm kodu (`app/src/olcum.ts`) ve demo videosu. Modelin hedefi ("acele eden
+  oyuncu") ve eşikler bu oturumda önerildi; eğitimden **önce** spec'e yazılıp commit'lendi (`6c434f7`).
+  E1 eşiği hocanın ikinci duyurusundan sonra 0,70'ten 0,65'e indirildi; denemeler [`DENEYLER.md`](DENEYLER.md)'de.
+- **Testlerin yakalayıp düzeltilenler:** ilk sürümde veri toplama notu ilk açılışta görünmüyordu (ayar, çizimden
+  sonra okunuyordu); tarayıcıda model `ort-wasm-simd-threaded.mjs` eksik olduğu için açılmıyordu (404);
+  Nöbet Arkadaşı kartı tutor'un sorusunu aynen tekrarlıyordu, karara özel bir soru yazıldı; Cypress 16'da
+  `Cypress.env` kalkmış, `Cypress.expose`'a geçildi; ilk KÖ-7 senaryosunda model p = 0,20 verdi (bulgu, KÖ-7 yeniden yazıldı).
+- **Tasarım kararları:** K1'de modelin müdahale etmemesi (gölge mod), çünkü hem ilk kararda veri az hem
+  de v1'in K1 testleri (KÖ-2) bozulmamalıydı; tarayıcıda çalıştırma kararı (RELEASE.md'deki matris).
+- **Başlangıç reposu:** `seyyah/huggingface-hello-web` içindeki `onnx_aktar` sözleşmesi (girdi `input`,
+  çıktı `probabilities`, zipmap kapalı, 1e-4 kontrolü), sürüm sabitleri ve tohum 13 aynen alındı.
+- **Veri:** "gerçek" oturumların hepsini Claude oynadı (hocanın izniyle), 12 oyuncu bakış açısıyla; 6'sı
+  benim farklı hâllerim. Hugging Face token'ını GitHub secret olarak ben ekledim.

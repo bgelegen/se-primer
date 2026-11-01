@@ -94,7 +94,7 @@ gerektiriyor; README'de "yapılmadı" olarak yazılı.
 
 - Amershi vd. (2019), *Software Engineering for Machine Learning: A Case Study* — modelin yaşam döngüsünün
   izleme ve yeniden eğitimle kapanan bir döngü olması; K1 gölge modu ve `model_p` kaydı bunun ilk adımı.
-- Shankar vd. (2022), *Operationalizing Machine Learning* — 3V: **Velocity** (tek komutla eğitim, yayın iş akışı),
+- Shankar vd. (2024), *Operationalizing Machine Learning: An Interview Study*, Proc. ACM HCI (CSCW) — 3V: **Velocity** (tek komutla eğitim, yayın iş akışı),
   **Validation** (eval kapısı, parite, regresyon), **Versioning** (commit'e sabit URL, veri sha256'sı config.json'da).
 - Breck vd. (2017), *The ML Test Score* — "eğitim ve sunum aynı özellik kodunu kullanıyor mu" testi
   (`tests/model_uyum.test.ts`), "model, tek satırlık bir taban çizgisinden iyi mi" (E3).
