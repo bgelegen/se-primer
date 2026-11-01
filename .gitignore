@@ -12,3 +12,5 @@ cypress/results/
 .stryker-tmp/
 reports/
 tests/sonuc/
+_out/
+__pycache__/

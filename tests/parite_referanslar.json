@@ -1,0 +1,77 @@
+[
+  {
+    "id": "R1-KO7-aceleci-K2",
+    "girdi": {
+      "seviye_no": 2,
+      "sahne_no": 2,
+      "hedef_bu_sahne": 0,
+      "giris_suresi_sn": 3.0,
+      "kriz_okuma_sn": 2.0,
+      "onceki_riskli": 1,
+      "onceki_ort_karar_sn": 4.0,
+      "onceki_ipucu": 0,
+      "onceki_tutor": 0,
+      "onceki_sure_doldu": 0
+    }
+  },
+  {
+    "id": "R2-KO8-dikkatli-K2",
+    "girdi": {
+      "seviye_no": 2,
+      "sahne_no": 2,
+      "hedef_bu_sahne": 0,
+      "giris_suresi_sn": 40.0,
+      "kriz_okuma_sn": 45.0,
+      "onceki_riskli": 0,
+      "onceki_ort_karar_sn": 30.0,
+      "onceki_ipucu": 0,
+      "onceki_tutor": 0,
+      "onceki_sure_doldu": 0
+    }
+  },
+  {
+    "id": "R3-yeni-K1",
+    "girdi": {
+      "seviye_no": 0,
+      "sahne_no": 1,
+      "hedef_bu_sahne": 0,
+      "giris_suresi_sn": 15.0,
+      "kriz_okuma_sn": 20.0,
+      "onceki_riskli": 0,
+      "onceki_ort_karar_sn": 0.0,
+      "onceki_ipucu": 0,
+      "onceki_tutor": 0,
+      "onceki_sure_doldu": 0
+    }
+  },
+  {
+    "id": "R4-orta-K3-iki-riskli",
+    "girdi": {
+      "seviye_no": 1,
+      "sahne_no": 3,
+      "hedef_bu_sahne": 1,
+      "giris_suresi_sn": 9.4,
+      "kriz_okuma_sn": 6.1,
+      "onceki_riskli": 2,
+      "onceki_ort_karar_sn": 7.5,
+      "onceki_ipucu": 1,
+      "onceki_tutor": 0,
+      "onceki_sure_doldu": 0
+    }
+  },
+  {
+    "id": "R5-deneyimli-K3-sure-doldu",
+    "girdi": {
+      "seviye_no": 2,
+      "sahne_no": 3,
+      "hedef_bu_sahne": 0,
+      "giris_suresi_sn": 20.0,
+      "kriz_okuma_sn": 12.3,
+      "onceki_riskli": 2,
+      "onceki_ort_karar_sn": 60.0,
+      "onceki_ipucu": 0,
+      "onceki_tutor": 1,
+      "onceki_sure_doldu": 2
+    }
+  }
+]

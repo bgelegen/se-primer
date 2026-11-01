@@ -1,0 +1,10 @@
+# SE Primer v2 · Nöbet Arkadaşı — Python bağımlılıkları (eğitim, ONNX, Oracle)
+# Sürümler sabittir: aynı veriyle aynı metrik ve aynı model.onnx (train.py, CI'da kontrol edilir).
+# Başlangıç reposundaki (seyyah/huggingface-hello-web) sabitlerle aynı: sklearn 1.9.1, skl2onnx 1.20.0.
+scikit-learn==1.9.1
+skl2onnx==1.20.0
+onnx==1.23.2
+onnxruntime==1.29.0
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.5

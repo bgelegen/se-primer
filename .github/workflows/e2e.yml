@@ -10,7 +10,36 @@ permissions:
   contents: write
 
 jobs:
+  model:
+    # Tekrarlanabilir eğitim + eval kapısı + Python Oracle (spec §13.4). Model yayınlandıktan sonra çalışır.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Veri ve eğitim yeniden üretilir (aynı tohum, aynı sürümler)
+        run: |
+          python tools/sentetik_uret.py
+          python tools/veri_hazirla.py
+          python train.py
+      - name: Tekrarlanabilirlik — repodaki artefaktla bayt bayt aynı mı?
+        run: |
+          git diff --stat --exit-code -- data/sentetik.csv data/oturumlar.csv model/ \
+            || { echo "::error title=tekrarlanabilirlik::train.py başka bir artefakt üretti"; exit 1; }
+          echo "::notice title=tekrarlanabilirlik::model/ ve veri bayt bayt aynı"
+      - name: Python Oracle — parite.json şimdiki modelle tutarlı
+        run: python tests/parite.py --kontrol
+      - name: Hugging Face'teki commit'e sabit dosya = repodaki model.onnx
+        run: |
+          TABAN=$(grep -oE "https://huggingface.co/[^']+/resolve/[0-9a-f]{40}/" app/src/model.ts)
+          echo "::notice title=model::$TABAN"
+          python tests/parite.py --url "$TABAN" --kontrol
+
   cypress:
+    needs: model
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
-    "ort": "node -e \"const f=require('fs');f.mkdirSync('public/ort',{recursive:true});f.copyFileSync('node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded.wasm','public/ort/ort-wasm-simd-threaded.wasm')\"",
+    "ort": "node -e \"const f=require('fs');f.mkdirSync('public/ort',{recursive:true});for(const x of ['ort-wasm-simd-threaded.wasm','ort-wasm-simd-threaded.mjs'])f.copyFileSync('node_modules/onnxruntime-web/dist/'+x,'public/ort/'+x)\"",
     "prebuild": "npm run ort",
     "build:pages": "npm run ort && vite build --outDir ../oyna --emptyOutDir"
   },

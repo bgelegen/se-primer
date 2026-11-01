@@ -38,6 +38,13 @@ interface SahneScreenProps {
   onTutorMesaji?: () => void;
 }
 
+/** Nöbet Arkadaşı kartının sorusu (spec §13.3). K1'de model gölgede, kart çıkmaz. */
+const DURAKLAMA_SORUSU: Record<KararId, string> = {
+  K1: 'Bu seçenek ters giderse geri dönüş yolun ne olur?',
+  K2: 'Bu seçenek ters giderse bekleme salonundaki 300 kişi ne yaşar, sen bunu kaç dakikada fark edersin?',
+  K3: 'Bu satır yanlış ellere geçerse kim zarar görür, ekibin hatayı bulmak için gerçekte neye ihtiyacı var?',
+};
+
 interface ChatMessage {
   id: string;
   sender: 'student' | 'tutor';
@@ -363,7 +370,7 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
               Nöbet arkadaşı · bir dakika
             </span>
             <p className="font-serif text-[14px] leading-snug">
-              Hızlı ilerliyorsun. Seçmeden önce şunu düşün: {decision.tutorOpeningQuestion}
+              Hızlı ilerliyorsun. Seçmeden önce şunu düşün: {DURAKLAMA_SORUSU[kararId]}
             </p>
             {seviye === 'deneyimli' && (
               <p className="text-[12px] text-[#5C3A00]">Süre sayacını durdurdum; acele etme.</p>
