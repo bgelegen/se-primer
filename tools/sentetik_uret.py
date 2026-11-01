@@ -34,7 +34,7 @@ SEED = 13
 HEDEF_SAHNE = {"K1": "mimari", "K2": "test", "K3": "kvkk"}
 C_K = {"K1": 0.20, "K2": 0.10, "K3": -0.35}
 SUTUNLAR = [
-    "oturum_id", "kaynak", "uygulama_surumu", "rol", "hedef", "karar_id",
+    "oturum_id", "kaynak", "oynayan", "uygulama_surumu", "rol", "hedef", "karar_id",
     "seviye_no", "sahne_no", "hedef_bu_sahne", "giris_suresi_sn", "kriz_okuma_sn", "onceki_riskli",
     "onceki_ort_karar_sn", "onceki_ipucu", "onceki_tutor", "onceki_sure_doldu",
     "secim", "riskli_secim", "karar_suresi_sn", "sure_doldu", "ipucu_bu_sahne", "tutor_bu_sahne",
@@ -83,7 +83,7 @@ def uret(n_oturum: int) -> list[dict]:
                 doldu, riskli, sure = 1, 1, 60.0
             gecmis.append({"riskli": riskli, "sure": sure, "ipucu": ipucu, "tutor": tutor, "doldu": doldu})
             satirlar.append({
-                "oturum_id": f"s{i:04d}", "kaynak": "sentetik", "uygulama_surumu": "sentetik-1", "rol": rol,
+                "oturum_id": f"s{i:04d}", "kaynak": "sentetik", "oynayan": "kural", "uygulama_surumu": "sentetik-1", "rol": rol,
                 "hedef": hedef, "karar_id": k, **oz, "secim": "B" if riskli else "A", "riskli_secim": riskli,
                 "karar_suresi_sn": yuvarla(sure, 0, 600), "sure_doldu": doldu, "ipucu_bu_sahne": ipucu,
                 "tutor_bu_sahne": tutor, "model_p": "", "model_mudahale": 0,

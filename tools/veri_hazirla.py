@@ -45,6 +45,8 @@ def dogrula(r: dict, kaynak_adi: str):
             sys.exit(f"✗ {kaynak_adi} {r['oturum_id']}/{r['karar_id']}: {s}={v} aralık dışı [{alt}, {ust}]")
     if r["kaynak"] not in ("gercek", "sentetik"):
         sys.exit(f"✗ {kaynak_adi}: bilinmeyen kaynak '{r['kaynak']}'")
+    if (r["kaynak"], r["oynayan"]) not in (("gercek", "insan"), ("gercek", "yz_ajan"), ("sentetik", "kural")):
+        sys.exit(f"✗ {kaynak_adi} {r['oturum_id']}: kaynak/oynayan tutarsız ({r['kaynak']}/{r['oynayan']})")
     if r["secim"] not in ("A", "B") or int(r["riskli_secim"]) != (r["secim"] == "B"):
         sys.exit(f"✗ {kaynak_adi} {r['oturum_id']}: secim/riskli_secim tutarsız")
 
@@ -75,8 +77,9 @@ def main():
         w.writeheader()
         w.writerows(tam)
     g = len({r["oturum_id"] for r in tam if r["kaynak"] == "gercek"})
+    yz = len({r["oturum_id"] for r in tam if r["oynayan"] == "yz_ajan"})
     s = len({r["oturum_id"] for r in tam if r["kaynak"] == "sentetik"})
-    print(f"✓ data/oturumlar.csv: {len(tam)} satır · {g} gerçek + {s} sentetik oturum "
+    print(f"✓ data/oturumlar.csv: {len(tam)} satır · {g} gerçek ({g - yz} insan, {yz} YZ ajanı) + {s} sentetik oturum "
           f"(atılan: {atilan_otomasyon} otomasyon satırı, {yarim} yarım oturum)")
 
 

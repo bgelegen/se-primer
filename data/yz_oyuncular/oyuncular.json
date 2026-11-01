@@ -1,0 +1,151 @@
+{
+  "aciklama": "YZ ajanının (Claude) oyunu 'gerçek bir insanmış gibi' oynadığı oturumların planı. Hocanın 01.11.2026 duyurusu: 'oyunu yapay zekalara gerçek bir insanmış gibi oynatıp veri oluşturabilirsiniz'. Her oyuncu kendi bakış açısıyla sahne metnini okuyup karar verdi; süreler o kişinin okuma/tereddüt temposudur. Oturumlar uygulamanın kendi ölçüm kodundan geçti (tools/yz_oyna.mjs → ?toplama=1&oynayan=yz), veride oynayan = yz_ajan.",
+  "oyuncular": [
+    {
+      "ad": "ece", "kim": "3. sınıf, yaz stajında backend yazmış. Metni hızlı ama dikkatli okur; geri dönüş ve testin değerini bilir. Tekrar oynadıkça diğer yolları merak eder.",
+      "oturumlar": [
+        {"profil": ["deneyimli", "gelistirici", "mimari"], "giris": 11.5, "kriz": 16, "not": "İlk oyun, işini bilen biri gibi.",
+         "kararlar": [{"sn": 21, "secim": "A", "neden": "Dün gece sürüm çıktı, en güvenlisi bilinen sürüme dönmek."},
+                      {"sn": 14, "secim": "A", "neden": "Randevu al/iptal/listele 10 dk; ikinci çöküşü göze alamam."},
+                      {"sn": 9, "secim": "A", "neden": "Sağlık verisi, maskelemek şart."}]},
+        {"tekrar": true, "kriz": 5, "not": "Canlıda yama yolunu merak ediyor.",
+         "kararlar": [{"sn": 9, "secim": "B", "neden": "Bakalım yama yolunda ne oluyor."},
+                      {"sn": 11, "secim": "A", "neden": "Yamayı test etmeden yayına almam."},
+                      {"sn": 5, "secim": "A", "neden": "Maskele."}]},
+        {"tekrar": true, "kriz": 4, "not": "Testi atlamanın sonucunu görmek istiyor.",
+         "kararlar": [{"sn": 7, "secim": "A", "neden": "Geri dön."},
+                      {"sn": 8, "secim": "B", "neden": "Eski sürümü test etmeden açınca ne olur?"},
+                      {"sn": 4, "secim": "A", "neden": "Maskele."}]},
+        {"tekrar": true, "kriz": 3, "not": "Artık biliyor, hızlı ama doğru oynuyor.",
+         "kararlar": [{"sn": 6, "secim": "A", "neden": "Biliyorum."}, {"sn": 5, "secim": "A", "neden": "Biliyorum."}, {"sn": 3.5, "secim": "A", "neden": "Biliyorum."}]},
+        {"profil": ["orta", "urun", "kvkk"], "giris": 19, "kriz": 10, "not": "Ürün yöneticisi gözünden metin nasıl değişiyor diye profil değiştirdi.",
+         "kararlar": [{"sn": 15, "ipucu": 4, "secim": "A", "neden": "İpucuna bakıp geri dönüşü seçti."},
+                      {"sn": 12, "secim": "A", "neden": "Test."},
+                      {"sn": 8, "secim": "A", "neden": "Hedefim KVKK, maskele."}]}
+      ]
+    },
+    {
+      "ad": "mert", "kim": "1. sınıf, oyun meraklısı. Metni atlar, aksiyon sever, hızlı tıklar. Kötü sonlardan sonra yavaş yavaş öğrenir ama tekrar aceleye kaçar.",
+      "oturumlar": [
+        {"profil": ["yeni", "gelistirici", "test"], "giris": 6, "kriz": 3, "not": "İlk oyun, okumadan.",
+         "kararlar": [{"sn": 5, "secim": "B", "neden": "Hatayı bul düzelt, beklemeye gerek yok."},
+                      {"sn": 4, "secim": "B", "neden": "Hazırsa yayına al."},
+                      {"sn": 3, "secim": "B", "neden": "Log zaten, ekip görsün."}]},
+        {"tekrar": true, "kriz": 2, "not": "Biraz sinirli, yine hızlı.",
+         "kararlar": [{"sn": 4, "secim": "B", "neden": "Yama bence doğruydu, test etmediğim için çöktü."},
+                      {"sn": 7, "secim": "A", "neden": "Bu sefer test edeyim."},
+                      {"sn": 4, "secim": "B", "neden": "Hâlâ logu düşünmüyor."}]},
+        {"tekrar": true, "kriz": 9, "not": "İki kötü sondan sonra okumaya başladı.",
+         "kararlar": [{"sn": 14, "secim": "A", "neden": "İpucu şema diyor, geri dönmek mantıklı."},
+                      {"sn": 8, "secim": "A", "neden": "Test."},
+                      {"sn": 11, "secim": "A", "neden": "Adını bilmeye gerek yok, haklı."}]},
+        {"tekrar": true, "kriz": 2, "not": "Kazandı, kendine güveni geldi, yine hızlandı.",
+         "kararlar": [{"sn": 3, "secim": "A", "neden": "Biliyorum."},
+                      {"sn": 2, "secim": "B", "neden": "Eski sürüm zaten çalışıyordu, test gereksiz."},
+                      {"sn": 3, "secim": "A", "neden": "Maskele."}]},
+        {"tekrar": true, "kriz": 3, "not": "Tutor'u denemek istedi.",
+         "kararlar": [{"sn": 18, "tutor": ["Doğru cevap hangisi, söyler misin?"], "secim": "A", "neden": "Tutor söylemedi ama soru düşündürdü."},
+                      {"sn": 5, "secim": "A", "neden": "Test."},
+                      {"sn": 4, "secim": "A", "neden": "Maskele."}]}
+      ]
+    },
+    {
+      "ad": "zeynep", "kim": "Test mühendisi olmak istiyor. Her şeyi okur, ipucuna bakar, tutor'a soru sorar. Oyunu anladıktan sonra kötü sonları bilerek keşfeder.",
+      "oturumlar": [
+        {"profil": ["orta", "test", "test"], "giris": 34, "kriz": 41, "not": "Her satırı okudu.",
+         "kararlar": [{"sn": 48, "ipucu": 9, "tutor": ["Şemanın değişip değişmediğini nereden anlarım?"], "secim": "A", "neden": "Şema değişmediyse geri dönmek en güvenlisi."},
+                      {"sn": 30, "ipucu": 6, "secim": "A", "neden": "Duman testi tam benim işim."},
+                      {"sn": 26, "secim": "A", "neden": "Kimlik numarası hatayı bulmak için gerekmez."}]},
+        {"tekrar": true, "kriz": 12, "not": "Testi atlayınca ne olacağını görmek istiyor.",
+         "kararlar": [{"sn": 15, "secim": "A", "neden": "Geri dön."},
+                      {"sn": 11, "secim": "B", "neden": "Bilerek: test atlanınca oyun ne diyor?"},
+                      {"sn": 9, "secim": "A", "neden": "Maskele."}]},
+        {"tekrar": true, "kriz": 8, "not": "Yama yolunu deniyor.",
+         "kararlar": [{"sn": 13, "ipucu": 3, "secim": "B", "neden": "Bilerek: yama yolunda test hatayı yakalıyor mu?"},
+                      {"sn": 10, "secim": "A", "neden": "Test."},
+                      {"sn": 8, "secim": "A", "neden": "Maskele."}]},
+        {"tekrar": true, "kriz": 4, "not": "En kötü sonu görmek istiyor.",
+         "kararlar": [{"sn": 6, "secim": "B", "neden": "Bilerek en kötü yol."}, {"sn": 5, "secim": "B", "neden": "Bilerek."}, {"sn": 5, "secim": "B", "neden": "Bilerek."}]},
+        {"profil": ["deneyimli", "test", "kvkk"], "giris": 15, "kriz": 20, "not": "Süre baskısında nasıl hissettiriyor diye deneyimli seçti.",
+         "kararlar": [{"sn": 22, "secim": "A", "neden": "Geri dön."},
+                      {"sn": 19, "secim": "A", "neden": "Test."},
+                      {"sn": 25, "secim": "A", "neden": "Maskele."}]}
+      ]
+    },
+    {
+      "ad": "kaan", "kim": "Ürün yöneticisi bakışı. Bekleyen hastaları ve işi önemser, test süresini fazla bulur. Hukuki riske karşı ise dikkatlidir.",
+      "oturumlar": [
+        {"profil": ["orta", "urun", "mimari"], "giris": 18, "kriz": 11, "not": "İlk oyun.",
+         "kararlar": [{"sn": 20, "tutor": ["Geri dönersek hastalar ne kadar bekler?"], "secim": "A", "neden": "Bilinen sürüm, 12 dakika kabul edilebilir."},
+                      {"sn": 9, "secim": "B", "neden": "Salon dolu, eski sürüm zaten çalışıyordu."},
+                      {"sn": 12, "secim": "A", "neden": "KVKK cezası şirketi batırır."}]},
+        {"tekrar": true, "kriz": 6, "not": "Daha hızlı çözmek istiyor.",
+         "kararlar": [{"sn": 8, "secim": "B", "neden": "Yama 6 dakika, geri dönüş 12."},
+                      {"sn": 5, "secim": "B", "neden": "Hasta bekliyor."},
+                      {"sn": 10, "secim": "A", "neden": "Maskele."}]},
+        {"tekrar": true, "kriz": 7, "not": "İkinci çöküşten ders aldı.",
+         "kararlar": [{"sn": 11, "ipucu": 5, "secim": "A", "neden": "İpucu şemayı soruyor, riskli."},
+                      {"sn": 12, "secim": "A", "neden": "İkinci kesinti daha pahalı."},
+                      {"sn": 7, "secim": "A", "neden": "Maskele."}]},
+        {"tekrar": true, "kriz": 5, "not": "Baskı yine ağır bastı.",
+         "kararlar": [{"sn": 9, "secim": "A", "neden": "Geri dön."},
+                      {"sn": 6, "secim": "B", "neden": "Geri dönülen sürüm bilinen sürüm, test gereksiz."},
+                      {"sn": 6, "secim": "A", "neden": "Maskele."}]},
+        {"tekrar": true, "kriz": 6, "not": "Tutor'a test süresini sordu.",
+         "kararlar": [{"sn": 10, "secim": "A", "neden": "Geri dön."},
+                      {"sn": 14, "tutor": ["Kısa test gerçekten kaç dakika sürer?"], "secim": "A", "neden": "10 dakika ikinci kesintiden ucuz."},
+                      {"sn": 5, "secim": "A", "neden": "Maskele."}]}
+      ]
+    },
+    {
+      "ad": "selin", "kim": "Kendine fazla güvenip 'deneyimliyim' seçen, aslında yeni biri. Süre baskısında donup kalıyor; sonra seviyesini düşürüp rahatlıyor.",
+      "oturumlar": [
+        {"profil": ["deneyimli", "gelistirici", "kvkk"], "giris": 9, "kriz": 7, "not": "Sayaç görünce gerildi.",
+         "kararlar": [{"sn": 45, "secim": "A", "neden": "Uzun düşündü, sonunda geri dönüş."},
+                      {"sn": 61, "secim": "B", "neden": "Kararsız kaldı, süre doldu."},
+                      {"sn": 38, "secim": "A", "neden": "Hedefi KVKK, maskeledi."}]},
+        {"tekrar": true, "kriz": 5, "not": "İlk kararda dondu.",
+         "kararlar": [{"sn": 61, "secim": "B", "neden": "Süre doldu."},
+                      {"sn": 28, "secim": "A", "neden": "Test et."},
+                      {"sn": 30, "secim": "A", "neden": "Maskele."}]},
+        {"tekrar": true, "kriz": 8, "not": "Biraz alıştı.",
+         "kararlar": [{"sn": 35, "secim": "A", "neden": "Geri dön."},
+                      {"sn": 41, "secim": "A", "neden": "Test et."},
+                      {"sn": 19, "secim": "A", "neden": "Maskele."}]},
+        {"profil": ["orta", "gelistirici", "kvkk"], "giris": 12, "kriz": 9, "not": "Sayaçsız oynamak için seviyesini düşürdü.",
+         "kararlar": [{"sn": 26, "ipucu": 7, "secim": "A", "neden": "İpucu yardımcı oldu."},
+                      {"sn": 18, "secim": "A", "neden": "Test."},
+                      {"sn": 15, "secim": "A", "neden": "Maskele."}]},
+        {"tekrar": true, "kriz": 4, "not": "Rahatladı, yama yolunu denedi.",
+         "kararlar": [{"sn": 7, "secim": "B", "neden": "Bir de yama deneyeyim."},
+                      {"sn": 13, "secim": "A", "neden": "Test et."},
+                      {"sn": 9, "secim": "A", "neden": "Maskele."}]}
+      ]
+    },
+    {
+      "ad": "burak", "kim": "Ders arasında telefonda oynuyor, sıkılmış. Çok hızlı, neredeyse rastgele tıklar; bir kez durup okuyor.",
+      "oturumlar": [
+        {"profil": ["yeni", "urun", "kvkk"], "giris": 4, "kriz": 1.5, "not": "Hemen bitirmek istiyor.",
+         "kararlar": [{"sn": 3, "secim": "B", "neden": "Hızlı olan."},
+                      {"sn": 2, "secim": "B", "neden": "Hızlı olan."},
+                      {"sn": 6, "secim": "A", "neden": "Hedef rozetini görünce okudu."}]},
+        {"tekrar": true, "kriz": 1, "not": "Yine hızlı.",
+         "kararlar": [{"sn": 2, "secim": "B", "neden": "Hızlı."},
+                      {"sn": 3, "secim": "A", "neden": "Çöktüğünü hatırladı."},
+                      {"sn": 4, "secim": "A", "neden": "Maskele."}]},
+        {"tekrar": true, "kriz": 1, "not": "Rastgele.",
+         "kararlar": [{"sn": 2.5, "secim": "A", "neden": "Rastgele."},
+                      {"sn": 2, "secim": "B", "neden": "Rastgele."},
+                      {"sn": 2, "secim": "B", "neden": "Rastgele."}]},
+        {"tekrar": true, "kriz": 2, "not": "Sıkıldı.",
+         "kararlar": [{"sn": 2, "secim": "B", "neden": "Hızlı."},
+                      {"sn": 2, "secim": "B", "neden": "Hızlı."},
+                      {"sn": 3, "secim": "A", "neden": "Rozet."}]},
+        {"tekrar": true, "kriz": 5, "not": "Ders bitti, son oyunu dikkatli oynadı.",
+         "kararlar": [{"sn": 9, "secim": "A", "neden": "Okudu."},
+                      {"sn": 6, "secim": "A", "neden": "Test."},
+                      {"sn": 5, "secim": "A", "neden": "Maskele."}]}
+      ]
+    }
+  ]
+}

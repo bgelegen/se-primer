@@ -39,9 +39,13 @@ interface GecmisKarar {
   sureDoldu: boolean;
 }
 
+export type Oynayan = 'insan' | 'yz_ajan';
+
 export interface VeriSatiri extends Ozellikler {
   oturum_id: string;
   kaynak: 'gercek' | 'otomasyon';
+  /** Kim oynadı: insan ya da (hocanın 01.11.2026 duyurusuyla izin verilen) insan gibi oynayan YZ ajanı */
+  oynayan: Oynayan;
   uygulama_surumu: string;
   rol: string;
   hedef: string;
@@ -60,6 +64,7 @@ export const UYGULAMA_SURUMU = '2.0.0';
 const DEPO = 'sep_veri_v2';
 const MOD = 'sep_toplama';
 const IZIN = 'sep_kayit_izni';
+const OYNAYAN = 'sep_oynayan';
 
 function depoOku(anahtar: string): string | null {
   try {
@@ -79,10 +84,15 @@ function depoYaz(anahtar: string, deger: string | null) {
 
 /** ?toplama=1 → mod açık (cihazda hatırlanır), ?toplama=0 → kapalı. */
 export function toplamaModuAyarla(arama: string = window.location.search) {
-  const q = new URLSearchParams(arama).get('toplama');
+  const prm = new URLSearchParams(arama);
+  const q = prm.get('toplama');
   if (q === '1') depoYaz(MOD, '1');
   if (q === '0') depoYaz(MOD, null);
+  // ?oynayan=yz → bu cihazda oynayan bir YZ ajanı (veride açıkça işaretlenir); ?oynayan=insan → geri al
+  if (prm.get('oynayan') === 'yz') depoYaz(OYNAYAN, 'yz_ajan');
+  if (prm.get('oynayan') === 'insan') depoYaz(OYNAYAN, null);
 }
+export const oynayan = (): Oynayan => (depoOku(OYNAYAN) === 'yz_ajan' ? 'yz_ajan' : 'insan');
 export const toplamaModuAcik = () => depoOku(MOD) === '1';
 export const kayitIzni = () => depoOku(IZIN) !== '0';
 export const kayitIzniAyarla = (acik: boolean) => depoYaz(IZIN, acik ? null : '0');
@@ -175,7 +185,10 @@ export class Olcer {
     if (!toplamaModuAcik() || !kayitIzni()) return;
     const satir: VeriSatiri = {
       oturum_id: this.oturumId,
-      kaynak: navigator.webdriver ? 'otomasyon' : 'gercek',
+      // Otomasyonla (Cypress/Playwright) oynanan oturumlar eğitime girmez; açıkça YZ ajanı olarak
+      // işaretlenen oyuncu ise (hocanın duyurusu, spec §13.6) gerçek oyuncu yerine sayılır.
+      kaynak: oynayan() === 'yz_ajan' || !navigator.webdriver ? 'gercek' : 'otomasyon',
+      oynayan: oynayan(),
       uygulama_surumu: UYGULAMA_SURUMU,
       rol: a.rol,
       hedef: a.hedef,
@@ -195,7 +208,7 @@ export class Olcer {
 }
 
 export const CSV_SUTUNLARI: (keyof VeriSatiri)[] = [
-  'oturum_id', 'kaynak', 'uygulama_surumu', 'rol', 'hedef', 'karar_id',
+  'oturum_id', 'kaynak', 'oynayan', 'uygulama_surumu', 'rol', 'hedef', 'karar_id',
   ...OZELLIK_ADLARI,
   'secim', 'riskli_secim', 'karar_suresi_sn', 'sure_doldu', 'ipucu_bu_sahne', 'tutor_bu_sahne',
   'model_p', 'model_mudahale',
