@@ -85,3 +85,13 @@ göre oynandığı için verinin yaklaşık yarısı modelin "aceleci = riskli" 
 doğru oynayan rekabetçi oyuncu, okuyup bilerek B'yi seçen meraklı ve kusursuzcu oyuncu. Bu, modelin sınırını
 gösteriyor: tempo, kararın **niyetini** (bilerek keşif mi, acele mi) ayıramıyor. Sonraki sürüm için
 "kaçıncı oyun" (tekrar sayısı) ve "B'yi daha önce görmüş mü" gibi niyete yakın sinyaller gerekiyor.
+
+## Tur 3 · Plan (insan verisi gelmeden önce yazıldı)
+
+YZ oturumlarıyla yeni tur açılmaz: oturumları ben oynadığım ve hangi davranışın kapıyı geçirdiğini artık
+bildiğim için bir sonraki YZ turu, kapıyı geçen veriyi seçmek anlamına gelir. Sonucu değiştirebilecek tek
+yeni bilgi, benim kontrol etmediğim **insan** oturumlarıdır.
+
+| # | Aday | Veri | Kural |
+|---|------|------|-------|
+| D7 | D6 aynen (log + LR, sentetik yok) | 60 YZ oturumu + Batuhan'ın kendisinin oynadığı ≥ 15 oturum (`oynayan = insan`) | **Tek deneme.** Geçerse yayınlanır; geçmezse aday yalnız gölge modda kullanılır. |
