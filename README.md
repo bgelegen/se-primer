@@ -9,6 +9,65 @@ sistemi çöktü; nöbetçi sensin.** Üç karar verirsin (mimari, test, KVKK), 
 neden olduğunu** hemen görürsün. Bir AI tutor sana yardım eder ama cevabı asla söylemez, soru sorar.
 Seviyene, rolüne ve hedefine göre anlatı değişir.
 
+## v2.0 · Nöbet Arkadaşı (bu hafta): davranıştan öğrenen küçük bir model
+
+Uyum artık girişteki 3 cevaba bağlı sabit kurallarla sınırlı değil. **Nöbet Arkadaşı** adındaki küçük
+model, oyuncunun o ana kadarki temposuna (profili ne hızla seçtiği, kriz metninde ne kadar kaldığı,
+önceki kararlarda ne kadar düşündüğü, kaç kez riskli seçeneği seçtiği, ipucu ve tutor kullanımı)
+bakarak **bir sonraki kararda hızlı ama riskli (B) seçeneğe gitme olasılığını** tahmin ediyor.
+p ≥ 0,50 ise oyun yavaşlıyor: "Nöbet arkadaşı" kartı bir soru soruyor, ipucu açılıyor, 60 sn'lik
+sayaç duruyor. İlk kararda model yalnız **gölgede** çalışıyor: hesaplıyor ve kaydediyor ama oyunu
+değiştirmiyor. Fikir TikTok ve Netflix'in "ne kadar izledin" sinyalinden geliyor: oyun, ne cevap
+verdiğine değil **nasıl oynadığına** bakıyor.
+
+| Teslim | Link |
+|---|---|
+| ▶ **Canlı uygulama** (GitHub Pages, model tarayıcıda) | **https://bgelegen.github.io/se-primer/oyna/** |
+| 🤗 **Hugging Face model** (commit'e sabit) | {{HF_LINK}} |
+| 🎬 **Demo videosu** (iki oyuncu, aynı sahne, 4K) | {{DEMO_LINK}} |
+| 💻 **Repo** | https://github.com/bgelegen/se-primer |
+
+| Adım | Nerede |
+|------|--------|
+| 1 · Spec (eşik **eğitimden önce**, commit `6c434f7`) | [`spec.md` §13](spec.md#13-uyarlamalı-model-nöbet-arkadaşı-v20): problem, 10 özellik, eşikler E0–E5, KÖ-7/8/9 |
+| 2 · Veri | [`data/oturumlar.csv`](data/oturumlar.csv) ({{GERCEK}} gerçek + {{SENTETIK}} sentetik oturum, `kaynak` sütunu) · [`data/SOZLUK.md`](data/SOZLUK.md) · ham gerçek veri [`data/gercek/`](data/gercek/) · üretici [`tools/sentetik_uret.py`](tools/sentetik_uret.py) (tohum 13) |
+| 3 · Eğitim + eval kapısı | [`train.py`](train.py): tek komut, tohum 13, oturuma göre gruplanmış 5 katlı CV; kapı geçilmezse **hata koduyla durur, `model/` yazılmaz**. CI aynı komutu çalıştırıp çıkan artefaktın **bayt bayt aynı** olduğunu kontrol ediyor |
+| 4 · Artefakt | [`model/model.onnx`](model/model.onnx) · [`model/config.json`](model/config.json) (sözleşme: özellik sırası, sınıflar, eşik, metrikler, kapılar, JSON şeması, veri sha256) · model kartı [`model/README.md`](model/README.md) |
+| 5 · Yayın | [`RELEASE.md`](RELEASE.md): commit'e sabit URL, rollback, gölge → kanarya %5 → %25/%50/%100, tarayıcı / mobil / sunucu ödünleşim matrisi · yayın iş akışı [`hf-yayin.yml`](.github/workflows/hf-yayin.yml) |
+| 6 · Tüketim ve test | Tarayıcı: [`app/src/model.ts`](app/src/model.ts) (onnxruntime-web 1.22.0) · Oracle: [`tests/parite.py`](tests/parite.py) → [`tests/parite.json`](tests/parite.json) · Cypress: [`cypress/e2e/model.cy.ts`](cypress/e2e/model.cy.ts) (KÖ-7, KÖ-8, diferansiyel test < 1e-4, model yokken oyun) + v1'in 24 testi değişmeden (regresyon) · eğitim↔çıkarım sözleşme testi [`tests/model_uyum.test.ts`](tests/model_uyum.test.ts) |
+| 7 · Sınav tasarımı | [`SINAV_TASARIMI.md`](SINAV_TASARIMI.md) |
+
+**Sonuç:** {{SONUC}}
+
+### Kurulum (3 komut)
+
+```bash
+pip install -r requirements.txt
+python tools/veri_hazirla.py && python train.py && python tests/parite.py   # veri → kapı → model/ → Oracle
+npm --prefix app ci && npm --prefix app run dev                              # http://localhost:3000
+```
+
+Veri toplamak için uygulamayı `?toplama=1` ile aç; "Veri" ekranından indirilen CSV'ler `data/gercek/`'e konur.
+
+### Yapay zekâ araçlarını nasıl kullandım
+
+- **Claude (Claude Code), her adımda:** ödev metnini adımlara bölme, spec §13, `train.py`, `tests/parite.py`,
+  Cypress testleri, tarayıcıdaki ölçüm kodu (`app/src/olcum.ts`) ve demo videosu. Modelin hedefi ("acele eden
+  oyuncu") ve eşikler bu oturumda önerildi; eğitimden **önce** spec'e yazılıp commit'lendi (`6c434f7`).
+- **Testlerle düzelttiklerim:** ilk sürümde veri toplama notu ilk açılışta görünmüyordu (ayar, çizimden
+  sonra okunuyordu); tarayıcıda model `ort-wasm-simd-threaded.mjs` eksik olduğu için açılmıyordu (404);
+  Nöbet Arkadaşı kartı tutor'un sorusunu aynen tekrarlıyordu, karara özel bir soru yazdım; Cypress 16'da
+  `Cypress.env` kalkmış, `Cypress.expose`'a geçtim.
+- **Tasarım kararları:** K1'de modelin müdahale etmemesi (gölge mod), çünkü hem ilk kararda veri az hem
+  de v1'in K1 testleri (KÖ-2) bozulmamalıydı; tarayıcıda çalıştırma kararı (RELEASE.md'deki matris).
+- **Başlangıç reposu:** `seyyah/huggingface-hello-web` içindeki `onnx_aktar` sözleşmesi (girdi `input`,
+  çıktı `probabilities`, zipmap kapalı, 1e-4 kontrolü), sürüm sabitleri ve tohum 13 aynen alındı.
+- Gerçek oturumları ders arkadaşlarım oynadı; Hugging Face token'ını GitHub secret olarak ben ekledim.
+
+---
+
+## v1 · Geçen haftanın teslimi
+
 | | Link |
 |---|---|
 | ▶ **Uygulama (AI Studio, telefonda açılır)** | **https://ai.studio/apps/732ee0aa-32f6-480b-b0b6-ea28055195c2?fullscreenApplet=true** |
