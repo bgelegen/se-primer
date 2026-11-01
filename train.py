@@ -192,7 +192,7 @@ Hepsi karar ekranı **açıldığında** bilinen değerlerdir; o kararın süres
 
 ## Ölçüm (oturuma göre gruplanmış 5 katlı çapraz doğrulama)
 
-> **E1 eşiği sonuçlar görüldükten sonra değişti.** İlk eşik 0,70'ti; yedi aday denendi, hiçbiri geçmedi.
+> **E1 eşiği sonuçlar görüldükten sonra değişti.** İlk eşik 0,70'ti; altı aday denendi, hiçbiri geçmedi.
 > Hocanın duyurusundan sonra eşik 0,65'e indirildi (spec §13.4). Aşağıdaki "geçti" ön kayıtlı bir test sonucu
 > değildir. Bütün denemeler: [`DENEYLER.md`](https://github.com/bgelegen/se-primer/blob/main/DENEYLER.md).
 | Kapı | Değer | Eşik | Sonuç |

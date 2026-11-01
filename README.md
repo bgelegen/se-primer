@@ -38,7 +38,7 @@ verdiğine değil **nasıl oynadığına** bakıyor.
 | 7 · Sınav tasarımı | [`SINAV_TASARIMI.md`](SINAV_TASARIMI.md) |
 
 **Sonuç:** ROC-AUC **0,68** (oturuma göre gruplu 5 katlı CV, 60 YZ oturumu), Python ↔ tarayıcı farkı ~1e-8.
-İlk eşik (0,70) eğitimden önce yazıldı ve yedi aday denendi, hiçbiri geçmedi. Hocanın ikinci duyurusundan
+İlk eşik (0,70) eğitimden önce yazıldı ve altı aday denendi, hiçbiri geçmedi. Hocanın ikinci duyurusundan
 sonra eşik **0,65**'e indirildi; bu değişiklik ve bütün denemeler [`DENEYLER.md`](DENEYLER.md) ve model kartında
 açıkça yazılı. Model niyeti ayıramıyor ve hiç insan verisi görmedi: sınırları model kartında.
 

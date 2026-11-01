@@ -391,7 +391,7 @@ yalnızca yardım **eklenir**, hiçbir şey kaldırılmaz (geri sayım dışınd
 `train.py` E1–E4'ten biri geçmezse **hata koduyla durur ve `model/` klasörüne hiçbir şey yazmaz**.
 E5 Cypress'te ölçülür. Doğruluk tek başına hedef değildir: eşik ve sınırlar model kartında yazılıdır.
 
-**v2.0.1 eşik değişikliği (01.11.2026).** İlk eşikle (E1 ≥ 0,70) yedi aday denendi, hiçbiri geçmedi
+**v2.0.1 eşik değişikliği (01.11.2026).** İlk eşikle (E1 ≥ 0,70) altı aday denendi, hiçbiri geçmedi
 ([`DENEYLER.md`](DENEYLER.md)). Hocanın duyurusundan sonra E1 0,65'e indirildi. Gerekçe: Nöbet Arkadaşı
 oyuncudan bir şey almıyor, yalnız yardım ekliyor (soru kartı, ipucu, sayacın durması). Yanlış pozitifin bedeli
 gereksiz bir ipucu; bu yüzden orta düzey bir ayırt etme yeterli. **Dikkat:** yeni eşik sonuçlar görüldükten
