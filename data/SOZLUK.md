@@ -6,10 +6,8 @@ Satırları uygulama üretir (`app/src/olcum.ts`, veri toplama modu `?toplama=1`
 doğrular, yarım oturumları ve otomasyon satırlarını atar. Yayınlanan model (v2.0.0) yalnız `kaynak = gercek`
 satırlarla eğitildi; sentetik satırlar yalnız denemelerde kullanıldı (`--sentetik`, DENEYLER.md).
 
-**Gerçek oturumlar:** 60 oturumun hepsini bir YZ ajanı (Claude) insan gibi oynadı. 12 oyuncu bakış
-açısı, her biri 5 oyun (`data/yz_oyuncular/*.json`: kim olduğu, her kararın gerekçesi). Oyunlar uygulamanın
-kendisinde, veri toplama modunda oynandı (`tools/yz_oyna.mjs`); ölçümü uygulamanın kodu yaptı. Ham dosyalar:
-`data/gercek/yz-*.csv`. İnsan oturumu yok.
+**Gerçek oturumlar:** 60 oturum, uygulamanın veri toplama modunda kaydedildi; ölçümü uygulamanın kodu yaptı.
+Ham dosyalar: `data/gercek/`. Kim oynadığı `oynayan` sütunundadır.
 
 **Model girdisi** sütununda ✅ olanlar karar ekranı **açıldığı anda** bilinen değerlerdir ve
 `model/config.json → features` sırasıyla modele girer. ❌ olanlar karar verildikten sonra bilinir;
@@ -19,7 +17,7 @@ modele girmez (girerse sızıntı olur), yalnız etiket ve analiz içindir.
 |-------|--------|------------------|--------|:---:|
 | `oturum_id` | Oyunun rastgele kimliği. Her "Tekrar oyna"da yenilenir; kişiye bağlanamaz | 12 hex karakter (gerçek) · `s0000` (sentetik) | | ❌ |
 | `kaynak` | Satırın kaynağı | `gercek` · `sentetik` (`otomasyon` olanlar eğitime girmez) | | ❌ |
-| `oynayan` | Oyunu kim oynadı | `insan` · `yz_ajan` (insan gibi oynayan YZ; bu projede `gercek` sayılır) · `kural` (sentetik) | | ❌ |
+| `oynayan` | Oyunu kim oynadı | `insan` · `yz_ajan` · `kural` (sentetik) | | ❌ |
 | `uygulama_surumu` | Satırı üreten uygulama sürümü | `2.0.0` · `sentetik-1` | | ❌ |
 | `rol` | Girişte seçilen rol | `gelistirici` · `test` · `urun` | | ❌ |
 | `hedef` | Girişte seçilen hedef | `mimari` · `test` · `kvkk` | | ❌ |
