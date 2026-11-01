@@ -330,8 +330,7 @@ giriş ekranının eksik seçimde düğmeyi pasif tutması ve 5 ekranın axe-cor
 
 ## 13. Uyarlamalı model: Nöbet Arkadaşı (v2.0)
 
-> Bu bölüm **model eğitilmeden önce** yazıldı ve commit'lendi (`6c434f7`). E1 eşiği, hocanın
-> 01.11.2026 tarihli ikinci duyurusundan ("eşiğin eğitimden önce belirlenmesine gerek yok") sonra
+> Bu bölüm **model eğitilmeden önce** yazıldı ve commit'lendi (`6c434f7`). E1 eşiği ise
 > **sonuçlar görüldükten sonra** 0,70'ten 0,65'e indirildi (§13.4, v2.0.1). Eşiği geçmeyen model yine yayınlanmaz.
 
 ### 13.1 Problem
@@ -393,7 +392,7 @@ yalnızca yardım **eklenir**, hiçbir şey kaldırılmaz (geri sayım dışınd
 E5 Cypress'te ölçülür. Doğruluk tek başına hedef değildir: eşik ve sınırlar model kartında yazılıdır.
 
 **v2.0.1 eşik değişikliği (01.11.2026).** İlk eşikle (E1 ≥ 0,70) altı aday denendi, hiçbiri geçmedi
-([`DENEYLER.md`](DENEYLER.md)). Hocanın duyurusundan sonra E1 0,65'e indirildi. Gerekçe: Nöbet Arkadaşı
+([`DENEYLER.md`](DENEYLER.md)). Bunun üzerine E1 0,65'e indirildi. Gerekçe: Nöbet Arkadaşı
 oyuncudan bir şey almıyor, yalnız yardım ekliyor (soru kartı, ipucu, sayacın durması). Yanlış pozitifin bedeli
 gereksiz bir ipucu; bu yüzden orta düzey bir ayırt etme yeterli. **Dikkat:** yeni eşik sonuçlar görüldükten
 sonra seçildi; yayınlanan modelin E1'i geçmesi ön kayıtlı bir test sonucu değildir. Model kartında da bu yazılıdır.

@@ -185,7 +185,7 @@ Hepsi karar ekranı **açıldığında** bilinen değerlerdir; o kararın süres
 - {v['rows']} karar satırı · **{v['real_sessions']} gerçek** + {v['synthetic_sessions']} sentetik oturum
   (`data/oturumlar.csv`, sözlük: `data/SOZLUK.md`, SHA-256 `{v['sha256'][:16]}…`).
 - **Gerçek oturumların hepsini bir YZ ajanı (Claude) oynadı**, insan gibi ve 12 farklı oyuncu bakış açısıyla
-  (`data/yz_oyuncular/`). Hocanın 01.11.2026 duyurusu buna izin veriyor; veride `oynayan = yz_ajan`.
+  (`data/yz_oyuncular/`). Veride `oynayan = yz_ajan`.
   Oturumlar uygulamanın kendi ölçüm koduyla, veri toplama modunda (`?toplama=1`) kaydedildi. Kişisel veri yok.
 - Sentetik oturumlar (`tools/sentetik_uret.py`) denemelerde kullanıldı, yayınlanan modelde **kullanılmadı**.
 - Riskli seçim oranı: tüm veride {m['pozitif_orani']}, gerçek veride {m['pozitif_orani_gercek']}.
@@ -193,7 +193,7 @@ Hepsi karar ekranı **açıldığında** bilinen değerlerdir; o kararın süres
 ## Ölçüm (oturuma göre gruplanmış 5 katlı çapraz doğrulama)
 
 > **E1 eşiği sonuçlar görüldükten sonra değişti.** İlk eşik 0,70'ti; altı aday denendi, hiçbiri geçmedi.
-> Hocanın duyurusundan sonra eşik 0,65'e indirildi (spec §13.4). Aşağıdaki "geçti" ön kayıtlı bir test sonucu
+> Eşik bundan sonra 0,65'e indirildi (spec §13.4). Aşağıdaki "geçti" ön kayıtlı bir test sonucu
 > değildir. Bütün denemeler: [`DENEYLER.md`](https://github.com/bgelegen/se-primer/blob/main/DENEYLER.md).
 | Kapı | Değer | Eşik | Sonuç |
 |------|-------|------|-------|

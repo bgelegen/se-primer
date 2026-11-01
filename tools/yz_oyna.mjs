@@ -3,7 +3,7 @@
 // planlandığı gibi geçer, ölçümü uygulamanın kendi kodu (app/src/olcum.ts) yapar.
 //
 //   node tools/yz_oyna.mjs <uygulama-adresi> [plan.json]   ör. http://127.0.0.1:8801/ data/yz_oyuncular/batuhan.json
-// Çıktı: data/gercek/yz-<ad>.csv  (oynayan = yz_ajan, kaynak = gercek; hocanın 01.11.2026 duyurusu)
+// Çıktı: data/gercek/yz-<ad>.csv  (oynayan = yz_ajan, kaynak = gercek)
 import fs from 'node:fs';
 import path from 'node:path';
 
