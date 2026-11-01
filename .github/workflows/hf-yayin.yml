@@ -1,0 +1,26 @@
+name: hf-yayin
+
+# Elle tetiklenir: model/ → Hugging Face model reposu (public). Kimlik: repo secret'ı HF_TOKEN
+# (Hugging Face → Settings → Access Tokens → "Write"). Token koda ya da loga girmez.
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: Hugging Face model reposu adı
+        default: se-primer-nobet-arkadasi
+
+jobs:
+  yayinla:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install -r requirements.txt "huggingface_hub>=1.0"
+      - name: Yayından önce Oracle kontrolü
+        run: python tests/parite.py --kontrol
+      - name: Hugging Face'e yükle
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python tools/hf_yayinla.py --repo "${{ inputs.repo }}"
