@@ -25,6 +25,7 @@ import numpy as np
 import pandas as pd
 import sklearn
 import skl2onnx
+from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score
 from sklearn.model_selection import StratifiedGroupKFold
@@ -54,8 +55,49 @@ OZELLIKLER = [
 ADLAR = [o[0] for o in OZELLIKLER]
 
 
+class Log1p(BaseEstimator, TransformerMixin):
+    """Girdileri log(1 + x) ölçeğine çevirir (tüm özellikler ≥ 0). ONNX'te Add + Log düğümü olur, böylece
+    uygulamanın sözleşmesi (ham saniye ve sayılar) değişmez. Gerekçe: DENEYLER.md, D3."""
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return np.log1p(np.asarray(X, dtype=np.float32))
+
+
+def _log1p_onnx_kaydet():
+    from onnx import TensorProto
+    from skl2onnx import update_registered_converter
+    from skl2onnx.common.data_types import FloatTensorType
+
+    def sekil(operator):
+        operator.outputs[0].type = FloatTensorType([None, operator.inputs[0].type.shape[1]])
+
+    def cevir(scope, operator, container):
+        bir = scope.get_unique_variable_name("bir")
+        container.add_initializer(bir, TensorProto.FLOAT, [], [1.0])
+        ara = scope.get_unique_variable_name("arti_bir")
+        container.add_node("Add", [operator.inputs[0].full_name, bir], ara, name=scope.get_unique_operator_name("Arti1"))
+        container.add_node("Log", ara, operator.outputs[0].full_name, name=scope.get_unique_operator_name("Log"))
+
+    update_registered_converter(Log1p, "SePrimerLog1p", sekil, cevir)
+
+
+_log1p_onnx_kaydet()
+
+# Deney günlüğündeki adaylar (DENEYLER.md). Yayınlanan: VARSAYILAN_ADAY.
+ADAYLAR = {
+    "D1": lambda: Pipeline([("olcek", StandardScaler()), ("lr", LogisticRegression(C=1.0, max_iter=1000, random_state=SEED))]),
+    "D3": lambda: Pipeline([("log", Log1p()), ("olcek", StandardScaler()),
+                            ("lr", LogisticRegression(C=1.0, max_iter=1000, random_state=SEED))]),
+}
+VARSAYILAN_ADAY = "D3"
+ADAY = VARSAYILAN_ADAY
+
+
 def yeni_model() -> Pipeline:
-    return Pipeline([("olcek", StandardScaler()), ("lr", LogisticRegression(C=1.0, max_iter=1000, random_state=SEED))])
+    return ADAYLAR[ADAY]()
 
 
 def r4(x: float) -> float:
@@ -173,7 +215,12 @@ Hepsi karar ekranı **açıldığında** bilinen değerlerdir; o kararın süres
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--taslak", action="store_true", help="gerçek veri olmadan dene (_out/taslak, yayınlanmaz)")
+    ap.add_argument("--aday", default=VARSAYILAN_ADAY, choices=sorted(ADAYLAR), help="DENEYLER.md'deki aday")
+    ap.add_argument("--yalniz-olc", action="store_true", help="kapıları ölç, hiçbir şey yazma")
     args = ap.parse_args()
+    global ADAY
+    ADAY = args.aday
+    print(f"aday: {ADAY}")
 
     df = pd.read_csv(VERI)
     gercek = df["kaynak"] == "gercek"
@@ -211,6 +258,10 @@ def main():
     for ad, k in kapilar.items():
         print(f"  {'✓' if k['gecti'] else '✗'} {ad}: {k['deger']} (eşik {k['esik']})")
 
+    if args.yalniz_olc:
+        shutil.rmtree(gecici)
+        print("(yalnız ölçüm: hiçbir şey yazılmadı)")
+        return
     zorunlu = ["E1_auc_cv", "E3_taban_ustu", "E4_onnx_fark"] + ([] if args.taslak else ["E0_gercek_oturum", "E2_auc_cv_gercek"])
     kalan = [ad for ad in zorunlu if not kapilar[ad]["gecti"]]
     if kalan:

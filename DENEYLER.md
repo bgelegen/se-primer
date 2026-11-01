@@ -34,4 +34,20 @@ En fazla **iki** aday daha; ilk geçen yayınlanır, ikisi de geçmezse model ya
 
 ## Tur 1 · Sonuç
 
-(çalıştırıldıktan sonra doldurulur)
+| # | Aday | E1 (≥ 0,70) | E2 (≥ 0,60) | Sonuç |
+|---|------|------|------|-------|
+| D3 | log(1 + x) + LR, sentetik-1 | 0,693 | **0,613** | ✗ (E1) |
+| D4 | log(1 + x) + LR, sentetik-2 | 0,681 | **0,634** | ✗ (E1) |
+
+Plan gereği tur kapandı: **hiçbir aday kapıdan geçmedi, model yayınlanmadı.** Eşikler değiştirilmedi.
+
+**Ne öğrendik?**
+
+1. Gerçek (YZ oyuncu) satırlarda sinyal var ve log ölçeği onu yakalıyor: E2, 0,559 → 0,613 → 0,634. Gerçek
+   oyuncuyu tahmin etme kapısı (E2) D3 ve D4'te **geçildi**.
+2. E1 tüm veride ölçülüyor ve 810 satırın 720'si sentetik. Yani E1 çoğunlukla **benim yazdığım sentetik kuralın
+   ne kadar öğrenilebilir olduğunu** ölçüyor. O kural, gürültüsü yüzünden en iyi modelle bile ~0,69–0,70'te
+   kalıyor. Kapıyı ve sentetik kuralı birbirinden bağımsız tasarladım; birlikte neredeyse geçilemez oldular.
+   Bir sonraki sürümde E1'in sentetik değil gerçek veride, ayrı bir test kümesinde ölçülmesi gerekir. Bu da
+   eşiklerin bir sonraki eğitimden **önce** yazılan v2.1 spec'inde yapılmalı, bu turda değil.
+3. Sentetik veri yanlış bir önyargı taşıyordu (deneyimli oyuncu daha riskli). Gerçek oyunda tersi çıktı.

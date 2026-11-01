@@ -11,7 +11,8 @@ Kural (README ve data/SOZLUK.md'de de yazılı). Tohum: 13. Her oturum bir sanal
     ipucu görüldü  : yeni → 1 · biraz → Bernoulli(σ(−0,3 − 0,6·a)) · deneyimli → 0
     tutor mesajı   : Poisson(exp(−1,2 − 0,5·a + 0,3·[seviye=yeni]))
     logit(P(B))    = −0,55 + 0,95·a + 0,55·önceki_riskli − 0,45·[hedef bu sahne]
-                     − 0,35·[ipucu] − 0,25·min(tutor, 2) + c_k + 0,15·(seviye − 1)
+                     − 0,35·[ipucu] − 0,25·min(tutor, 2) + c_k + 0,15·(seviye − 1)   ← sentetik-1
+                     (sentetik-2, varsayılan: seviye terimi YOK; DENEYLER.md D4: dayanaksız varsayımdı)
                      c = {K1: +0,20, K2: +0,10, K3: −0,35}
     karar_suresi   = exp(Normal(ln 16 − 0,45·a, 0,45)); B seçildiyse × 0,75
     deneyimli ve karar_suresi > 60 → süre doldu: seçim B, süre 60
@@ -50,7 +51,7 @@ def yuvarla(x: float, alt: float, ust: float) -> float:
     return round(min(ust, max(alt, x)) * 10) / 10
 
 
-def uret(n_oturum: int) -> list[dict]:
+def uret(n_oturum: int, surum: int = 2) -> list[dict]:
     rng = np.random.default_rng(SEED)
     satirlar = []
     for i in range(n_oturum):
@@ -75,7 +76,7 @@ def uret(n_oturum: int) -> list[dict]:
             ipucu = 1 if seviye == 0 else (int(rng.random() < sigmoid(-0.3 - 0.6 * a)) if seviye == 1 else 0)
             tutor = int(rng.poisson(math.exp(-1.2 - 0.5 * a + 0.3 * (seviye == 0))))
             logit = (-0.55 + 0.95 * a + 0.55 * oz["onceki_riskli"] - 0.45 * hedef_bu - 0.35 * ipucu
-                     - 0.25 * min(tutor, 2) + C_K[k] + 0.15 * (seviye - 1))
+                     - 0.25 * min(tutor, 2) + C_K[k] + (0.15 * (seviye - 1) if surum == 1 else 0.0))
             riskli = int(rng.random() < sigmoid(logit))
             sure = math.exp(rng.normal(math.log(16) - 0.45 * a, 0.45)) * (0.75 if riskli else 1.0)
             doldu = 0
@@ -83,7 +84,7 @@ def uret(n_oturum: int) -> list[dict]:
                 doldu, riskli, sure = 1, 1, 60.0
             gecmis.append({"riskli": riskli, "sure": sure, "ipucu": ipucu, "tutor": tutor, "doldu": doldu})
             satirlar.append({
-                "oturum_id": f"s{i:04d}", "kaynak": "sentetik", "oynayan": "kural", "uygulama_surumu": "sentetik-1", "rol": rol,
+                "oturum_id": f"s{i:04d}", "kaynak": "sentetik", "oynayan": "kural", "uygulama_surumu": f"sentetik-{surum}", "rol": rol,
                 "hedef": hedef, "karar_id": k, **oz, "secim": "B" if riskli else "A", "riskli_secim": riskli,
                 "karar_suresi_sn": yuvarla(sure, 0, 600), "sure_doldu": doldu, "ipucu_bu_sahne": ipucu,
                 "tutor_bu_sahne": tutor, "model_p": "", "model_mudahale": 0,
@@ -94,16 +95,17 @@ def uret(n_oturum: int) -> list[dict]:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--oturum", type=int, default=240)
+    ap.add_argument("--surum", type=int, default=2, choices=[1, 2], help="1: ilk kural · 2: seviye varsayımı kaldırılmış")
     args = ap.parse_args()
     yol = KOK / "data" / "sentetik.csv"
     yol.parent.mkdir(exist_ok=True)
-    satirlar = uret(args.oturum)
+    satirlar = uret(args.oturum, args.surum)
     with yol.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=SUTUNLAR, lineterminator="\n")
         w.writeheader()
         w.writerows(satirlar)
     oran = sum(r["riskli_secim"] for r in satirlar) / len(satirlar)
-    print(f"✓ {args.oturum} sentetik oturum, {len(satirlar)} satır → {yol.relative_to(KOK)} (riskli oranı {oran:.2f})")
+    print(f"✓ sentetik-{args.surum}: {args.oturum} oturum, {len(satirlar)} satır → {yol.relative_to(KOK)} (riskli oranı {oran:.2f})")
 
 
 if __name__ == "__main__":
