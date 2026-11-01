@@ -1,0 +1,35 @@
+name: hf-gizlilik
+
+# Elle tetiklenir: Hugging Face model reposunu private ya da public yapar. Kimlik: repo secret'ı HF_TOKEN.
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: Hugging Face model reposu (kullanıcı/ad)
+        default: batuhangelegen/se-primer-nobet-arkadasi
+      gizli:
+        description: true = private, false = public
+        default: 'true'
+
+jobs:
+  ayarla:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install "huggingface_hub>=1.0"
+      - name: Görünürlüğü değiştir
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          REPO: ${{ inputs.repo }}
+          GIZLI: ${{ inputs.gizli }}
+        run: |
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          gizli = os.environ["GIZLI"] == "true"
+          api.update_repo_settings(repo_id=os.environ["REPO"], private=gizli, repo_type="model")
+          print("private =", api.model_info(os.environ["REPO"]).private)
+          PY
