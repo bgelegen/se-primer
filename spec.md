@@ -6,7 +6,8 @@
 Sürüm 2.0 · YZM301 Yazılım Gerçekleme ve Test · Batuhan Gelegen
 
 > **v2.0:** Uyum artık yalnız sabit kurallara değil, oyuncunun davranışından öğrenen küçük bir modele de
-> dayanıyor: **Nöbet Arkadaşı** (§13). Eşik ve kabul örnekleri eğitimden önce yazıldı.
+> dayanıyor: **Nöbet Arkadaşı** (§13). Eşik ve kabul örnekleri eğitimden önce yazıldı; v2.0.1'de E1 eşiği
+> ve KÖ-7, sonuçlardan sonra ve gerekçesiyle değiştirildi (§13.4, §13.5, DENEYLER.md).
 
 ---
 

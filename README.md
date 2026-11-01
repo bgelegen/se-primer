@@ -57,10 +57,11 @@ Veri toplamak için uygulamayı `?toplama=1` ile aç; "Veri" ekranından indiril
 - **Claude (Claude Code), her adımda:** ödev metnini adımlara bölme, spec §13, `train.py`, `tests/parite.py`,
   Cypress testleri, tarayıcıdaki ölçüm kodu (`app/src/olcum.ts`) ve demo videosu. Modelin hedefi ("acele eden
   oyuncu") ve eşikler bu oturumda önerildi; eğitimden **önce** spec'e yazılıp commit'lendi (`6c434f7`).
-- **Testlerle düzelttiklerim:** ilk sürümde veri toplama notu ilk açılışta görünmüyordu (ayar, çizimden
+  E1 eşiği hocanın ikinci duyurusundan sonra 0,70'ten 0,65'e indirildi; denemeler [`DENEYLER.md`](DENEYLER.md)'de.
+- **Testlerin yakalayıp düzeltilenler:** ilk sürümde veri toplama notu ilk açılışta görünmüyordu (ayar, çizimden
   sonra okunuyordu); tarayıcıda model `ort-wasm-simd-threaded.mjs` eksik olduğu için açılmıyordu (404);
-  Nöbet Arkadaşı kartı tutor'un sorusunu aynen tekrarlıyordu, karara özel bir soru yazdım; Cypress 16'da
-  `Cypress.env` kalkmış, `Cypress.expose`'a geçtim.
+  Nöbet Arkadaşı kartı tutor'un sorusunu aynen tekrarlıyordu, karara özel bir soru yazıldı; Cypress 16'da
+  `Cypress.env` kalkmış, `Cypress.expose`'a geçildi; ilk KÖ-7 senaryosunda model p = 0,20 verdi (bulgu, KÖ-7 yeniden yazıldı).
 - **Tasarım kararları:** K1'de modelin müdahale etmemesi (gölge mod), çünkü hem ilk kararda veri az hem
   de v1'in K1 testleri (KÖ-2) bozulmamalıydı; tarayıcıda çalıştırma kararı (RELEASE.md'deki matris).
 - **Başlangıç reposu:** `seyyah/huggingface-hello-web` içindeki `onnx_aktar` sözleşmesi (girdi `input`,

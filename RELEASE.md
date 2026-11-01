@@ -45,7 +45,8 @@ Bir sorun çıkarsa (parite testi kırmızı, oyuncu şikâyeti, gölge karşıl
 
 | Sürüm | HF commit | Durum |
 |-------|-----------|-------|
-| 2.0.0 | `48d21a82f596aea5ad6f4399f99776ebb51bcbf0` | yayında |
+| 2.0.0 | `48d21a82f596aea5ad6f4399f99776ebb51bcbf0` | yayında (uygulama bu commit'i indirir) |
+| 2.0.0 kart | `0b15ae34b8d7e210542b9b7b37bc3eaf7aac2700` | yalnız model kartında yazım düzeltmesi; `model.onnx` ve `config.json` aynı (sha256 değişmedi), sabit URL değiştirilmedi |
 | v1 (model yok) | — | geri dönüş: kural tabanlı oyun |
 
 ## Yeni sürümü güvenle devreye alma (v2.x için plan)
