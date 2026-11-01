@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { BookOpen } from 'lucide-react';
+import { kayitIzni, kayitIzniAyarla, oturumSayisi, toplamaModuAcik } from '../olcum';
 import { Seviye, Rol, Hedef, LEVELS, ROLES, GOALS } from '../content';
 
 interface GirisScreenProps {
@@ -16,6 +17,7 @@ interface GirisScreenProps {
   onSelectHedef: (h: Hedef) => void;
   onStart: () => void;
   onOpenEval: () => void;
+  onOpenVeri?: () => void;
 }
 
 export const GirisScreen: React.FC<GirisScreenProps> = ({
@@ -27,7 +29,11 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
   onSelectHedef,
   onStart,
   onOpenEval,
+  onOpenVeri,
 }) => {
+  const toplama = toplamaModuAcik();
+  const [kaydet, setKaydet] = useState(kayitIzni());
+  const { tam } = oturumSayisi();
   const isReady = Boolean(seviye && rol && hedef);
 
   return (
@@ -351,6 +357,39 @@ export const GirisScreen: React.FC<GirisScreenProps> = ({
           </p>
         </div>
       </div>
+
+      {/* Veri toplama modu notu (spec §13.6): yalnız ?toplama=1 ile açılır */}
+      {toplama && (
+        <section
+          data-testid="veri-toplama-notu"
+          className="rounded-xl bg-[#131F37] border border-[#29344E] p-3.5 flex flex-col gap-2 text-[12px] text-[#D8E2FF]"
+        >
+          <p className="leading-snug">
+            <b className="text-[#FFBC7C]">Veri toplama modu açık.</b> Bu oyunda karar süren ve seçimlerin anonim olarak
+            yalnız bu cihazda kaydedilir; ad, e-posta, konum ve tutor'a yazdıkların kaydedilmez.
+          </p>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              data-testid="veri-kaydet"
+              checked={kaydet}
+              onChange={(e) => {
+                setKaydet(e.target.checked);
+                kayitIzniAyarla(e.target.checked);
+              }}
+              className="w-4 h-4 accent-[#F29A3B]"
+            />
+            <span>Bu oyunu kaydet</span>
+          </label>
+          <button
+            type="button"
+            onClick={onOpenVeri}
+            className="self-start text-[#FFBC7C] underline"
+          >
+            Toplanan veri: {tam} oturum →
+          </button>
+        </section>
+      )}
 
       {/* Footer Evaluation Link */}
       <div className="pt-4 mt-2 border-t border-[#1E2A42] flex justify-center">

@@ -9,6 +9,8 @@ export default defineConfig(({mode}) => {
   // istekler Cypress'te taklit edilir). Vite istemci derlemesinde process.env'i {} yaptığı için üç biçim de tanımlı.
   const key = process.env.GEMINI_API_KEY || loadEnv(mode, '.', '').GEMINI_API_KEY || '';
   return {
+    // Göreli taban: aynı derleme hem kökte (CI önizleme) hem GitHub Pages alt yolunda (/se-primer/oyna/) çalışır.
+    base: './',
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(key),

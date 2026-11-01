@@ -30,6 +30,12 @@ interface SahneScreenProps {
   currentDecisionRecord?: DecisionRecord;
   onMakeDecision: (choice: SecenekId, timedOut?: boolean) => void;
   onAdvance: () => void;
+  /** Nöbet Arkadaşı modelinin bu karar için olasılığı (spec §13); null = model yok/henüz yok */
+  modelP?: number | null;
+  /** p ≥ τ ve K2/K3: yardım devrede (kart, ipucu açık, geri sayım yok) */
+  nobetArkadasi?: boolean;
+  onIpucu?: () => void;
+  onTutorMesaji?: () => void;
 }
 
 interface ChatMessage {
@@ -50,6 +56,10 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
   currentDecisionRecord,
   onMakeDecision,
   onAdvance,
+  modelP = null,
+  nobetArkadasi = false,
+  onIpucu,
+  onTutorMesaji,
 }) => {
   const decision = DECISIONS[kararId];
   const isGoalTarget = hedef === decision.targetGoal;
@@ -91,6 +101,14 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
     };
   }, [kararId, isResult, seviye]);
 
+  // Nöbet Arkadaşı devreye girerse: süre baskısı kalkar, ipucu açılır (spec §13.3)
+  useEffect(() => {
+    if (!nobetArkadasi || isResult) return;
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (seviye === 'orta') setHintOpen(true);
+    onIpucu?.();
+  }, [nobetArkadasi, isResult, kararId]);
+
   // Tutor chat state
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState('');
@@ -108,6 +126,7 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
     if (!query || isAskingTutor) return;
 
     setInputText('');
+    onTutorMesaji?.();
     const studentMsgId = `st_${Date.now()}`;
     setChatMessages((prev) => [...prev, { id: studentMsgId, sender: 'student', text: query }]);
 
@@ -196,7 +215,7 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
         </div>
 
         {/* 60-Second Countdown (ONLY for Deneyimliyim level) */}
-        {seviye === 'deneyimli' ? (
+        {seviye === 'deneyimli' && !nobetArkadasi ? (
           <div className="relative w-10 h-10 flex items-center justify-center flex-shrink-0">
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
               <path
@@ -299,7 +318,10 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
             <button
               type="button"
               data-testid="ipucu-goster"
-              onClick={() => setHintOpen(true)}
+              onClick={() => {
+                setHintOpen(true);
+                onIpucu?.();
+              }}
               className="self-start px-3 py-1.5 rounded-lg bg-[#1E2A42] hover:bg-[#2E3952] text-[#FFBC7C] text-[12px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer border border-[#29344E]"
             >
               <span className="material-symbols-outlined text-[16px]" aria-hidden="true">tips_and_updates</span>
@@ -324,6 +346,30 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
             </div>
           )}
         </div>
+      )}
+
+      {/* Nöbet Arkadaşı kartı (spec §13.3): yalnız K2/K3'te ve p ≥ τ iken */}
+      {!isResult && nobetArkadasi && (
+        <aside
+          data-testid="nobet-arkadasi"
+          aria-live="polite"
+          className="rounded-xl bg-[#FFF4E5] text-[#3D2600] p-4 border-l-4 border-[#F29A3B] flex items-start gap-3 shadow-md"
+        >
+          <span className="material-symbols-outlined text-[#8A4B00] text-[22px] flex-shrink-0 mt-0.5" aria-hidden="true">
+            front_hand
+          </span>
+          <div className="flex flex-col gap-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#8A4B00]">
+              Nöbet arkadaşı · bir dakika
+            </span>
+            <p className="font-serif text-[14px] leading-snug">
+              Hızlı ilerliyorsun. Seçmeden önce şunu düşün: {decision.tutorOpeningQuestion}
+            </p>
+            {seviye === 'deneyimli' && (
+              <p className="text-[12px] text-[#5C3A00]">Süre sayacını durdurdum; acele etme.</p>
+            )}
+          </div>
+        </aside>
       )}
 
       {/* Decision Options (if not in result state) */}
@@ -548,6 +594,14 @@ export const SahneScreen: React.FC<SahneScreenProps> = ({
           <span>Tutor cevabı söylemez, soru sorar. Kişisel bilgi yazma.</span>
         </p>
       </section>
+
+      {/* Model çıktısı (spec §13.7): parite testi ve şeffaflık için */}
+      <p className="text-[11px] text-[#A6B3CB] text-center font-mono">
+        Nöbet arkadaşı modeli{kararId === 'K1' ? ' (gölge)' : ''} · p ={' '}
+        <span data-testid="model-p" data-cy="p">
+          {modelP === null || modelP === undefined ? '—' : modelP.toFixed(6)}
+        </span>
+      </p>
     </div>
   );
 };
