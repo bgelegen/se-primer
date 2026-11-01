@@ -51,3 +51,22 @@ Plan gereği tur kapandı: **hiçbir aday kapıdan geçmedi, model yayınlanmad�
    Bir sonraki sürümde E1'in sentetik değil gerçek veride, ayrı bir test kümesinde ölçülmesi gerekir. Bu da
    eşiklerin bir sonraki eğitimden **önce** yazılan v2.1 spec'inde yapılmalı, bu turda değil.
 3. Sentetik veri yanlış bir önyargı taşıyordu (deneyimli oyuncu daha riskli). Gerçek oyunda tersi çıktı.
+
+## Tur 2 · Plan (çalıştırılmadan önce yazıldı)
+
+Tur 1 kapandıktan sonra açıldı; tur 0–1'in bütün sonuçları yukarıda olduğu gibi duruyor. Eşikler değişmiyor.
+
+**Yeni veri:** 30 YZ oturumu daha. Bu kez oyuncular Batuhan'ın kendi bakış açıları: teslime yetişmeye çalışan,
+her şeyi kusursuz isteyen, sınava çalışan, ders arası yorgun, bütün sonları merak eden ve "en hızlı iyi son"
+peşindeki rekabetçi Batuhan (`data/yz_oyuncular/batuhan.json`). Oturumlar oyuncunun karakterine göre
+oynanır, modele göre değil; rekabetçi Batuhan gibi "hızlı ama doğru" oynayan profiller de bilerek dahil.
+Veride `oynayan = yz_ajan`.
+
+Toplam gerçek (YZ) veri: 60 oturum. Yalnız iki aday, ilk geçen yayınlanır:
+
+| # | Aday | Gerekçe |
+|---|------|------|
+| D5 | D4 aynen (log + LR, sentetik-2), 60 YZ oturumu | Yalnız veri arttı; model aynı. |
+| D6 | log + LR, **sentetik veri yok**: E1 de 60 YZ oturumunda ölçülür | Tur 1 bulgusu (2): E1'i sentetik kural belirliyordu. Sentetik veri ödevde isteğe bağlı; çıkarılınca E1 gerçek oyuncuları ölçer ve kapı daha zor değil daha anlamlı olur. |
+
+İkisi de geçmezse model oyuncuya açılmaz.
