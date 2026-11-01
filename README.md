@@ -23,21 +23,24 @@ verdiğine değil **nasıl oynadığına** bakıyor.
 | Teslim | Link |
 |---|---|
 | ▶ **Canlı uygulama** (GitHub Pages, model tarayıcıda) | **https://bgelegen.github.io/se-primer/oyna/** |
-| 🤗 **Hugging Face model** (commit'e sabit) | {{HF_LINK}} |
-| 🎬 **Demo videosu** (iki oyuncu, aynı sahne, 4K) | {{DEMO_LINK}} |
+| 🤗 **Hugging Face model** (commit'e sabit) | https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi · sabit commit [`48d21a8`](https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi/tree/48d21a82f596aea5ad6f4399f99776ebb51bcbf0) |
+| 🎬 **Demo videosu** (iki oyuncu, aynı sahne, 4K) | [`docs/nobet-arkadasi-4k.mp4`](docs/nobet-arkadasi-4k.mp4) (3840×2160) |
 | 💻 **Repo** | https://github.com/bgelegen/se-primer |
 
 | Adım | Nerede |
 |------|--------|
-| 1 · Spec (eşik **eğitimden önce**, commit `6c434f7`) | [`spec.md` §13](spec.md#13-uyarlamalı-model-nöbet-arkadaşı-v20): problem, 10 özellik, eşikler E0–E5, KÖ-7/8/9 |
-| 2 · Veri | [`data/oturumlar.csv`](data/oturumlar.csv) ({{GERCEK}} gerçek + {{SENTETIK}} sentetik oturum, `kaynak` sütunu) · [`data/SOZLUK.md`](data/SOZLUK.md) · ham gerçek veri [`data/gercek/`](data/gercek/) · üretici [`tools/sentetik_uret.py`](tools/sentetik_uret.py) (tohum 13) |
-| 3 · Eğitim + eval kapısı | [`train.py`](train.py): tek komut, tohum 13, oturuma göre gruplanmış 5 katlı CV; kapı geçilmezse **hata koduyla durur, `model/` yazılmaz**. CI aynı komutu çalıştırıp çıkan artefaktın **bayt bayt aynı** olduğunu kontrol ediyor |
+| 1 · Spec (eşik eğitimden önce, `6c434f7`; v2.0.1'de E1 değişti) | [`spec.md` §13](spec.md#13-uyarlamalı-model-nöbet-arkadaşı-v20): problem, 10 özellik, eşikler E0–E5, KÖ-7/8/9 |
+| 2 · Veri | [`data/oturumlar.csv`](data/oturumlar.csv): 60 oturum, 180 karar, `kaynak` ve `oynayan` sütunları. **Oturumların hepsini YZ oyuncusu oynadı** (hocanın 01.11.2026 duyurusu): 12 farklı oyuncu bakış açısı × 5 oyun, uygulamanın kendisinde ([`data/yz_oyuncular/`](data/yz_oyuncular/), [`tools/yz_oyna.mjs`](tools/yz_oyna.mjs)) · [`data/SOZLUK.md`](data/SOZLUK.md) · sentetik üretici [`tools/sentetik_uret.py`](tools/sentetik_uret.py) (tohum 13, yalnız denemelerde) |
+| 3 · Eğitim + eval kapısı | [`train.py`](train.py): tek komut, tohum 13, oturuma göre gruplanmış 5 katlı CV; kapı geçilmezse **hata koduyla durur, `model/` yazılmaz**. CI eğitimi yeniden çalıştırıp aynı metrikleri ve aynı olasılıkları ürettiğini kontrol ediyor · bütün denemeler [`DENEYLER.md`](DENEYLER.md) |
 | 4 · Artefakt | [`model/model.onnx`](model/model.onnx) · [`model/config.json`](model/config.json) (sözleşme: özellik sırası, sınıflar, eşik, metrikler, kapılar, JSON şeması, veri sha256) · model kartı [`model/README.md`](model/README.md) |
 | 5 · Yayın | [`RELEASE.md`](RELEASE.md): commit'e sabit URL, rollback, gölge → kanarya %5 → %25/%50/%100, tarayıcı / mobil / sunucu ödünleşim matrisi · yayın iş akışı [`hf-yayin.yml`](.github/workflows/hf-yayin.yml) |
 | 6 · Tüketim ve test | Tarayıcı: [`app/src/model.ts`](app/src/model.ts) (onnxruntime-web 1.22.0) · Oracle: [`tests/parite.py`](tests/parite.py) → [`tests/parite.json`](tests/parite.json) · Cypress: [`cypress/e2e/model.cy.ts`](cypress/e2e/model.cy.ts) (KÖ-7, KÖ-8, diferansiyel test < 1e-4, model yokken oyun) + v1'in 24 testi değişmeden (regresyon) · eğitim↔çıkarım sözleşme testi [`tests/model_uyum.test.ts`](tests/model_uyum.test.ts) |
 | 7 · Sınav tasarımı | [`SINAV_TASARIMI.md`](SINAV_TASARIMI.md) |
 
-**Sonuç:** {{SONUC}}
+**Sonuç:** ROC-AUC **0,68** (oturuma göre gruplu 5 katlı CV, 60 YZ oturumu), Python ↔ tarayıcı farkı ~1e-8.
+İlk eşik (0,70) eğitimden önce yazıldı ve yedi aday denendi, hiçbiri geçmedi. Hocanın ikinci duyurusundan
+sonra eşik **0,65**'e indirildi; bu değişiklik ve bütün denemeler [`DENEYLER.md`](DENEYLER.md) ve model kartında
+açıkça yazılı. Model niyeti ayıramıyor ve hiç insan verisi görmedi: sınırları model kartında.
 
 ### Kurulum (3 komut)
 
@@ -62,7 +65,8 @@ Veri toplamak için uygulamayı `?toplama=1` ile aç; "Veri" ekranından indiril
   de v1'in K1 testleri (KÖ-2) bozulmamalıydı; tarayıcıda çalıştırma kararı (RELEASE.md'deki matris).
 - **Başlangıç reposu:** `seyyah/huggingface-hello-web` içindeki `onnx_aktar` sözleşmesi (girdi `input`,
   çıktı `probabilities`, zipmap kapalı, 1e-4 kontrolü), sürüm sabitleri ve tohum 13 aynen alındı.
-- Gerçek oturumları ders arkadaşlarım oynadı; Hugging Face token'ını GitHub secret olarak ben ekledim.
+- **Veri:** "gerçek" oturumların hepsini Claude oynadı (hocanın izniyle), 12 oyuncu bakış açısıyla; 6'sı
+  benim farklı hâllerim. Hugging Face token'ını GitHub secret olarak ben ekledim.
 
 ---
 

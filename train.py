@@ -225,6 +225,7 @@ def main():
     ap.add_argument("--taslak", action="store_true", help="gerçek veri olmadan dene (_out/taslak, yayınlanmaz)")
     ap.add_argument("--aday", default=VARSAYILAN_ADAY, choices=sorted(ADAYLAR), help="DENEYLER.md'deki aday")
     ap.add_argument("--yalniz-olc", action="store_true", help="kapıları ölç, hiçbir şey yazma")
+    ap.add_argument("--cikti", type=Path, help="model/ yerine bu klasöre yaz (CI tekrarlanabilirlik kontrolü)")
     args = ap.parse_args()
     global ADAY
     ADAY = args.aday
@@ -310,13 +311,13 @@ def main():
         "python_version": f"{sys.version_info.major}.{sys.version_info.minor}",
         "train_command": "python train.py",
     }
-    hedef = KOK / ("_out/taslak" if args.taslak else "model")
+    hedef = args.cikti or KOK / ("_out/taslak" if args.taslak else "model")
     hedef.mkdir(parents=True, exist_ok=True)
     shutil.move(str(gecici / "model.onnx"), hedef / "model.onnx")
     shutil.rmtree(gecici)
     (hedef / "config.json").write_text(json.dumps(config, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     (hedef / "README.md").write_text(model_karti(config), encoding="utf-8")
-    print(f"✓ {'TASLAK ' if args.taslak else ''}model → {hedef.relative_to(KOK)}/ (model.onnx, config.json, README.md)")
+    print(f"✓ {'TASLAK ' if args.taslak else ''}model → {hedef}/ (model.onnx, config.json, README.md)")
 
 
 if __name__ == "__main__":

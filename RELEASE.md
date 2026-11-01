@@ -4,18 +4,18 @@
 
 | | |
 |---|---|
-| Model reposu | https://huggingface.co/{{HF_REPO}} |
-| Sabitlenen commit | `{{HF_COMMIT}}` |
-| Tüketicilerin indirdiği URL | `https://huggingface.co/{{HF_REPO}}/resolve/{{HF_COMMIT}}/model.onnx` (+ `config.json`) |
-| `model.onnx` sha256 | `{{MODEL_SHA}}` |
-| Veri | `data/oturumlar.csv` sha256 `{{VERI_SHA}}` · {{GERCEK}} gerçek + {{SENTETIK}} sentetik oturum |
-| Eval | ROC-AUC (CV) **{{AUC}}** · yalnız gerçek **{{AUC_G}}** · eşikler spec §13.4 |
+| Model reposu | https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi |
+| Sabitlenen commit | `48d21a82f596aea5ad6f4399f99776ebb51bcbf0` |
+| Tüketicilerin indirdiği URL | `https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi/resolve/48d21a82f596aea5ad6f4399f99776ebb51bcbf0/model.onnx` (+ `config.json`) |
+| `model.onnx` sha256 | `e12e66832e3bca3e9e33dab0b66ba43e773086b436bcd30c77604fab1a29c59a` |
+| Veri | `data/oturumlar.csv` sha256 `dd97ae3162df18ad28a6055ae889c61231e441420c741130d82d3be9939fdfe8` · 60 oturum, hepsini **YZ oyuncusu** oynadı (hocanın 01.11.2026 duyurusu), sentetik yok |
+| Eval | ROC-AUC (oturuma göre gruplu 5 katlı CV) **0,68** · E1 eşiği 0,65 (v2.0.1, sonuçlardan sonra indirildi; ilk eşik 0,70) · [DENEYLER.md](DENEYLER.md) |
 | Uygulama | GitHub Pages, `oyna/` (onnxruntime-web 1.22.0), `app/src/model.ts → MODEL_TABAN` |
 
 ### Ne değişti (v1 → v2.0)
 
-- **Yeni:** oyuncunun davranışından öğrenen sınıflandırıcı (`StandardScaler → LogisticRegression`, 10 özellik,
-  spec §13.2). v1'de uyum yalnız girişte sorulan 3 cevaba bağlı sabit kurallardı.
+- **Yeni:** oyuncunun davranışından öğrenen sınıflandırıcı (`log(1 + x) → StandardScaler → LogisticRegression`,
+  10 özellik, spec §13.2; log dönüşümü ONNX grafiğinin içinde). v1'de uyum yalnız girişte sorulan 3 cevaba bağlı sabit kurallardı.
 - **Oyun davranışı:** K2/K3'te p ≥ 0,50 → Nöbet Arkadaşı kartı, ipucu açık, 60 sn sayaç yok. K1'de
   model **gölgede** (p hesaplanır ve kaydedilir, oyun değişmez).
 - **Yeni artefakt sözleşmesi:** `model.onnx` (girdi `input` float32 `[n,10]`, çıktı `probabilities [n,2]`) +
@@ -45,7 +45,7 @@ Bir sorun çıkarsa (parite testi kırmızı, oyuncu şikâyeti, gölge karşıl
 
 | Sürüm | HF commit | Durum |
 |-------|-----------|-------|
-| 2.0.0 | `{{HF_COMMIT}}` | yayında |
+| 2.0.0 | `48d21a82f596aea5ad6f4399f99776ebb51bcbf0` | yayında |
 | v1 (model yok) | — | geri dönüş: kural tabanlı oyun |
 
 ## Yeni sürümü güvenle devreye alma (v2.x için plan)
@@ -59,6 +59,10 @@ gereksiz yere durdurmak (oyun can sıkıcı olur, 60 sn'lik baskı deneyimi kayb
 | 1 · **Gölge (shadow)** | Yeni model her karar ekranında **eskisiyle birlikte** çalışır, yalnız eskisi oyunu etkiler; iki p de veri satırına yazılır (`model_p`, `model_p_gölge`) | Eşik çaprazlaması: iki modelin farklı karar verdiği oran; gerçek seçimle (`riskli_secim`) AUC karşılaştırması | ≥ 50 gerçek karar; yeni AUC ≥ eski AUC − 0,02; çaprazlama ≤ %15 |
 | 2 · **Kanarya** (%5) | Oturum kimliğinin hash'i < %5 olan oyunlar yeni modelle oynar | Kanarya grubunda müdahale oranı, oyunu yarıda bırakma, iyi son oranı | Yarıda bırakma kontrol grubundan kötü değil; müdahale oranı %10–%50 aralığında |
 | 3 · **Aşamalı** %25 → %50 → %100 | Her adımda en az 2 gün / 30 oturum | Aynı ölçüler + parite testi her deploy'da | Herhangi bir adımda koşul bozulursa bir önceki yüzdeye dön (rollback 1) |
+
+**Bu sürüm için özel not:** v2.0.0 hiç insan verisi görmedi (60 oturumun hepsi YZ oyuncusu). Bu yüzden asıl ilk
+adım **insanlarla gölge**: uygulama modeli zaten her kararda çalıştırıp `model_p`'yi kaydediyor; veri toplama
+modunda insanlar oynadıkça modelin insanlardaki AUC'si ölçülür, ≥ 0,65 değilse model kapatılır (rollback 1).
 
 Bu ödevdeki yayın (v2.0.0) **ilk sürüm** olduğu için karşılaştırılacak bir önceki model yoktu: aşama 1'de
 "eski model" v1'in kuralıdır (hiç müdahale yok) ve K1'deki gölge mod tam olarak budur; K1'de p hesaplanıp

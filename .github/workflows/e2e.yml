@@ -27,17 +27,18 @@ jobs:
       - if: steps.var.outputs.var == '1'
         run: pip install -r requirements.txt
       - if: steps.var.outputs.var == '1'
-        name: Veri ve eğitim yeniden üretilir (aynı tohum, aynı sürümler)
+        name: Veri yeniden üretilir (aynı tohum) ve repodakiyle bayt bayt aynı mı?
         run: |
           python tools/sentetik_uret.py
           python tools/veri_hazirla.py
-          python train.py
+          git diff --stat --exit-code -- data/sentetik.csv data/oturumlar.csv \
+            || { echo "::error title=tekrarlanabilirlik::veri farklı üretildi"; exit 1; }
       - if: steps.var.outputs.var == '1'
-        name: Tekrarlanabilirlik — repodaki artefaktla bayt bayt aynı mı?
+        name: Eğitim + eval kapısı başka ortamda yeniden — aynı metrik, aynı model davranışı
         run: |
-          git diff --stat --exit-code -- data/sentetik.csv data/oturumlar.csv model/ \
-            || { echo "::error title=tekrarlanabilirlik::train.py başka bir artefakt üretti"; exit 1; }
-          echo "::notice title=tekrarlanabilirlik::model/ ve veri bayt bayt aynı"
+          python train.py --cikti _out/ci
+          python tools/tekrar_kontrol.py _out/ci | tee tekrar.log
+          echo "::notice title=tekrarlanabilirlik::$(tail -1 tekrar.log)"
       - if: steps.var.outputs.var == '1'
         name: Python Oracle — parite.json şimdiki modelle tutarlı
         run: python tests/parite.py --kontrol

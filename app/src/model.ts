@@ -13,7 +13,7 @@ import { OZELLIK_ADLARI, type Ozellikler } from './olcum';
 
 /** Yayınlanan sürüm: RELEASE.md'deki commit ile aynı olmalı. */
 export const MODEL_TABAN: string =
-  (import.meta as any).env?.VITE_MODEL_TABAN || 'https://huggingface.co/bgelegen/se-primer-nobet-arkadasi/resolve/YAYINLANMADI/';
+  (import.meta as any).env?.VITE_MODEL_TABAN || 'https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi/resolve/48d21a82f596aea5ad6f4399f99776ebb51bcbf0/';
 
 /** Müdahale eşiği τ (spec §13.3). */
 export const TAU = 0.5;
