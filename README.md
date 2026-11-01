@@ -24,7 +24,7 @@ verdiğine değil **nasıl oynadığına** bakıyor.
 |---|---|
 | ▶ **Canlı uygulama** (GitHub Pages, model tarayıcıda) | **https://bgelegen.github.io/se-primer/oyna/** |
 | 🤗 **Hugging Face model** (commit'e sabit) | https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi · sabit commit [`48d21a8`](https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi/tree/48d21a82f596aea5ad6f4399f99776ebb51bcbf0) |
-| 🎬 **Demo videosu** (iki oyuncu, aynı sahne) | [`docs/nobet-arkadasi-4k.mp4`](docs/nobet-arkadasi-4k.mp4) (73 sn, 3840×2160) · ham web ekran kaydı [`docs/nobet-arkadasi-ekran-kaydi.mp4`](docs/nobet-arkadasi-ekran-kaydi.mp4) (38 sn) |
+| 🎬 **Demo videosu** (iki oyuncu, aynı sahne, üç tüketici) | [`docs/nobet-arkadasi-4k.mp4`](docs/nobet-arkadasi-4k.mp4) (82 sn, 3840×2160) · ham web ekran kaydı [`docs/nobet-arkadasi-ekran-kaydi.mp4`](docs/nobet-arkadasi-ekran-kaydi.mp4) (38 sn) |
 | 🖥️ **Bonus: sunucu tüketicisi** (FastAPI, Render) | https://se-primer-nobet-arkadasi.onrender.com/saglik · [`server/`](server/) |
 | 💻 **Repo** | https://github.com/bgelegen/se-primer |
 
