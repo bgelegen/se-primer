@@ -3,10 +3,10 @@
 Tek komut:   python train.py
 Taslak:      python train.py --taslak     (gerçek veri olmadan; çıktı _out/taslak/, YAYINLANMAZ)
 
-Kapılar (spec §13.4) — biri geçmezse betik hata koduyla durur ve
+Kapılar (spec §13.4, eşikler eğitimden önce yazıldı) — biri geçmezse betik hata koduyla durur ve
 model/ klasörüne hiçbir şey yazılmaz:
   E0  en az 15 tamamlanmış gerçek oturum
-  E1  ROC-AUC (oturuma göre gruplanmış 5 katlı CV, tüm veri)      ≥ 0,65
+  E1  ROC-AUC (oturuma göre gruplanmış 5 katlı CV, tüm veri)      ≥ 0,65  (v2.0.1; ilk eşik 0,70 — spec §13.4)
   E2  aynı CV'nin yalnız gerçek satırlarındaki ROC-AUC           ≥ 0,60
   E3  E1 > taban çizgileri (çoğunluk sınıfı ve yalnız onceki_riskli)
   E4  |p_onnx − p_sklearn| (tüm satırlar)                          ≤ 1e-4
@@ -184,14 +184,17 @@ Hepsi karar ekranı **açıldığında** bilinen değerlerdir; o kararın süres
 ## Veri
 - {v['rows']} karar satırı · **{v['real_sessions']} gerçek** + {v['synthetic_sessions']} sentetik oturum
   (`data/oturumlar.csv`, sözlük: `data/SOZLUK.md`, SHA-256 `{v['sha256'][:16]}…`).
-- Oturumlar uygulamanın kendi ölçüm koduyla, veri toplama modunda (`?toplama=1`) kaydedildi. Kişisel veri yok.
+- **Gerçek oturumların hepsini bir YZ ajanı (Claude) oynadı**, insan gibi ve 12 farklı oyuncu bakış açısıyla
+  (`data/yz_oyuncular/`). Hocanın 01.11.2026 duyurusu buna izin veriyor; veride `oynayan = yz_ajan`.
+  Oturumlar uygulamanın kendi ölçüm koduyla, veri toplama modunda (`?toplama=1`) kaydedildi. Kişisel veri yok.
 - Sentetik oturumlar (`tools/sentetik_uret.py`) denemelerde kullanıldı, yayınlanan modelde **kullanılmadı**.
 - Riskli seçim oranı: tüm veride {m['pozitif_orani']}, gerçek veride {m['pozitif_orani_gercek']}.
 
 ## Ölçüm (oturuma göre gruplanmış 5 katlı çapraz doğrulama)
 
-Bütün denemeler: [`DENEYLER.md`](https://github.com/bgelegen/se-primer/blob/main/DENEYLER.md).
-
+> **E1 eşiği sonuçlar görüldükten sonra değişti.** İlk eşik 0,70'ti; altı aday denendi, hiçbiri geçmedi.
+> Hocanın duyurusundan sonra eşik 0,65'e indirildi (spec §13.4). Aşağıdaki "geçti" ön kayıtlı bir test sonucu
+> değildir. Bütün denemeler: [`DENEYLER.md`](https://github.com/bgelegen/se-primer/blob/main/DENEYLER.md).
 | Kapı | Değer | Eşik | Sonuç |
 |------|-------|------|-------|
 {kapilar}
@@ -205,7 +208,9 @@ Bütün denemeler: [`DENEYLER.md`](https://github.com/bgelegen/se-primer/blob/ma
 | Taban: yalnız `onceki_riskli` AUC | {m['auc_taban_onceki_riskli']} | |
 
 ## Sınırlar
-- **Veri kaynağı:** oturumlar insan gibi oynayan YZ ajanlarınca oynandı (`oynayan = yz_ajan`); insan oyuncularda ayrıca ölçülmeli (RELEASE.md).
+- **Hiç insan verisi yok:** {v['real_sessions']} oturumun hepsini bir YZ ajanı oynadı. Model, gerçek insanların
+  temposunu değil, bir dil modelinin "insan gibi oynarken" ürettiği tempoyu öğrendi. İnsan oyuncularda
+  ölçülmedi; ilk iş gölge modda insan verisi toplamak olmalı (RELEASE.md).
 - **Az veri:** {v['real_sessions']} oturum, {v['rows']} karar; AUC'nin güven aralığı geniştir.
 - **Niyeti ayıramıyor:** hızlı ama bilerek doğru oynayan ya da okuyup bilerek B'yi deneyen oyuncu, modelin
   "acele = risk" sezgisine ters düşer (DENEYLER.md, tur 2).

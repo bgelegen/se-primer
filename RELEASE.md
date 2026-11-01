@@ -8,8 +8,8 @@
 | Sabitlenen commit | `48d21a82f596aea5ad6f4399f99776ebb51bcbf0` |
 | Tüketicilerin indirdiği URL | `https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi/resolve/48d21a82f596aea5ad6f4399f99776ebb51bcbf0/model.onnx` (+ `config.json`) |
 | `model.onnx` sha256 | `e12e66832e3bca3e9e33dab0b66ba43e773086b436bcd30c77604fab1a29c59a` |
-| Veri | `data/oturumlar.csv` sha256 `dd97ae3162df18ad28a6055ae889c61231e441420c741130d82d3be9939fdfe8` · 60 gerçek oturum, sentetik yok |
-| Eval | ROC-AUC (oturuma göre gruplu 5 katlı CV) **0,68** · E1 eşiği 0,65 · [DENEYLER.md](DENEYLER.md) |
+| Veri | `data/oturumlar.csv` sha256 `dd97ae3162df18ad28a6055ae889c61231e441420c741130d82d3be9939fdfe8` · 60 oturum, hepsini **YZ oyuncusu** oynadı (hocanın 01.11.2026 duyurusu), sentetik yok |
+| Eval | ROC-AUC (oturuma göre gruplu 5 katlı CV) **0,68** · E1 eşiği 0,65 (v2.0.1, sonuçlardan sonra indirildi; ilk eşik 0,70) · [DENEYLER.md](DENEYLER.md) |
 | Uygulama | GitHub Pages, `oyna/` (onnxruntime-web 1.22.0), `app/src/model.ts → MODEL_TABAN` |
 
 ### Ne değişti (v1 → v2.0)
@@ -47,7 +47,6 @@ Bir sorun çıkarsa (parite testi kırmızı, oyuncu şikâyeti, gölge karşıl
 |-------|-----------|-------|
 | 2.0.0 | `48d21a82f596aea5ad6f4399f99776ebb51bcbf0` | yayında (uygulama bu commit'i indirir) |
 | 2.0.0 kart | `0b15ae34b8d7e210542b9b7b37bc3eaf7aac2700` | yalnız model kartında yazım düzeltmesi; `model.onnx` ve `config.json` aynı (sha256 değişmedi), sabit URL değiştirilmedi |
-| 2.0.1 kart | `e12a670309c7ac364e1798681fca20fb32f3a2fb` | yalnız model kartının metni güncellendi; `model.onnx` ve `config.json` aynı (sha256 değişmedi), sabit URL değiştirilmedi |
 | v1 (model yok) | — | geri dönüş: kural tabanlı oyun |
 
 ## Yeni sürümü güvenle devreye alma (v2.x için plan)
@@ -62,8 +61,9 @@ gereksiz yere durdurmak (oyun can sıkıcı olur, 60 sn'lik baskı deneyimi kayb
 | 2 · **Kanarya** (%5) | Oturum kimliğinin hash'i < %5 olan oyunlar yeni modelle oynar | Kanarya grubunda müdahale oranı, oyunu yarıda bırakma, iyi son oranı | Yarıda bırakma kontrol grubundan kötü değil; müdahale oranı %10–%50 aralığında |
 | 3 · **Aşamalı** %25 → %50 → %100 | Her adımda en az 2 gün / 30 oturum | Aynı ölçüler + parite testi her deploy'da | Herhangi bir adımda koşul bozulursa bir önceki yüzdeye dön (rollback 1) |
 
-**Bu sürüm için özel not:** asıl ilk adım **canlı oyuncularla gölge**: uygulama modeli zaten her kararda çalıştırıp `model_p`'yi kaydediyor; veri toplama
-modunda oyuncular oynadıkça modelin canlıdaki AUC'si ölçülür, ≥ 0,65 değilse model kapatılır (rollback 1).
+**Bu sürüm için özel not:** v2.0.0 hiç insan verisi görmedi (60 oturumun hepsi YZ oyuncusu). Bu yüzden asıl ilk
+adım **insanlarla gölge**: uygulama modeli zaten her kararda çalıştırıp `model_p`'yi kaydediyor; veri toplama
+modunda insanlar oynadıkça modelin insanlardaki AUC'si ölçülür, ≥ 0,65 değilse model kapatılır (rollback 1).
 
 Bu ödevdeki yayın (v2.0.0) **ilk sürüm** olduğu için karşılaştırılacak bir önceki model yoktu: aşama 1'de
 "eski model" v1'in kuralıdır (hiç müdahale yok) ve K1'deki gölge mod tam olarak budur; K1'de p hesaplanıp

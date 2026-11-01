@@ -50,14 +50,17 @@ Hepsi karar ekranı **açıldığında** bilinen değerlerdir; o kararın süres
 ## Veri
 - 180 karar satırı · **60 gerçek** + 0 sentetik oturum
   (`data/oturumlar.csv`, sözlük: `data/SOZLUK.md`, SHA-256 `dd97ae3162df18ad…`).
-- Oturumlar uygulamanın kendi ölçüm koduyla, veri toplama modunda (`?toplama=1`) kaydedildi. Kişisel veri yok.
+- **Gerçek oturumların hepsini bir YZ ajanı (Claude) oynadı**, insan gibi ve 12 farklı oyuncu bakış açısıyla
+  (`data/yz_oyuncular/`). Hocanın 01.11.2026 duyurusu buna izin veriyor; veride `oynayan = yz_ajan`.
+  Oturumlar uygulamanın kendi ölçüm koduyla, veri toplama modunda (`?toplama=1`) kaydedildi. Kişisel veri yok.
 - Sentetik oturumlar (`tools/sentetik_uret.py`) denemelerde kullanıldı, yayınlanan modelde **kullanılmadı**.
 - Riskli seçim oranı: tüm veride 0.2833, gerçek veride 0.2833.
 
 ## Ölçüm (oturuma göre gruplanmış 5 katlı çapraz doğrulama)
 
-Bütün denemeler: [`DENEYLER.md`](https://github.com/bgelegen/se-primer/blob/main/DENEYLER.md).
-
+> **E1 eşiği sonuçlar görüldükten sonra değişti.** İlk eşik 0,70'ti; altı aday denendi, hiçbiri geçmedi.
+> Hocanın duyurusundan sonra eşik 0,65'e indirildi (spec §13.4). Aşağıdaki "geçti" ön kayıtlı bir test sonucu
+> değildir. Bütün denemeler: [`DENEYLER.md`](https://github.com/bgelegen/se-primer/blob/main/DENEYLER.md).
 | Kapı | Değer | Eşik | Sonuç |
 |------|-------|------|-------|
 | E0_gercek_oturum | 60 | ≥ 15 | ✅ |
@@ -75,7 +78,9 @@ Bütün denemeler: [`DENEYLER.md`](https://github.com/bgelegen/se-primer/blob/ma
 | Taban: yalnız `onceki_riskli` AUC | 0.5146 | |
 
 ## Sınırlar
-- **Veri kaynağı:** oturumlar insan gibi oynayan YZ ajanlarınca oynandı (`oynayan = yz_ajan`); insan oyuncularda ayrıca ölçülmeli (RELEASE.md).
+- **Hiç insan verisi yok:** 60 oturumun hepsini bir YZ ajanı oynadı. Model, gerçek insanların
+  temposunu değil, bir dil modelinin "insan gibi oynarken" ürettiği tempoyu öğrendi. İnsan oyuncularda
+  ölçülmedi; ilk iş gölge modda insan verisi toplamak olmalı (RELEASE.md).
 - **Az veri:** 60 oturum, 180 karar; AUC'nin güven aralığı geniştir.
 - **Niyeti ayıramıyor:** hızlı ama bilerek doğru oynayan ya da okuyup bilerek B'yi deneyen oyuncu, modelin
   "acele = risk" sezgisine ters düşer (DENEYLER.md, tur 2).

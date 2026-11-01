@@ -6,7 +6,8 @@
 Sürüm 2.0 · YZM301 Yazılım Gerçekleme ve Test · Batuhan Gelegen
 
 > **v2.0:** Uyum artık yalnız sabit kurallara değil, oyuncunun davranışından öğrenen küçük bir modele de
-> dayanıyor: **Nöbet Arkadaşı** (§13). Eşik ve kabul örnekleri §13.4–§13.5'te.
+> dayanıyor: **Nöbet Arkadaşı** (§13). Eşik ve kabul örnekleri eğitimden önce yazıldı; v2.0.1'de E1 eşiği
+> ve KÖ-7, sonuçlardan sonra ve gerekçesiyle değiştirildi (§13.4, §13.5, DENEYLER.md).
 
 ---
 
@@ -329,6 +330,10 @@ giriş ekranının eksik seçimde düğmeyi pasif tutması ve 5 ekranın axe-cor
 
 ## 13. Uyarlamalı model: Nöbet Arkadaşı (v2.0)
 
+> Bu bölüm **model eğitilmeden önce** yazıldı ve commit'lendi (`6c434f7`). E1 eşiği, hocanın
+> 01.11.2026 tarihli ikinci duyurusundan ("eşiğin eğitimden önce belirlenmesine gerek yok") sonra
+> **sonuçlar görüldükten sonra** 0,70'ten 0,65'e indirildi (§13.4, v2.0.1). Eşiği geçmeyen model yine yayınlanmaz.
+
 ### 13.1 Problem
 
 Gerçek bir nöbetçi mühendisin en tehlikeli hâli bilgisizlik değil **acele**dir: metni okumadan
@@ -378,7 +383,7 @@ yalnızca yardım **eklenir**, hiçbir şey kaldırılmaz (geri sayım dışınd
 
 | Kapı | Metrik | Eşik | Neden |
 |------|--------|------|-------|
-| E1 · Ayırt etme | ROC-AUC, **oturuma göre gruplanmış** 5 katlı çapraz doğrulama (aynı oturumun kararları hem eğitimde hem testte olamaz), tüm veri | **≥ 0,65** | Rastgele 0,50. Müdahale düşük riskli (yalnız yardım ekler), bu yüzden orta düzey ayırt etme yeterli |
+| E1 · Ayırt etme | ROC-AUC, **oturuma göre gruplanmış** 5 katlı çapraz doğrulama (aynı oturumun kararları hem eğitimde hem testte olamaz), tüm veri | **≥ 0,65** (v2.0.1; ilk eşik 0,70) | Rastgele 0,50. Müdahale düşük riskli (yalnız yardım ekler), bu yüzden orta düzey ayırt etme yeterli |
 | E2 · Gerçek oyuncu | Aynı çapraz doğrulamanın **yalnız `kaynak = gercek`** satırlarındaki ROC-AUC'si | **≥ 0,60** | Sentetik veri kuralı modele "öğretilmiş" olabilir; asıl soru gerçek insanda çalışıp çalışmadığı |
 | E3 · Taban çizgisi | E1, "hep çoğunluk sınıfı" ve "yalnız `onceki_riskli`" kurallarının AUC'sinden yüksek | > taban | Model, tek satırlık bir kuraldan iyi değilse gereksizdir |
 | E4 · Artefakt | `model.onnx` ile sklearn olasılıkları arasındaki en büyük fark | **≤ 1e-4** | Taşınan dosya eğitilen modelle aynı olmalı |
@@ -387,17 +392,19 @@ yalnızca yardım **eklenir**, hiçbir şey kaldırılmaz (geri sayım dışınd
 `train.py` E1–E4'ten biri geçmezse **hata koduyla durur ve `model/` klasörüne hiçbir şey yazmaz**.
 E5 Cypress'te ölçülür. Doğruluk tek başına hedef değildir: eşik ve sınırlar model kartında yazılıdır.
 
-**E1 eşiğinin gerekçesi.** Nöbet Arkadaşı
+**v2.0.1 eşik değişikliği (01.11.2026).** İlk eşikle (E1 ≥ 0,70) altı aday denendi, hiçbiri geçmedi
+([`DENEYLER.md`](DENEYLER.md)). Hocanın duyurusundan sonra E1 0,65'e indirildi. Gerekçe: Nöbet Arkadaşı
 oyuncudan bir şey almıyor, yalnız yardım ekliyor (soru kartı, ipucu, sayacın durması). Yanlış pozitifin bedeli
-gereksiz bir ipucu; bu yüzden orta düzey bir ayırt etme yeterli.
-Yayınlanan model sentetik veri kullanmıyor: E1, 60 gerçek oturumda ölçülüyor. Denemeler: [`DENEYLER.md`](DENEYLER.md).
+gereksiz bir ipucu; bu yüzden orta düzey bir ayırt etme yeterli. **Dikkat:** yeni eşik sonuçlar görüldükten
+sonra seçildi; yayınlanan modelin E1'i geçmesi ön kayıtlı bir test sonucu değildir. Model kartında da bu yazılıdır.
+Yayınlanan model sentetik veri kullanmıyor (D6): E1, YZ oyuncularının 60 oturumunda ölçülüyor.
 
 ### 13.5 Kabul örnekleri (v2.0)
 
 Her biri bir Cypress testine karşılık gelir (`cypress/e2e/model.cy.ts`). Oyuncu temposu `cy.clock`
 ile belirlenir, böylece test belirlenimlidir.
 
-**KÖ-7 · Aceleci oyuncuya K2'de Nöbet Arkadaşı**
+**KÖ-7 · Aceleci oyuncuya K2'de Nöbet Arkadaşı** *(v2.0.1'de yeniden yazıldı)*
 ```gherkin
 Given "Biraz deneyimliyim" ile girişi 8 saniyede tamamladım ve kriz metnini 1,5 saniyede geçtim
 And K1'de 4 saniyede "Canlıda yama yap" (B) seçtim

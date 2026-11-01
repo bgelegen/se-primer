@@ -44,7 +44,7 @@ export type Oynayan = 'insan' | 'yz_ajan';
 export interface VeriSatiri extends Ozellikler {
   oturum_id: string;
   kaynak: 'gercek' | 'otomasyon';
-  /** Kim oynadı: insan ya da insan gibi oynayan YZ ajanı */
+  /** Kim oynadı: insan ya da (hocanın 01.11.2026 duyurusuyla izin verilen) insan gibi oynayan YZ ajanı */
   oynayan: Oynayan;
   uygulama_surumu: string;
   rol: string;
@@ -186,7 +186,7 @@ export class Olcer {
     const satir: VeriSatiri = {
       oturum_id: this.oturumId,
       // Otomasyonla (Cypress/Playwright) oynanan oturumlar eğitime girmez; açıkça YZ ajanı olarak
-      // işaretlenen oyuncu ise (spec §13.6) gerçek oyuncu yerine sayılır.
+      // işaretlenen oyuncu ise (hocanın duyurusu, spec §13.6) gerçek oyuncu yerine sayılır.
       kaynak: oynayan() === 'yz_ajan' || !navigator.webdriver ? 'gercek' : 'otomasyon',
       oynayan: oynayan(),
       uygulama_surumu: UYGULAMA_SURUMU,

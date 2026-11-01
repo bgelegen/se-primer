@@ -30,8 +30,8 @@ verdiğine değil **nasıl oynadığına** bakıyor.
 
 | Adım | Nerede |
 |------|--------|
-| 1 · Spec | [`spec.md` §13](spec.md#13-uyarlamalı-model-nöbet-arkadaşı-v20): problem, 10 özellik, eşikler E0–E5, KÖ-7/8/9 |
-| 2 · Veri | [`data/oturumlar.csv`](data/oturumlar.csv): 60 gerçek oturum, 180 karar, `kaynak` ve `oynayan` sütunları; uygulamanın veri toplama modunda kaydedildi · [`data/SOZLUK.md`](data/SOZLUK.md) · sentetik üretici [`tools/sentetik_uret.py`](tools/sentetik_uret.py) (tohum 13, yalnız denemelerde) |
+| 1 · Spec (eşik eğitimden önce, `6c434f7`; v2.0.1'de E1 değişti) | [`spec.md` §13](spec.md#13-uyarlamalı-model-nöbet-arkadaşı-v20): problem, 10 özellik, eşikler E0–E5, KÖ-7/8/9 |
+| 2 · Veri | [`data/oturumlar.csv`](data/oturumlar.csv): 60 oturum, 180 karar, `kaynak` ve `oynayan` sütunları. **Oturumların hepsini YZ oyuncusu oynadı** (hocanın 01.11.2026 duyurusu): 12 farklı oyuncu bakış açısı × 5 oyun, uygulamanın kendisinde ([`data/yz_oyuncular/`](data/yz_oyuncular/), [`tools/yz_oyna.mjs`](tools/yz_oyna.mjs)) · [`data/SOZLUK.md`](data/SOZLUK.md) · sentetik üretici [`tools/sentetik_uret.py`](tools/sentetik_uret.py) (tohum 13, yalnız denemelerde) |
 | 3 · Eğitim + eval kapısı | [`train.py`](train.py): tek komut, tohum 13, oturuma göre gruplanmış 5 katlı CV; kapı geçilmezse **hata koduyla durur, `model/` yazılmaz**. CI eğitimi yeniden çalıştırıp aynı metrikleri ve aynı olasılıkları ürettiğini kontrol ediyor · bütün denemeler [`DENEYLER.md`](DENEYLER.md) |
 | 4 · Artefakt | [`model/model.onnx`](model/model.onnx) · [`model/config.json`](model/config.json) (sözleşme: özellik sırası, sınıflar, eşik, metrikler, kapılar, JSON şeması, veri sha256) · model kartı [`model/README.md`](model/README.md) |
 | 5 · Yayın | [`RELEASE.md`](RELEASE.md): commit'e sabit URL, rollback, gölge → kanarya %5 → %25/%50/%100, tarayıcı / mobil / sunucu ödünleşim matrisi · yayın iş akışı [`hf-yayin.yml`](.github/workflows/hf-yayin.yml) |
@@ -39,8 +39,10 @@ verdiğine değil **nasıl oynadığına** bakıyor.
 | 7 · Sınav tasarımı | [`SINAV_TASARIMI.md`](SINAV_TASARIMI.md) |
 | Bonus · Sunucu | [`server/app.py`](server/app.py) (FastAPI + onnxruntime, Docker, [`render.yaml`](render.yaml)): model HF'deki sabit commit'ten iner, sha256 kontrol edilir, girdi `config.json` şemasıyla doğrulanır · parite: [`server/test_sunucu.py`](server/test_sunucu.py), [`tests/sunucu_parite.py`](tests/sunucu_parite.py), [`cypress/e2e/sunucu.cy.ts`](cypress/e2e/sunucu.cy.ts) · ödünleşim: [`RELEASE.md`](RELEASE.md) |
 
-**Sonuç:** ROC-AUC **0,68** (oturuma göre gruplu 5 katlı CV, 60 gerçek oturum), kabul eşiği **0,65** geçildi;
-Python ↔ tarayıcı farkı ~1e-8. Bütün denemeler [`DENEYLER.md`](DENEYLER.md)'de, sınırlar model kartında.
+**Sonuç:** ROC-AUC **0,68** (oturuma göre gruplu 5 katlı CV, 60 YZ oturumu), Python ↔ tarayıcı farkı ~1e-8.
+İlk eşik (0,70) eğitimden önce yazıldı ve altı aday denendi, hiçbiri geçmedi. Hocanın ikinci duyurusundan
+sonra eşik **0,65**'e indirildi; bu değişiklik ve bütün denemeler [`DENEYLER.md`](DENEYLER.md) ve model kartında
+açıkça yazılı. Model niyeti ayıramıyor ve hiç insan verisi görmedi: sınırları model kartında.
 
 ### Kurulum (3 komut)
 
@@ -52,7 +54,9 @@ npm --prefix app ci && npm --prefix app run dev                              # h
 
 Veri toplamak için uygulamayı `?toplama=1` ile aç; "Veri" ekranından indirilen CSV'ler `data/gercek/`'e konur.
 
-**Sentetik veri üreticisi.** *Sentetik kural* ([`tools/sentetik_uret.py`](tools/sentetik_uret.py), **tohum 13**, yalnız
+**Veri üreticileri.** (1) *YZ oyuncuları* ([`tools/yz_oyna.mjs`](tools/yz_oyna.mjs)): her oyuncunun karakteri ve her
+kararının gerekçesi [`data/yz_oyuncular/*.json`](data/yz_oyuncular/)'da; oyunlar uygulamanın kendisinde oynanır, süreler
+sahte saatle geçer. (2) *Sentetik kural* ([`tools/sentetik_uret.py`](tools/sentetik_uret.py), **tohum 13**, yalnız
 denemelerde D1–D5): her sanal oyuncunun gizli bir "acele" değeri `a ~ N(0,1)` var; profil seçme süresi
 `exp(N(ln 14 − 0,45a, 0,40))`, kriz okuma `exp(N(ln 18 − 0,55a, 0,50))`; riskli seçim olasılığı
 `σ(−0,55 + 0,95a + 0,55·önceki_riskli − 0,45·[hedef] − 0,35·[ipucu] − 0,25·min(tutor,2) + c_k)`,
@@ -171,7 +175,8 @@ Report*; Hugging Face Hub belgeleri (`resolve/<revision>`); ONNX Runtime Web ve 
 
 - **Claude (Claude Code), her adımda:** ödev metnini adımlara bölme, spec §13, `train.py`, `tests/parite.py`,
   Cypress testleri, tarayıcıdaki ölçüm kodu (`app/src/olcum.ts`) ve demo videosu. Modelin hedefi ("acele eden
-  oyuncu") ve eşikler bu oturumda önerildi; denemeler [`DENEYLER.md`](DENEYLER.md)'de.
+  oyuncu") ve eşikler bu oturumda önerildi; eğitimden **önce** spec'e yazılıp commit'lendi (`6c434f7`).
+  E1 eşiği hocanın ikinci duyurusundan sonra 0,70'ten 0,65'e indirildi; denemeler [`DENEYLER.md`](DENEYLER.md)'de.
 - **Testlerin yakalayıp düzeltilenler:** ilk sürümde veri toplama notu ilk açılışta görünmüyordu (ayar, çizimden
   sonra okunuyordu); tarayıcıda model `ort-wasm-simd-threaded.mjs` eksik olduğu için açılmıyordu (404);
   Nöbet Arkadaşı kartı tutor'un sorusunu aynen tekrarlıyordu, karara özel bir soru yazıldı; Cypress 16'da
@@ -180,5 +185,5 @@ Report*; Hugging Face Hub belgeleri (`resolve/<revision>`); ONNX Runtime Web ve 
   de v1'in K1 testleri (KÖ-2) bozulmamalıydı; tarayıcıda çalıştırma kararı (RELEASE.md'deki matris).
 - **Başlangıç reposu:** `seyyah/huggingface-hello-web` içindeki `onnx_aktar` sözleşmesi (girdi `input`,
   çıktı `probabilities`, zipmap kapalı, 1e-4 kontrolü), sürüm sabitleri ve tohum 13 aynen alındı.
-- **Veri:** veri toplama modundaki oturumlar Claude ile oynandı ([`tools/yz_oyna.mjs`](tools/yz_oyna.mjs), `oynayan` sütunu).
-  Hugging Face token'ını GitHub secret olarak ben ekledim.
+- **Veri:** "gerçek" oturumların hepsini Claude oynadı (hocanın izniyle), 12 oyuncu bakış açısıyla; 6'sı
+  benim farklı hâllerim. Hugging Face token'ını GitHub secret olarak ben ekledim.
