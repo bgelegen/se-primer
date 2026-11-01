@@ -1,0 +1,6 @@
+# Sunucu tüketicisi: sürümler eğitim ortamıyla aynı (onnxruntime, numpy)
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+onnxruntime==1.29.0
+numpy==2.5.3
+jsonschema==4.26.0

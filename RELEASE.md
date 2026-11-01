@@ -87,8 +87,28 @@ Seçenekler başlangıç reposundaki üç tüketiciyle aynıdır (`seyyah/huggin
 hassas veri içermiyor. Üç sorunun ikisinde (gecikme, KVKK) tarayıcı en iyi seçenek; kaybettiğimiz tek şey
 modelin gizliliği ve bu modelde gizlenecek bir şey yok. Feragat ettiğimiz: modeli sunucuda gizlice
 değiştirme ve merkezi izleme (gölge karşılaştırmasını istemcide yapıp anonim satırları CSV ile toplamak
-zorundayız). **Sunucu tüketicisini (bonus)** bu ödevde yapmadık: Render.com hesabı ve sürekli çalışan bir servis
-gerektiriyor; README'de "yapılmadı" olarak yazılı.
+zorundayız).
+
+### Üçüncü tüketici: kendi sunucum (bonus)
+
+Oyunun kendisi tarayıcıda çalışıyor; sunucu tüketicisi aynı sözleşmenin **üçüncü** uygulaması ve tablodaki
+ödünleşimlerin canlı örneği ([`server/`](server/)):
+
+- **FastAPI + onnxruntime**, Docker, Render.com ücretsiz katman ([`render.yaml`](render.yaml)). Model açılışta
+  HF'deki commit'e sabit URL'den iner; `model.onnx`'in sha256'sı kodda sabit, farklıysa sunucu **açılmaz**
+  (sürüm kayması olmaz).
+- `POST /api/v1/tahmin {"inputs": {...}}` girdiyi `config.json → input_schema` ile doğrular: eksik alan, aralık dışı
+  değer ya da sözleşmede olmayan bir alan (ör. `"ad"`) **422** ile reddedilir. Sözleşme gerçekten sözleşme gibi davranıyor.
+- **Soru 1 (gecikme):** her tahmin bir ağ isteği; ücretsiz katmanda 15 dk boşta kalınca uyuyor, ilk istek ~1 dk
+  sürebiliyor. Oyunun karar ekranı için bu kabul edilemez, oyun bu yüzden tarayıcıda.
+- **Soru 2 (veri):** oyuncunun tempo verisi sunucuya gider. Sunucu girdileri **loglamıyor** (`--no-access-log`, gövde
+  kaydı yok); gerçek kullanımda aydınlatma metni gerekir.
+- **Soru 3 (gizlilik):** dosya istemciye inmiyor ama yanıtlar üzerinden model kopyalanabilir (10 özellikli LR birkaç
+  yüz istekle). Bu yüzden IP başına dakikada 120 istek sınırı var. Bu modelde gizli bir şey olmadığı için model HF'de
+  public; gizli olması gerekseydi private HF + token ile yalnız sunucu indirirdi.
+- **Diferansiyel test:** aynı 5 referans girdide sunucu = Python Oracle = tarayıcı (|Δ| < 1e-4):
+  `server/test_sunucu.py` (pytest), `tests/sunucu_parite.py` (HTTP, CI'da Docker imajına ve canlı adrese karşı),
+  `cypress/e2e/sunucu.cy.ts` (üç tüketici bir arada).
 
 ## Kaynaklar
 

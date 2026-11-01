@@ -1,0 +1,10 @@
+# Render Blueprint: Render → New → Blueprint → bu repo. Ücretsiz katman, Docker.
+services:
+  - type: web
+    name: se-primer-nobet-arkadasi
+    runtime: docker
+    plan: free
+    rootDir: server
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /saglik
+    autoDeploy: true

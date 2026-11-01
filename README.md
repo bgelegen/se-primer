@@ -25,6 +25,7 @@ verdiğine değil **nasıl oynadığına** bakıyor.
 | ▶ **Canlı uygulama** (GitHub Pages, model tarayıcıda) | **https://bgelegen.github.io/se-primer/oyna/** |
 | 🤗 **Hugging Face model** (commit'e sabit) | https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi · sabit commit [`48d21a8`](https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi/tree/48d21a82f596aea5ad6f4399f99776ebb51bcbf0) |
 | 🎬 **Demo videosu** (iki oyuncu, aynı sahne) | [`docs/nobet-arkadasi-4k.mp4`](docs/nobet-arkadasi-4k.mp4) (73 sn, 3840×2160) · ham web ekran kaydı [`docs/nobet-arkadasi-ekran-kaydi.mp4`](docs/nobet-arkadasi-ekran-kaydi.mp4) (38 sn) |
+| 🖥️ **Bonus: sunucu tüketicisi** (FastAPI, Render) | {{SUNUCU_URL}} · [`server/`](server/) |
 | 💻 **Repo** | https://github.com/bgelegen/se-primer |
 
 | Adım | Nerede |
@@ -36,6 +37,7 @@ verdiğine değil **nasıl oynadığına** bakıyor.
 | 5 · Yayın | [`RELEASE.md`](RELEASE.md): commit'e sabit URL, rollback, gölge → kanarya %5 → %25/%50/%100, tarayıcı / mobil / sunucu ödünleşim matrisi · yayın iş akışı [`hf-yayin.yml`](.github/workflows/hf-yayin.yml) |
 | 6 · Tüketim ve test | Tarayıcı: [`app/src/model.ts`](app/src/model.ts) (onnxruntime-web 1.22.0) · Oracle: [`tests/parite.py`](tests/parite.py) → [`tests/parite.json`](tests/parite.json) · Cypress: [`cypress/e2e/model.cy.ts`](cypress/e2e/model.cy.ts) (KÖ-7, KÖ-8, diferansiyel test < 1e-4, model yokken oyun) + v1'in 24 testi değişmeden (regresyon) · eğitim↔çıkarım sözleşme testi [`tests/model_uyum.test.ts`](tests/model_uyum.test.ts) |
 | 7 · Sınav tasarımı | [`SINAV_TASARIMI.md`](SINAV_TASARIMI.md) |
+| Bonus · Sunucu | [`server/app.py`](server/app.py) (FastAPI + onnxruntime, Docker, [`render.yaml`](render.yaml)): model HF'deki sabit commit'ten iner, sha256 kontrol edilir, girdi `config.json` şemasıyla doğrulanır · parite: [`server/test_sunucu.py`](server/test_sunucu.py), [`tests/sunucu_parite.py`](tests/sunucu_parite.py), [`cypress/e2e/sunucu.cy.ts`](cypress/e2e/sunucu.cy.ts) · ödünleşim: [`RELEASE.md`](RELEASE.md) |
 
 **Sonuç:** ROC-AUC **0,68** (oturuma göre gruplu 5 katlı CV, 60 YZ oturumu), Python ↔ tarayıcı farkı ~1e-8.
 İlk eşik (0,70) eğitimden önce yazıldı ve altı aday denendi, hiçbiri geçmedi. Hocanın ikinci duyurusundan

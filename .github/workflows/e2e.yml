@@ -49,6 +49,38 @@ jobs:
           echo "::notice title=model::$TABAN"
           python tests/parite.py --url "$TABAN" --kontrol
 
+  sunucu:
+    # Bonus: sunucu tüketicisi. Birim testleri + Docker imajı HF'den modeli indirip çalışır + parite.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+      - run: pip install -r server/requirements.txt pytest httpx
+      - name: Birim testleri (yerel model)
+        run: MODEL_DIZIN=model python -m pytest server -q
+      - name: Docker imajı (Render'daki ile aynı) — model HF'deki sabit commit'ten iner, sha256 kontrol edilir
+        run: |
+          docker build -t nobet-sunucu server
+          docker run -d --name sunucu -p 8000:8000 nobet-sunucu
+          for i in $(seq 60); do curl -sf http://127.0.0.1:8000/saglik >/dev/null && break; sleep 2; done
+          docker logs sunucu | tail -5
+      - name: Diferansiyel test — Docker sunucu ↔ Python Oracle
+        run: python tests/sunucu_parite.py http://127.0.0.1:8000
+      - name: Diferansiyel test — Render'daki canlı sunucu ↔ Python Oracle
+        run: |
+          if [ -s server/YAYIN_URL ]; then python tests/sunucu_parite.py "$(cat server/YAYIN_URL)" | tee canli.log;
+            echo "::notice title=canlı sunucu::$(head -1 canli.log)";
+          else echo "::notice title=canlı sunucu::server/YAYIN_URL yok, atlandı"; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sunucu-parite
+          path: tests/sonuc/sunucu-parite.json
+          if-no-files-found: ignore
+
   cypress:
     needs: model
     runs-on: ubuntu-latest

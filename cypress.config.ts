@@ -2,12 +2,14 @@ import { defineConfig } from 'cypress';
 import { readFileSync } from 'node:fs';
 
 // Model Hugging Face'te yayınlandı mı? (app/src/model.ts'teki taban URL commit'e sabitlenmiş mi)
+// Bonus: canlı sunucu tüketicisinin adresi (Render). Yoksa sunucu testi atlanır.
+const sunucuUrl = (() => { try { return readFileSync('server/YAYIN_URL', 'utf-8').trim(); } catch { return ''; } })();
 const modelTabani = readFileSync('app/src/model.ts', 'utf-8').match(/https:\/\/huggingface\.co\/[^']+\/resolve\/[^']+\//)?.[0] ?? '';
 
 export default defineConfig({
   reporter: 'junit',
   reporterOptions: { mochaFile: 'cypress/results/[hash].xml', testCaseSwitchClassnameAndName: false },
-  expose: { modelYayinda: /\/resolve\/[0-9a-f]{40}\/$/.test(modelTabani), modelTabani },
+  expose: { sunucuUrl, modelYayinda: /\/resolve\/[0-9a-f]{40}\/$/.test(modelTabani), modelTabani },
   e2e: {
     baseUrl: 'http://127.0.0.1:4173',
     viewportWidth: 390,
