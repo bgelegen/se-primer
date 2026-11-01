@@ -3,7 +3,10 @@
 > Kişiye uyum sağlayan kitap, bu kez yazılım mühendisi için: oyuncu karar verir, uygulama o kararın
 > teknik sonucunu gösterir. Her seçim bir durum geçişi, her son bir kabul kriteri.
 
-Sürüm 1.0 · YZM301 Yazılım Gerçekleme ve Test · Batuhan Gelegen
+Sürüm 2.0 · YZM301 Yazılım Gerçekleme ve Test · Batuhan Gelegen
+
+> **v2.0:** Uyum artık yalnız sabit kurallara değil, oyuncunun davranışından öğrenen küçük bir modele de
+> dayanıyor: **Nöbet Arkadaşı** (§13). Eşik ve kabul örnekleri eğitimden önce yazıldı.
 
 ---
 
@@ -323,3 +326,116 @@ giriş ekranının eksik seçimde düğmeyi pasif tutması ve 5 ekranın axe-cor
   kitap yalnızca uç örneği (60 sn) istiyor.
 - Arkadaş testi (ödevdeki ipucu): ilk oyuncunun takıldığı yer buraya yeni kabul örneği olarak
   eklenecek → [§9](#9-kabul-örnekleri).
+
+## 13. Uyarlamalı model: Nöbet Arkadaşı (v2.0)
+
+> Bu bölüm **model eğitilmeden önce** yazıldı ve commit'lendi. Eşikler sonradan değiştirilmez;
+> eşiği geçmeyen model yayınlanmaz (§13.4).
+
+### 13.1 Problem
+
+Gerçek bir nöbetçi mühendisin en tehlikeli hâli bilgisizlik değil **acele**dir: metni okumadan
+geçer, ilk akla gelen hızlı seçeneğe atlar, bir kez riskli yola girince ötekiler de gelir. Kitap
+bunu girişte sorulan seviyeden göremez; **oyuncunun davranışından** görebilir. TikTok bir videoyu
+ne kadar izlediğinize bakarak akışı değiştirir; SE Primer da oyuncunun temposuna bakarak
+karar anındaki yardımı değiştirir.
+
+**Model sorusu:** *"Bu oyuncu, şimdi açılan kararda hızlı (riskli, B) seçeneğe gidecek mi?"*
+Çıktı bir olasılıktır: **p = P(riskli seçim)**.
+
+### 13.2 Girdiler (karar ekranı açıldığı anda bilinenler)
+
+Model, kararı vermeden **önce** bilinen bilgilerle çalışır. O kararın kendi süresi, seçimi ya da
+sonucu girdi değildir (sızıntı olur). Kişisel veri yoktur. Ayrıntı: [`data/SOZLUK.md`](data/SOZLUK.md).
+
+| # | Özellik | Birim / değer | Neden |
+|---|---------|---------------|-------|
+| 1 | `seviye_no` | 0 yeni · 1 biraz · 2 deneyimli | Beyan edilen deneyim |
+| 2 | `sahne_no` | 1–3 | Kriz ilerledikçe baskı artar |
+| 3 | `hedef_bu_sahne` | 0/1 | Oyuncunun hedefi bu kararın konusu mu |
+| 4 | `giris_suresi_sn` | saniye (0–600) | Profili ne hızla seçti: tempo |
+| 5 | `kriz_okuma_sn` | saniye (0–600) | Kriz metninde ne kadar kaldı: okuma |
+| 6 | `onceki_riskli` | 0–2 | Önceki kararlarda kaç kez B seçti: eğilim |
+| 7 | `onceki_ort_karar_sn` | saniye (0–120) | Önceki kararlarda ortalama düşünme süresi (ilk kararda 0) |
+| 8 | `onceki_ipucu` | 0–2 | Önceki kararların kaçında ipucunu gördü |
+| 9 | `onceki_tutor` | adet (0–20) | Önceki kararlarda tutor'a kaç mesaj yazdı |
+| 10 | `onceki_sure_doldu` | 0–2 | Önceki kararların kaçında süre doldu |
+
+Etiket: `riskli_secim` = 1, oyuncu o kararda B'yi seçtiyse (süre dolup B uygulandıysa da).
+
+### 13.3 Oyunun davranışı nasıl değişir
+
+Model her karar ekranı açılınca bir kez çalışır. **Müdahale eşiği τ = 0,50.**
+
+| Durum | Davranış |
+|-------|----------|
+| K1 (her p) | **Gölge mod:** p hesaplanır ve kaydedilir, oyun **değişmez**. İlk kararda davranış verisi az; modelin kararı yalnız gözlenir. |
+| K2/K3 ve p ≥ τ | **Nöbet Arkadaşı devrede:** seçeneklerin üstünde "Bir dakika…" kartı (`nobet-arkadasi`) sahnenin Sokratik sorusunu sorar; *Biraz deneyimliyim*'de ipucu kendiliğinden açılır; *Deneyimliyim*'de 60 sn geri sayım **kalkar** (süre baskısı aceleyi büyütür). |
+| K2/K3 ve p < τ | Oyun v1 kurallarıyla aynen sürer. |
+| Model indirilemedi / çalışmadı | p yok ("—"); oyun v1 kurallarıyla aynen sürer (tutor yedeği gibi). |
+
+Böylece v1'in tüm kabul örnekleri (§9) model devredeyken de geçerlidir: K1 hiç değişmez, K2/K3'te
+yalnızca yardım **eklenir**, hiçbir şey kaldırılmaz (geri sayım dışında, o da yalnız p ≥ τ iken).
+
+### 13.4 Ölçüm ve kabul eşiği (altın standart)
+
+| Kapı | Metrik | Eşik | Neden |
+|------|--------|------|-------|
+| E1 · Ayırt etme | ROC-AUC, **oturuma göre gruplanmış** 5 katlı çapraz doğrulama (aynı oturumun kararları hem eğitimde hem testte olamaz), tüm veri | **≥ 0,70** | Rastgele 0,50; 0,70 "işe yarar" alt sınırı |
+| E2 · Gerçek oyuncu | Aynı çapraz doğrulamanın **yalnız `kaynak = gercek`** satırlarındaki ROC-AUC'si | **≥ 0,60** | Sentetik veri kuralı modele "öğretilmiş" olabilir; asıl soru gerçek insanda çalışıp çalışmadığı |
+| E3 · Taban çizgisi | E1, "hep çoğunluk sınıfı" ve "yalnız `onceki_riskli`" kurallarının AUC'sinden yüksek | > taban | Model, tek satırlık bir kuraldan iyi değilse gereksizdir |
+| E4 · Artefakt | `model.onnx` ile sklearn olasılıkları arasındaki en büyük fark | **≤ 1e-4** | Taşınan dosya eğitilen modelle aynı olmalı |
+| E5 · Parite | 5 referans girdide uygulamadaki (onnxruntime-web) p ile Python Oracle p'si farkı | **< 1e-4** | İki tüketici aynı sözleşmeyi aynı şekilde uygulamalı |
+
+`train.py` E1–E4'ten biri geçmezse **hata koduyla durur ve `model/` klasörüne hiçbir şey yazmaz**.
+E5 Cypress'te ölçülür. Doğruluk tek başına hedef değildir: eşik ve sınırlar model kartında yazılıdır.
+
+### 13.5 Kabul örnekleri (v2.0)
+
+Her biri bir Cypress testine karşılık gelir (`cypress/e2e/model.cy.ts`). Oyuncu temposu `cy.clock`
+ile belirlenir, böylece test belirlenimlidir.
+
+**KÖ-7 · Aceleci oyuncuya K2'de Nöbet Arkadaşı**
+```gherkin
+Given "Deneyimliyim" ile girişi 3 saniyede tamamladım ve kriz metnini 2 saniyede geçtim
+And K1'de 4 saniyede "Canlıda yama yap" (B) seçtim
+When K2 ekranı açılır
+Then modelin p değeri 0,50 veya üstündedir
+And "Nöbet arkadaşı" kartı görünür ve bir soruyla biter
+And geri sayım görünmez
+```
+
+**KÖ-8 · Dikkatli oyuncuda K2 değişmez**
+```gherkin
+Given "Deneyimliyim" ile girişi 40 saniyede tamamladım ve kriz metnini 45 saniye okudum
+And K1'de 30 saniye düşünüp "Eski sürüme geri dön" (A) seçtim
+When K2 ekranı açılır
+Then modelin p değeri 0,50'nin altındadır
+And "Nöbet arkadaşı" kartı görünmez
+And geri sayım "60" gösterir
+```
+
+**KÖ-9 · İki tüketici aynı cevabı verir; model yoksa oyun sürer**
+```gherkin
+Given tests/parite.json'daki 5 referans girdi ve Python Oracle'ın (tests/parite.py) olasılıkları
+When uygulama aynı model.onnx'i Hugging Face'teki commit'e sabit URL'den indirip bu girdileri çalıştırır
+Then her girdide |p_uygulama − p_python| < 1e-4
+And model indirilemezse (ağ hatası) oyun v1 kurallarıyla sonuna kadar oynanır ve p "—" gösterilir
+```
+
+### 13.6 Veri toplama
+
+- Uygulamada **veri toplama modu** (`?toplama=1`): her karar bir satır olarak yalnız o cihazda
+  (`localStorage`) tutulur, "Veri" ekranından CSV olarak indirilir ya da paylaşılır.
+- Toplanan: yukarıdaki 10 özellik, seçim, karar süresi, süre doldu mu, o sahnede ipucu/tutor
+  kullanımı, rastgele **oturum kimliği**. Toplanmayan: ad, e-posta, cihaz kimliği, konum, IP, tutor'a
+  yazılan metin.
+- Veri toplama modu açıkken giriş ekranında bunu söyleyen bir not görünür; oyuncu kaydı kapatabilir.
+- Otomasyonla (Cypress/Playwright) oynanan oturumlar `kaynak = otomasyon` diye işaretlenir ve
+  eğitime girmez.
+- Hedef: en az **15 gerçek oturum** (3 kişi × 5 oturum) + kuralı ve tohumu yazılı sentetik veri.
+
+### 13.7 Test kancaları (v2.0)
+
+`nobet-arkadasi`, `model-p` (`data-cy="p"`), `veri-toplama-notu`, `veri-kaydet`, `veri-ekrani`,
+`veri-indir`, `veri-kopyala`, `veri-sayac`; parite sayfası `?parite=1` → her satırda `data-cy="p"`.
