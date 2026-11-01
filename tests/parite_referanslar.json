@@ -1,6 +1,6 @@
 [
   {
-    "id": "R1-KO7-aceleci-K2",
+    "id": "R1-aceleci-deneyimli-K2",
     "girdi": {
       "seviye_no": 2,
       "sahne_no": 2,
@@ -15,7 +15,7 @@
     }
   },
   {
-    "id": "R2-KO8-dikkatli-K2",
+    "id": "R2-KO8-dikkatli-deneyimli-K2",
     "girdi": {
       "seviye_no": 2,
       "sahne_no": 2,

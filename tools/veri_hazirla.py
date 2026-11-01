@@ -2,7 +2,7 @@
 
 Girdi:
   data/gercek/*.csv   uygulamanın "Veri" ekranından indirilen dosyalar (ham, değiştirilmeden saklanır)
-  data/sentetik.csv   tools/sentetik_uret.py çıktısı
+  data/sentetik.csv   tools/sentetik_uret.py çıktısı (yalnız --sentetik ile; yayınlanan model kullanmaz)
 Kurallar:
   - kaynak = otomasyon olan satırlar (Cypress/Playwright) atılır.
   - Aynı (oturum_id, karar_id) bir kez alınır (aynı dosya iki kez gönderilirse).
@@ -52,9 +52,14 @@ def dogrula(r: dict, kaynak_adi: str):
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--sentetik", action="store_true",
+                    help="data/sentetik.csv'yi de ekle (denemeler D1–D5; yayınlanan model D6 sentetik kullanmaz)")
+    args = ap.parse_args()
     gorulen, tum = set(), []
     atilan_otomasyon = 0
-    dosyalar = sorted((KOK / "data" / "gercek").glob("*.csv")) + [KOK / "data" / "sentetik.csv"]
+    dosyalar = sorted((KOK / "data" / "gercek").glob("*.csv")) + ([KOK / "data" / "sentetik.csv"] if args.sentetik else [])
     for yol in dosyalar:
         for r in oku(yol):
             if r["kaynak"] == "otomasyon":

@@ -1,0 +1,89 @@
+{
+  "aciklama": "Python Oracle (onnxruntime) olasılıkları. Uygulama aynı girdilerde |fark| < tolerans vermeli.",
+  "model_version": "2.0.0",
+  "model_sha256": "e12e66832e3bca3e9e33dab0b66ba43e773086b436bcd30c77604fab1a29c59a",
+  "tolerans": 0.0001,
+  "pozitif_sinif": "1",
+  "referanslar": [
+    {
+      "id": "R1-aceleci-deneyimli-K2",
+      "girdi": {
+        "seviye_no": 2,
+        "sahne_no": 2,
+        "hedef_bu_sahne": 0,
+        "giris_suresi_sn": 3.0,
+        "kriz_okuma_sn": 2.0,
+        "onceki_riskli": 1,
+        "onceki_ort_karar_sn": 4.0,
+        "onceki_ipucu": 0,
+        "onceki_tutor": 0,
+        "onceki_sure_doldu": 0
+      },
+      "p_python": 0.20379305
+    },
+    {
+      "id": "R2-KO8-dikkatli-deneyimli-K2",
+      "girdi": {
+        "seviye_no": 2,
+        "sahne_no": 2,
+        "hedef_bu_sahne": 0,
+        "giris_suresi_sn": 40.0,
+        "kriz_okuma_sn": 45.0,
+        "onceki_riskli": 0,
+        "onceki_ort_karar_sn": 30.0,
+        "onceki_ipucu": 0,
+        "onceki_tutor": 0,
+        "onceki_sure_doldu": 0
+      },
+      "p_python": 0.06012052
+    },
+    {
+      "id": "R3-yeni-K1",
+      "girdi": {
+        "seviye_no": 0,
+        "sahne_no": 1,
+        "hedef_bu_sahne": 0,
+        "giris_suresi_sn": 15.0,
+        "kriz_okuma_sn": 20.0,
+        "onceki_riskli": 0,
+        "onceki_ort_karar_sn": 0.0,
+        "onceki_ipucu": 0,
+        "onceki_tutor": 0,
+        "onceki_sure_doldu": 0
+      },
+      "p_python": 0.11343768
+    },
+    {
+      "id": "R4-orta-K3-iki-riskli",
+      "girdi": {
+        "seviye_no": 1,
+        "sahne_no": 3,
+        "hedef_bu_sahne": 1,
+        "giris_suresi_sn": 9.4,
+        "kriz_okuma_sn": 6.1,
+        "onceki_riskli": 2,
+        "onceki_ort_karar_sn": 7.5,
+        "onceki_ipucu": 1,
+        "onceki_tutor": 0,
+        "onceki_sure_doldu": 0
+      },
+      "p_python": 0.07808161
+    },
+    {
+      "id": "R5-deneyimli-K3-sure-doldu",
+      "girdi": {
+        "seviye_no": 2,
+        "sahne_no": 3,
+        "hedef_bu_sahne": 0,
+        "giris_suresi_sn": 20.0,
+        "kriz_okuma_sn": 12.3,
+        "onceki_riskli": 2,
+        "onceki_ort_karar_sn": 60.0,
+        "onceki_ipucu": 0,
+        "onceki_tutor": 1,
+        "onceki_sure_doldu": 2
+      },
+      "p_python": 0.0009653
+    }
+  ]
+}

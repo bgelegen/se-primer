@@ -2,8 +2,15 @@
 
 Her satır **bir karar**dır (bir oyunda 3 karar: K1 mimari, K2 test, K3 KVKK). Bir oturum = bir oyun.
 Satırları uygulama üretir (`app/src/olcum.ts`, veri toplama modu `?toplama=1`); sentetik satırları
-`tools/sentetik_uret.py` aynı tanımla üretir. `tools/veri_hazirla.py` ikisini birleştirir, aralıkları
-doğrular, yarım oturumları ve otomasyon satırlarını atar.
+`tools/sentetik_uret.py` aynı tanımla üretir. `tools/veri_hazirla.py` satırları birleştirir, aralıkları
+doğrular, yarım oturumları ve otomasyon satırlarını atar. Yayınlanan model (v2.0.0) yalnız `kaynak = gercek`
+satırlarla eğitildi; sentetik satırlar yalnız denemelerde kullanıldı (`--sentetik`, DENEYLER.md).
+
+**Gerçek oturumlar:** 60 oturumun hepsini bir YZ ajanı (Claude) insan gibi oynadı. Hocanın 01.11.2026
+duyurusu: *"oyunu yapay zekalara gerçek bir insanmış gibi oynatıp veri oluşturabilirsiniz"*. 12 oyuncu bakış
+açısı, her biri 5 oyun (`data/yz_oyuncular/*.json`: kim olduğu, her kararın gerekçesi). Oyunlar uygulamanın
+kendisinde, veri toplama modunda oynandı (`tools/yz_oyna.mjs`); ölçümü uygulamanın kodu yaptı. Ham dosyalar:
+`data/gercek/yz-*.csv`. İnsan oturumu yok.
 
 **Model girdisi** sütununda ✅ olanlar karar ekranı **açıldığı anda** bilinen değerlerdir ve
 `model/config.json → features` sırasıyla modele girer. ❌ olanlar karar verildikten sonra bilinir;
@@ -13,6 +20,7 @@ modele girmez (girerse sızıntı olur), yalnız etiket ve analiz içindir.
 |-------|--------|------------------|--------|:---:|
 | `oturum_id` | Oyunun rastgele kimliği. Her "Tekrar oyna"da yenilenir; kişiye bağlanamaz | 12 hex karakter (gerçek) · `s0000` (sentetik) | | ❌ |
 | `kaynak` | Satırın kaynağı | `gercek` · `sentetik` (`otomasyon` olanlar eğitime girmez) | | ❌ |
+| `oynayan` | Oyunu kim oynadı | `insan` · `yz_ajan` (insan gibi oynayan YZ; hocanın 01.11.2026 duyurusuyla `gercek` sayılır) · `kural` (sentetik) | | ❌ |
 | `uygulama_surumu` | Satırı üreten uygulama sürümü | `2.0.0` · `sentetik-1` | | ❌ |
 | `rol` | Girişte seçilen rol | `gelistirici` · `test` · `urun` | | ❌ |
 | `hedef` | Girişte seçilen hedef | `mimari` · `test` · `kvkk` | | ❌ |
@@ -43,9 +51,9 @@ metin **toplanmaz**. Veri yalnız oyuncunun cihazında (`localStorage`) durur; o
 CSV'yi kendisi indirip gönderir. Veri toplama modu kapalıyken hiçbir satır yazılmaz; açıkken giriş
 ekranında bunu söyleyen bir not ve "Bu oyunu kaydet" kutusu vardır.
 
-## Sentetik veri kuralı
+## Sentetik veri kuralı (yalnız denemeler)
 
-`tools/sentetik_uret.py`, tohum **13**, 240 oturum. Her sanal oyuncunun gizli bir "acele" değeri
+`tools/sentetik_uret.py`, tohum **13**, 240 oturum (`--surum 1`: ilk kural, `--surum 2`: seviye varsayımı kaldırılmış). Her sanal oyuncunun gizli bir "acele" değeri
 `a ~ N(0,1)` vardır; profil seçme ve okuma süreleri `a` arttıkça kısalır, riskli seçim olasılığı
 `a`, önceki riskli seçimler ve bu kararın hedefle ilgisiyle değişir. Formüller dosyanın başında yazılı.
 Sentetik satırlar modelin öğrenebileceği bir kural içerir; bu yüzden gerçek satırlar ayrıca ölçülür

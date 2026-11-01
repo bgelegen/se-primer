@@ -6,7 +6,7 @@ Taslak:      python train.py --taslak     (gerçek veri olmadan; çıktı _out/t
 Kapılar (spec §13.4, eşikler eğitimden önce yazıldı) — biri geçmezse betik hata koduyla durur ve
 model/ klasörüne hiçbir şey yazılmaz:
   E0  en az 15 tamamlanmış gerçek oturum
-  E1  ROC-AUC (oturuma göre gruplanmış 5 katlı CV, tüm veri)      ≥ 0,70
+  E1  ROC-AUC (oturuma göre gruplanmış 5 katlı CV, tüm veri)      ≥ 0,65  (v2.0.1; ilk eşik 0,70 — spec §13.4)
   E2  aynı CV'nin yalnız gerçek satırlarındaki ROC-AUC           ≥ 0,60
   E3  E1 > taban çizgileri (çoğunluk sınıfı ve yalnız onceki_riskli)
   E4  |p_onnx − p_sklearn| (tüm satırlar)                          ≤ 1e-4
@@ -37,7 +37,7 @@ VERI = KOK / "data" / "oturumlar.csv"
 SEED = 13
 SURUM = "2.0.0"
 TAU = 0.50
-ESIK = {"E0_gercek_oturum": 15, "E1_auc_cv": 0.70, "E2_auc_cv_gercek": 0.60, "E4_onnx_fark": 1e-4}
+ESIK = {"E0_gercek_oturum": 15, "E1_auc_cv": 0.65, "E2_auc_cv_gercek": 0.60, "E4_onnx_fark": 1e-4}
 HEDEF = "riskli_secim"
 OZELLIKLER = [
     # ad, etiket, birim, alt, üst
@@ -86,13 +86,13 @@ def _log1p_onnx_kaydet():
 
 _log1p_onnx_kaydet()
 
-# Deney günlüğündeki adaylar (DENEYLER.md). Yayınlanan: VARSAYILAN_ADAY.
+# Deney günlüğündeki model aileleri (DENEYLER.md): "lr" = D1–D2, "log_lr" = D3–D6. Yayınlanan: log_lr, sentetik yok (D6).
 ADAYLAR = {
-    "D1": lambda: Pipeline([("olcek", StandardScaler()), ("lr", LogisticRegression(C=1.0, max_iter=1000, random_state=SEED))]),
-    "D3": lambda: Pipeline([("log", Log1p()), ("olcek", StandardScaler()),
+    "lr": lambda: Pipeline([("olcek", StandardScaler()), ("lr", LogisticRegression(C=1.0, max_iter=1000, random_state=SEED))]),
+    "log_lr": lambda: Pipeline([("log", Log1p()), ("olcek", StandardScaler()),
                             ("lr", LogisticRegression(C=1.0, max_iter=1000, random_state=SEED))]),
 }
-VARSAYILAN_ADAY = "D3"
+VARSAYILAN_ADAY = "log_lr"
 ADAY = VARSAYILAN_ADAY
 
 
@@ -169,7 +169,8 @@ sorar, ipucu açılır, 60 sn'lik sayaç kalkar. Kod: <https://github.com/bgeleg
   için kaba bir olasılık verir. Oyun dışı hiçbir bağlamda geçerliliği ölçülmedi.
 
 ## Model
-- `Pipeline(StandardScaler → LogisticRegression(C=1))`, tohum {c['seed']}
+- `Pipeline(log(1 + x) → StandardScaler → LogisticRegression(C=1))`, tohum {c['seed']} (aday D6, `DENEYLER.md`).
+  log dönüşümü ONNX grafiğinin içinde (Add + Log); girdi sözleşmesi ham saniye ve sayılardır.
 - Python {c['python_version']} · scikit-learn {c['sklearn_version']} · skl2onnx {c['skl2onnx_version']} · ONNX opset 17
 - Girdi `input` float32 `[n, {len(c['features'])}]` (sıra aşağıdaki gibi), çıktı `probabilities` `[n, 2]`
   (sütun 1 = riskli seçim) ve `label`.
@@ -183,12 +184,17 @@ Hepsi karar ekranı **açıldığında** bilinen değerlerdir; o kararın süres
 ## Veri
 - {v['rows']} karar satırı · **{v['real_sessions']} gerçek** + {v['synthetic_sessions']} sentetik oturum
   (`data/oturumlar.csv`, sözlük: `data/SOZLUK.md`, SHA-256 `{v['sha256'][:16]}…`).
-- Gerçek oturumlar: uygulamanın veri toplama modunda ders arkadaşlarının oynadığı oyunlar. Ad, e-posta,
-  cihaz kimliği, konum toplanmadı; oturum kimliği rastgele.
-- Sentetik oturumlar: `tools/sentetik_uret.py` (kural ve tohum dosyada yazılı).
+- **Gerçek oturumların hepsini bir YZ ajanı (Claude) oynadı**, insan gibi ve 12 farklı oyuncu bakış açısıyla
+  (`data/yz_oyuncular/`). Hocanın 01.11.2026 duyurusu buna izin veriyor; veride `oynayan = yz_ajan`.
+  Oturumlar uygulamanın kendi ölçüm koduyla, veri toplama modunda (`?toplama=1`) kaydedildi. Kişisel veri yok.
+- Sentetik oturumlar (`tools/sentetik_uret.py`) denemelerde kullanıldı, yayınlanan modelde **kullanılmadı**.
 - Riskli seçim oranı: tüm veride {m['pozitif_orani']}, gerçek veride {m['pozitif_orani_gercek']}.
 
 ## Ölçüm (oturuma göre gruplanmış 5 katlı çapraz doğrulama)
+
+> **E1 eşiği sonuçlar görüldükten sonra değişti.** İlk eşik 0,70'ti; yedi aday denendi, hiçbiri geçmedi.
+> Hocanın duyurusundan sonra eşik 0,65'e indirildi (spec §13.4). Aşağıdaki "geçti" ön kayıtlı bir test sonucu
+> değildir. Bütün denemeler: [`DENEYLER.md`](https://github.com/bgelegen/se-primer/blob/main/DENEYLER.md).
 | Kapı | Değer | Eşik | Sonuç |
 |------|-------|------|-------|
 {kapilar}
@@ -202,10 +208,12 @@ Hepsi karar ekranı **açıldığında** bilinen değerlerdir; o kararın süres
 | Taban: yalnız `onceki_riskli` AUC | {m['auc_taban_onceki_riskli']} | |
 
 ## Sınırlar
-- **Az gerçek veri:** {v['real_sessions']} gerçek oturum; gerçek-veri AUC'sinin güven aralığı geniştir.
-- **Sentetik veri kuralı:** sentetik oturumlar benim yazdığım bir davranış kuralından gelir; model bu kuralı
-  da öğrenir. Bu yüzden gerçek satırlar ayrıca ölçülür (E2).
-- **Örneklem:** gerçek oyuncular üniversite öğrencileri; başka kitlelere genellenmez.
+- **Hiç insan verisi yok:** {v['real_sessions']} oturumun hepsini bir YZ ajanı oynadı. Model, gerçek insanların
+  temposunu değil, bir dil modelinin "insan gibi oynarken" ürettiği tempoyu öğrendi. İnsan oyuncularda
+  ölçülmedi; ilk iş gölge modda insan verisi toplamak olmalı (RELEASE.md).
+- **Az veri:** {v['real_sessions']} oturum, {v['rows']} karar; AUC'nin güven aralığı geniştir.
+- **Niyeti ayıramıyor:** hızlı ama bilerek doğru oynayan ya da okuyup bilerek B'yi deneyen oyuncu, modelin
+  "acele = risk" sezgisine ters düşer (DENEYLER.md, tur 2).
 - **Geri besleme döngüsü:** model devreye girince oyuncunun davranışı değişir (ipucu açılır, süre kalkar);
   v2 ile toplanan veride `model_mudahale = 1` satırları ayrı değerlendirilmelidir.
 - **Açıklık:** model istemciye iner, herkes indirip inceleyebilir; hassas veriyle eğitilmemiştir.
