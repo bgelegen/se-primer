@@ -70,3 +70,18 @@ Toplam gerçek (YZ) veri: 60 oturum. Yalnız iki aday, ilk geçen yayınlanır:
 | D6 | log + LR, **sentetik veri yok**: E1 de 60 YZ oturumunda ölçülür | Tur 1 bulgusu (2): E1'i sentetik kural belirliyordu. Sentetik veri ödevde isteğe bağlı; çıkarılınca E1 gerçek oyuncuları ölçer ve kapı daha zor değil daha anlamlı olur. |
 
 İkisi de geçmezse model oyuncuya açılmaz.
+
+## Tur 2 · Sonuç
+
+| # | Aday | Veri | E1 (≥ 0,70) | E2 (≥ 0,60) | Sonuç |
+|---|------|------|------|------|-------|
+| D5 | log + LR | 60 YZ + 240 sentetik-2 oturum | 0,677 | **0,626** | ✗ (E1) |
+| D6 | log + LR | yalnız 60 YZ oturumu | 0,680 | **0,680** | ✗ (E1) |
+
+Hiçbir aday kapıdan geçmedi; plan gereği model oyuncuya açılmadı. Eşikler değişmedi.
+
+**Gözlem:** Gerçek (YZ) oyuncularda AUC 0,56'dan 0,68'e çıktı. Ama oturumlar oyuncuya göre değil karakterlere
+göre oynandığı için verinin yaklaşık yarısı modelin "aceleci = riskli" sezgisine **karşı** çalışıyor: hızlı ama
+doğru oynayan rekabetçi oyuncu, okuyup bilerek B'yi seçen meraklı ve kusursuzcu oyuncu. Bu, modelin sınırını
+gösteriyor: tempo, kararın **niyetini** (bilerek keşif mi, acele mi) ayıramıyor. Sonraki sürüm için
+"kaçıncı oyun" (tekrar sayısı) ve "B'yi daha önce görmüş mü" gibi niyete yakın sinyaller gerekiyor.

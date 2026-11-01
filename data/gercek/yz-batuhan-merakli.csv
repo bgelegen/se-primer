@@ -1,0 +1,16 @@
+oturum_id,kaynak,oynayan,uygulama_surumu,rol,hedef,karar_id,seviye_no,sahne_no,hedef_bu_sahne,giris_suresi_sn,kriz_okuma_sn,onceki_riskli,onceki_ort_karar_sn,onceki_ipucu,onceki_tutor,onceki_sure_doldu,secim,riskli_secim,karar_suresi_sn,sure_doldu,ipucu_bu_sahne,tutor_bu_sahne,model_p,model_mudahale
+3c52f170cfa9,gercek,yz_ajan,2.0.0,test,test,K1,2,1,0,12.2,18.1,0,0,0,0,0,A,0,25.1,0,0,0,,0
+3c52f170cfa9,gercek,yz_ajan,2.0.0,test,test,K2,2,2,1,12.2,18.1,0,25.1,0,0,0,A,0,21.1,0,0,0,,0
+3c52f170cfa9,gercek,yz_ajan,2.0.0,test,test,K3,2,3,0,12.2,18.1,0,23.1,0,0,0,A,0,14,0,0,0,,0
+f11528a05bf6,gercek,yz_ajan,2.0.0,test,test,K1,2,1,0,12.2,6,0,0,0,0,0,A,0,11,0,0,0,,0
+f11528a05bf6,gercek,yz_ajan,2.0.0,test,test,K2,2,2,1,12.2,6,0,11,0,0,0,A,0,9,0,0,0,,0
+f11528a05bf6,gercek,yz_ajan,2.0.0,test,test,K3,2,3,0,12.2,6,0,10,0,0,0,B,1,8,0,0,0,,0
+f218eab5126b,gercek,yz_ajan,2.0.0,test,test,K1,2,1,0,12.2,5,0,0,0,0,0,B,1,10,0,0,0,,0
+f218eab5126b,gercek,yz_ajan,2.0.0,test,test,K2,2,2,1,12.2,5,1,10,0,0,0,B,1,7,0,0,0,,0
+f218eab5126b,gercek,yz_ajan,2.0.0,test,test,K3,2,3,0,12.2,5,2,8.5,0,0,0,A,0,9,0,0,0,,0
+a3bc83c6dae6,gercek,yz_ajan,2.0.0,test,test,K1,2,1,0,12.2,4,0,0,0,0,0,B,1,6,0,0,0,,0
+a3bc83c6dae6,gercek,yz_ajan,2.0.0,test,test,K2,2,2,1,12.2,4,1,6,0,0,0,B,1,5,0,0,0,,0
+a3bc83c6dae6,gercek,yz_ajan,2.0.0,test,test,K3,2,3,0,12.2,4,2,5.5,0,0,0,B,1,4.1,0,0,0,,0
+d108a18089a7,gercek,yz_ajan,2.0.0,test,test,K1,2,1,0,12.2,4,0,0,0,0,0,B,1,8,0,0,0,,0
+d108a18089a7,gercek,yz_ajan,2.0.0,test,test,K2,2,2,1,12.2,4,1,8,0,0,0,A,0,9,0,0,0,,0
+d108a18089a7,gercek,yz_ajan,2.0.0,test,test,K3,2,3,0,12.2,4,1,8.5,0,0,0,B,1,5,0,0,0,,0

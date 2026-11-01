@@ -2,7 +2,7 @@
 // Her oyuncu kendi tarayıcı bağlamında (kendi "cihazı", kendi localStorage'ı) oynar; süreler sahte saatle
 // planlandığı gibi geçer, ölçümü uygulamanın kendi kodu (app/src/olcum.ts) yapar.
 //
-//   node tools/yz_oyna.mjs <uygulama-adresi>        ör. http://127.0.0.1:8801/
+//   node tools/yz_oyna.mjs <uygulama-adresi> [plan.json]   ör. http://127.0.0.1:8801/ data/yz_oyuncular/batuhan.json
 // Çıktı: data/gercek/yz-<ad>.csv  (oynayan = yz_ajan, kaynak = gercek; hocanın 01.11.2026 duyurusu)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -12,7 +12,7 @@ try { pw = await import('playwright'); } catch { pw = (await import('/opt/npm-to
 const { chromium } = pw;
 const KOK = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const ADRES = process.argv[2] || 'http://127.0.0.1:8801/';
-const plan = JSON.parse(fs.readFileSync(path.join(KOK, 'data/yz_oyuncular/oyuncular.json'), 'utf8'));
+const plan = JSON.parse(fs.readFileSync(path.join(KOK, process.argv[3] || 'data/yz_oyuncular/oyuncular.json'), 'utf8'));
 fs.mkdirSync(path.join(KOK, 'data/gercek'), { recursive: true });
 
 const b = await chromium.launch();
