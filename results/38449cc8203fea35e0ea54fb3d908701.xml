@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="3.263" tests="4" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-11-03T21:49:12" tests="0" file="cypress/e2e/model.cy.ts" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Nöbet Arkadaşı (spec §13.5)" timestamp="2026-11-03T21:49:12" tests="4" time="3.261" failures="0">
+    <testcase name="Nöbet Arkadaşı (spec §13.5) KÖ-7 · Aceleci oyuncuya K2&apos;de Nöbet Arkadaşı: kart görünür, soruyla biter, ipucu kendiliğinden açık" time="1.133" classname="KÖ-7 · Aceleci oyuncuya K2&apos;de Nöbet Arkadaşı: kart görünür, soruyla biter, ipucu kendiliğinden açık">
+    </testcase>
+    <testcase name="Nöbet Arkadaşı (spec §13.5) KÖ-8 · Dikkatli oyuncuda K2 değişmez: kart yok, geri sayım 60" time="0.629" classname="KÖ-8 · Dikkatli oyuncuda K2 değişmez: kart yok, geri sayım 60">
+    </testcase>
+    <testcase name="Nöbet Arkadaşı (spec §13.5) KÖ-9a · Diferansiyel test: uygulama (onnxruntime-web) = Python Oracle, |fark| &lt; 1e-4" time="0.480" classname="KÖ-9a · Diferansiyel test: uygulama (onnxruntime-web) = Python Oracle, |fark| &lt; 1e-4">
+    </testcase>
+    <testcase name="Nöbet Arkadaşı (spec §13.5) KÖ-9b · Model indirilemezse oyun v1 kurallarıyla sonuna kadar oynanır ve p &quot;—&quot; gösterilir" time="0.920" classname="KÖ-9b · Model indirilemezse oyun v1 kurallarıyla sonuna kadar oynanır ve p &quot;—&quot; gösterilir">
+    </testcase>
+  </testsuite>
+</testsuites>

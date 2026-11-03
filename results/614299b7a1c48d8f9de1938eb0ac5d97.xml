@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="3.817" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-11-03T21:48:58" tests="0" file="cypress/e2e/erisilebilirlik.cy.ts" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Erişilebilirlik (axe-core, WCAG 2.1 AA)" timestamp="2026-11-03T21:48:58" tests="1" time="3.805" failures="0">
+    <testcase name="Erişilebilirlik (axe-core, WCAG 2.1 AA) giriş, başlangıç, sahne, sonuç paneli, son ekranı" time="3.743" classname="giriş, başlangıç, sahne, sonuç paneli, son ekranı">
+    </testcase>
+  </testsuite>
+</testsuites>

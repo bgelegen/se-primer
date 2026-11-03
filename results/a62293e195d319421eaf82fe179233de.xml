@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="1.306" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-11-03T21:49:18" tests="0" file="cypress/e2e/sunucu.cy.ts" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Sunucu tüketicisi (bonus)" timestamp="2026-11-03T21:49:18" tests="1" time="1.303" failures="0">
+    <testcase name="Sunucu tüketicisi (bonus) aynı 5 referans girdide sunucu = Python Oracle = tarayıcı (|Δ| &lt; 1e-4)" time="1.260" classname="aynı 5 referans girdide sunucu = Python Oracle = tarayıcı (|Δ| &lt; 1e-4)">
+    </testcase>
+  </testsuite>
+</testsuites>

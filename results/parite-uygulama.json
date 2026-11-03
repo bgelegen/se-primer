@@ -1,0 +1,35 @@
+{
+  "tolerans": 0.0001,
+  "satirlar": [
+    {
+      "id": "R1-aceleci-deneyimli-K2",
+      "p_python": 0.20379305,
+      "p_uygulama": 0.20379305,
+      "fark": 0
+    },
+    {
+      "id": "R2-KO8-dikkatli-deneyimli-K2",
+      "p_python": 0.06012052,
+      "p_uygulama": 0.06012046,
+      "fark": 5.999999999617422e-8
+    },
+    {
+      "id": "R3-yeni-K1",
+      "p_python": 0.11343768,
+      "p_uygulama": 0.11343768,
+      "fark": 0
+    },
+    {
+      "id": "R4-orta-K3-iki-riskli",
+      "p_python": 0.07808161,
+      "p_uygulama": 0.07808161,
+      "fark": 0
+    },
+    {
+      "id": "R5-deneyimli-K3-sure-doldu",
+      "p_python": 0.0009653,
+      "p_uygulama": 0.00096533,
+      "fark": 3.0000000000038676e-8
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="15.335" tests="16" failures="0">
+  <testsuite name="Root Suite" timestamp="2026-11-03T21:49:22" tests="0" file="cypress/e2e/yollar.cy.ts" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Tüm yollar (8 yol × 2 son)" timestamp="2026-11-03T21:49:22" tests="9" time="9.012" failures="0">
+    <testcase name="Tüm yollar (8 yol × 2 son) AAA → İYİ · 08:25" time="1.245" classname="AAA → İYİ · 08:25">
+    </testcase>
+    <testcase name="Tüm yollar (8 yol × 2 son) AAB → KÖTÜ · 08:23" time="0.932" classname="AAB → KÖTÜ · 08:23">
+    </testcase>
+    <testcase name="Tüm yollar (8 yol × 2 son) ABA → İYİ · 08:17" time="0.952" classname="ABA → İYİ · 08:17">
+    </testcase>
+    <testcase name="Tüm yollar (8 yol × 2 son) ABB → KÖTÜ · 08:15" time="0.955" classname="ABB → KÖTÜ · 08:15">
+    </testcase>
+    <testcase name="Tüm yollar (8 yol × 2 son) BAA → İYİ · 08:19" time="0.960" classname="BAA → İYİ · 08:19">
+    </testcase>
+    <testcase name="Tüm yollar (8 yol × 2 son) BAB → KÖTÜ · 08:17" time="0.969" classname="BAB → KÖTÜ · 08:17">
+    </testcase>
+    <testcase name="Tüm yollar (8 yol × 2 son) BBA → KÖTÜ · 08:41" time="0.990" classname="BBA → KÖTÜ · 08:41">
+    </testcase>
+    <testcase name="Tüm yollar (8 yol × 2 son) BBB → KÖTÜ · 08:39" time="1.039" classname="BBB → KÖTÜ · 08:39">
+    </testcase>
+    <testcase name="Tüm yollar (8 yol × 2 son) BB yolunda K2 sonucu ikinci çöküşü anlatır" time="0.730" classname="BB yolunda K2 sonucu ikinci çöküşü anlatır">
+    </testcase>
+  </testsuite>
+  <testsuite name="Giriş ve dönüşler" timestamp="2026-11-03T21:49:31" tests="7" time="6.318" failures="0">
+    <testcase name="Giriş ve dönüşler üç seçim yapılmadan &quot;Nöbete başla&quot; pasif" time="0.346" classname="üç seçim yapılmadan &quot;Nöbete başla&quot; pasif">
+    </testcase>
+    <testcase name="Giriş ve dönüşler rol anlatıyı değiştirir" time="1.007" classname="rol anlatıyı değiştirir">
+    </testcase>
+    <testcase name="Giriş ve dönüşler orta seviyede ipucu düğmenin arkasında" time="0.606" classname="orta seviyede ipucu düğmenin arkasında">
+    </testcase>
+    <testcase name="Giriş ve dönüşler hedefe göre Derinleş paragrafı ve Bugünün dersi" time="0.925" classname="hedefe göre Derinleş paragrafı ve Bugünün dersi">
+    </testcase>
+    <testcase name="Giriş ve dönüşler Tekrar oyna profili korur, Profili değiştir girişe döner" time="1.686" classname="Tekrar oyna profili korur, Profili değiştir girişe döner">
+    </testcase>
+    <testcase name="Giriş ve dönüşler tutor çevrimdışıyken yedek soru gelir ve oyun sürer" time="0.944" classname="tutor çevrimdışıyken yedek soru gelir ve oyun sürer">
+    </testcase>
+    <testcase name="Giriş ve dönüşler 360 px genişlikte yatay kaydırma yok" time="0.541" classname="360 px genişlikte yatay kaydırma yok">
+    </testcase>
+  </testsuite>
+</testsuites>
