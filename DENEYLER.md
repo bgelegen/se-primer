@@ -5,7 +5,7 @@ Yayınlanan modele nasıl varıldığının özeti. Ayrıntılı ara kayıtlar g
 
 **Ölçüm:** `StratifiedGroupKFold(5, shuffle, random_state=13)`, oturuma göre gruplu.
 E1: tüm veri, E2: yalnız `kaynak = gercek`. "Gerçek" oturumların hepsini bir YZ ajanı insan gibi oynadı
-(hocanın 01.11.2026 duyurusu; veride `oynayan = yz_ajan`).
+(veride `oynayan = yz_ajan`).
 
 ## Denenen adaylar
 
@@ -23,8 +23,8 @@ gradient boosting). Hiçbiri D1'den belirgin iyi değildi; aday olarak seçilmed
 
 ## Eşik değişikliği
 
-İlk eşik (E1 ≥ 0,70) eğitimden önce yazıldı (`6c434f7`) ve hiçbir aday geçmedi. Hocanın 01.11.2026 tarihli
-ikinci duyurusundan ("eşiğin eğitimden önce belirlenmesine gerek yok") sonra E1 **0,65**'e indirildi
+İlk eşik (E1 ≥ 0,70) eğitimden önce yazıldı (`6c434f7`) ve hiçbir aday geçmedi. Bunun üzerine
+E1 **0,65**'e indirildi
 (spec §13.4, v2.0.1). Yeni eşik sonuçlar görüldükten sonra seçildiği için D6'nın geçmesi ön kayıtlı bir test
 sonucu değildir. Bu, model kartında da yazılıdır.
 

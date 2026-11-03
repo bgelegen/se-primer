@@ -8,7 +8,7 @@
 | Sabitlenen commit | `48d21a82f596aea5ad6f4399f99776ebb51bcbf0` |
 | Tüketicilerin indirdiği URL | `https://huggingface.co/batuhangelegen/se-primer-nobet-arkadasi/resolve/48d21a82f596aea5ad6f4399f99776ebb51bcbf0/model.onnx` (+ `config.json`) |
 | `model.onnx` sha256 | `e12e66832e3bca3e9e33dab0b66ba43e773086b436bcd30c77604fab1a29c59a` |
-| Veri | `data/oturumlar.csv` sha256 `dd97ae3162df18ad28a6055ae889c61231e441420c741130d82d3be9939fdfe8` · 60 oturum, hepsini **YZ oyuncusu** oynadı (hocanın 01.11.2026 duyurusu), sentetik yok |
+| Veri | `data/oturumlar.csv` sha256 `dd97ae3162df18ad28a6055ae889c61231e441420c741130d82d3be9939fdfe8` · 60 oturum, hepsini **YZ oyuncusu** oynadı, sentetik yok |
 | Eval | ROC-AUC (oturuma göre gruplu 5 katlı CV) **0,68** · E1 eşiği 0,65 (v2.0.1, sonuçlardan sonra indirildi; ilk eşik 0,70) · [DENEYLER.md](DENEYLER.md) |
 | Uygulama | GitHub Pages, `oyna/` (onnxruntime-web 1.22.0), `app/src/model.ts → MODEL_TABAN` |
 

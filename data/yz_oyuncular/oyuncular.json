@@ -1,5 +1,5 @@
 {
-  "aciklama": "YZ ajanının (Claude) oyunu 'gerçek bir insanmış gibi' oynadığı oturumların planı. Hocanın 01.11.2026 duyurusu: 'oyunu yapay zekalara gerçek bir insanmış gibi oynatıp veri oluşturabilirsiniz'. Her oyuncu kendi bakış açısıyla sahne metnini okuyup karar verdi; süreler o kişinin okuma/tereddüt temposudur. Oturumlar uygulamanın kendi ölçüm kodundan geçti (tools/yz_oyna.mjs → ?toplama=1&oynayan=yz), veride oynayan = yz_ajan.",
+  "aciklama": "YZ ajanının (Claude) oyunu 'gerçek bir insanmış gibi' oynadığı oturumların planı. Her oyuncu kendi bakış açısıyla sahne metnini okuyup karar verdi; süreler o kişinin okuma/tereddüt temposudur. Oturumlar uygulamanın kendi ölçüm kodundan geçti (tools/yz_oyna.mjs → ?toplama=1&oynayan=yz), veride oynayan = yz_ajan.",
   "oyuncular": [
     {
       "ad": "ece", "kim": "3. sınıf, yaz stajında backend yazmış. Metni hızlı ama dikkatli okur; geri dönüş ve testin değerini bilir. Tekrar oynadıkça diğer yolları merak eder.",
