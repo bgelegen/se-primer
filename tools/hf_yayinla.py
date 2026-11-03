@@ -40,7 +40,7 @@ def main():
     repo = f"{kullanici}/{args.repo}"
     api.create_repo(repo, repo_type="model", private=False, exist_ok=True)
     sonuc = api.upload_folder(
-        repo_id=repo, repo_type="model", folder_path=str(MODEL), delete_patterns=["*.md"],
+        repo_id=repo, repo_type="model", folder_path=str(MODEL),
         commit_message=f"Nöbet Arkadaşı v{config['version']} (model.onnx sha256 {sha[:12]})",
         commit_description=f"GitHub: bgelegen/se-primer @ {os.environ.get('GITHUB_SHA', 'yerel')[:7]}",
     )

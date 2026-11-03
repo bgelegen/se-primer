@@ -316,7 +316,8 @@ def main():
     shutil.move(str(gecici / "model.onnx"), hedef / "model.onnx")
     shutil.rmtree(gecici)
     (hedef / "config.json").write_text(json.dumps(config, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"✓ {'TASLAK ' if args.taslak else ''}model → {hedef}/ (model.onnx, config.json)")
+    (hedef / "README.md").write_text(model_karti(config), encoding="utf-8")
+    print(f"✓ {'TASLAK ' if args.taslak else ''}model → {hedef}/ (model.onnx, config.json, README.md)")
 
 
 if __name__ == "__main__":
